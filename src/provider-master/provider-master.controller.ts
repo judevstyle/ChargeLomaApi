@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put } from '@nestjs/common';
 import { ProviderMasterService } from './provider-master.service';
 import { CreateProviderMasterDto } from './dto/create-provider-master.dto';
 import { UpdateProviderMasterDto } from './dto/update-provider-master.dto';
@@ -24,7 +24,7 @@ export class ProviderMasterController {
     return this.providerMasterService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateProviderMasterDto: UpdateProviderMasterDto) {
     return this.providerMasterService.update(+id, updateProviderMasterDto);
   }

@@ -8,6 +8,7 @@ import { join } from 'path';
 
 const defaultDIRPublic = [
   'provider_icon_img',
+  'plug_type_icon_img',
   'station_img',
   'review_img',
   'image_ticket_img'
@@ -30,7 +31,7 @@ async function bootstrap() {
     }
   }
 
-  
+
   await app.listen(5010);
 }
 bootstrap();

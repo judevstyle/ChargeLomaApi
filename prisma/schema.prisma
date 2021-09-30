@@ -134,6 +134,7 @@ model Station {
   Checkin           Checkin[]
   PlugMapping       PlugMapping[]
   pv_id             Int
+  station_img       String?
   ProviderMaster    ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
 
   @@map("station")
@@ -178,7 +179,7 @@ model ProviderMaster {
   pv_id        Int            @id @default(autoincrement())
   name         String
   desv         String
-  icon         String
+  icon         String?
   Station      Station[]
   StationDummy StationDummy[]
   deleted      Boolean        @default(false)
@@ -187,7 +188,7 @@ model ProviderMaster {
   update_by    String?
   create_by    String?
 
-   @@map("provider_master")
+  @@map("provider_master")
 }
 
 model PlugMapping {
@@ -227,7 +228,7 @@ model PlugMappingDummy {
 model PlugTypeMaster {
   p_type_id        Int                @id @default(autoincrement())
   p_title          String
-  p_icon           String
+  p_icon           String?
   created_date     DateTime           @default(now())
   updated_date     DateTime           @default(now())
   update_by        String?

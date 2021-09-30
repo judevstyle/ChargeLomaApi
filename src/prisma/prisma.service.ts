@@ -2,6 +2,8 @@ import { PrismaClient } from '.prisma/client';
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
 
+const prisma = new PrismaClient({})
+
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
 
@@ -12,9 +14,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     async onModuleInit() {
         await this.$connect();
 
-        const prisma = new PrismaClient({})
-
-        prisma.$use(async (params, next) => {
+        this.$use(async (params, next) => {
 
             if (params.action == 'delete') {
                 // Delete queries
@@ -34,7 +34,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
             return next(params)
         })
-
     }
 
     async onModuleDestroy() {
