@@ -16,12 +16,12 @@ export class StationService {
 
   async stationNearly(query: StationNearby) {
     let station = await this.prismaService.station.findMany({
-      where:{deleted:false},
+      where: { deleted: false },
       select: {
         station_name_th: true,
         station_name_en: true,
         station_img: true,
-        st_id:true,
+        st_id: true,
         addr_en: true,
         addr_th: true,
         type_service: true,
@@ -40,7 +40,11 @@ export class StationService {
             icon: true
           }
         },
-        // PlugMapping: true,
+        PlugMapping: {
+          include: {
+            PlugTypeMaster: true
+          }
+        },
       }
     })
 
@@ -59,6 +63,9 @@ export class StationService {
         item['station_name'] = item.station_name_en
         item['addr'] = item.addr_en
       }
+
+      item['plug_desc'] = item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title)).join(",")
+      delete item.PlugMapping
 
       delete item.station_name_en
       delete item.station_name_th
@@ -97,11 +104,11 @@ export class StationService {
 
   async stationfromLocation(query: StationfromLocation) {
     let station = await this.prismaService.station.findMany({
-      where:{deleted:false},
+      where: { deleted: false },
       select: {
         station_name_th: true,
         station_name_en: true,
-        st_id:true,
+        st_id: true,
         station_img: true,
         addr_en: true,
         addr_th: true,
@@ -121,7 +128,11 @@ export class StationService {
             icon: true
           }
         },
-        // PlugMapping: true,
+        PlugMapping: {
+          include: {
+            PlugTypeMaster: true
+          }
+        },
       }
     })
 
@@ -165,6 +176,9 @@ export class StationService {
         item['station_name'] = item.station_name_en
         item['addr'] = item.addr_en
       }
+
+      item['plug_desc'] = item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title)).join(",")
+      delete item.PlugMapping
 
       delete item.station_name_en
       delete item.station_name_th
