@@ -30,19 +30,30 @@ export class StationService {
         servicetime_close: true,
         station_status: true,
         power: true,
-        ProviderMaster: true,
+        ProviderMaster: {
+          select: {
+            pv_id: true,
+            name: true,
+            desv: true,
+            icon: true
+          }
+        },
         // PlugMapping: true,
       }
     })
 
-    station = station.map((item)=>{
+    station = station.map((item) => {
 
-      if(query.lang == 'th'){
+      item['provider'] = item.ProviderMaster
+
+      delete item.ProviderMaster
+
+      if (query.lang == 'th') {
         item['station_name'] = item.station_name_th
         item['addr'] = item.addr_th
       }
 
-      if(query.lang == 'en'){
+      if (query.lang == 'en') {
         item['station_name'] = item.station_name_en
         item['addr'] = item.addr_en
       }
@@ -98,7 +109,14 @@ export class StationService {
         servicetime_close: true,
         station_status: true,
         power: true,
-        ProviderMaster: true,
+        ProviderMaster: {
+          select: {
+            pv_id: true,
+            name: true,
+            desv: true,
+            icon: true
+          }
+        },
         // PlugMapping: true,
       }
     })
@@ -127,15 +145,19 @@ export class StationService {
     ]
 
     // console.log(polygon);
-    
-    station = station.map((item)=>{
 
-      if(query.lang == 'th'){
+    station = station.map((item) => {
+
+      item['provider'] = item.ProviderMaster
+
+      delete item.ProviderMaster
+
+      if (query.lang == 'th') {
         item['station_name'] = item.station_name_th
         item['addr'] = item.addr_th
       }
 
-      if(query.lang == 'en'){
+      if (query.lang == 'en') {
         item['station_name'] = item.station_name_en
         item['addr'] = item.addr_en
       }
@@ -221,7 +243,7 @@ export class StationService {
         }
       }, orderBy: { created_date: "desc" }
     })
-    
+
     stations = stations.map((item) => {
 
       item['provider'] = item.ProviderMaster
