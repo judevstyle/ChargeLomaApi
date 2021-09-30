@@ -31,10 +31,29 @@ export class StationService {
         station_status: true,
         power: true,
         ProviderMaster: true,
-        PlugMapping: true,
+        // PlugMapping: true,
       }
     })
 
+    station = station.map((item)=>{
+
+      if(query.lang == 'th'){
+        item['station_name'] = item.station_name_th
+        item['addr'] = item.addr_th
+      }
+
+      if(query.lang == 'en'){
+        item['station_name'] = item.station_name_en
+        item['addr'] = item.addr_en
+      }
+
+      delete item.station_name_en
+      delete item.station_name_th
+      delete item.addr_en
+      delete item.addr_th
+
+      return item
+    })
 
     station = station.map((item) => {
       item['distance'] = Distance.between({
@@ -80,7 +99,7 @@ export class StationService {
         station_status: true,
         power: true,
         ProviderMaster: true,
-        PlugMapping: true,
+        // PlugMapping: true,
       }
     })
 
@@ -107,9 +126,27 @@ export class StationService {
       ]
     ]
 
-    console.log(polygon);
+    // console.log(polygon);
     
+    station = station.map((item)=>{
 
+      if(query.lang == 'th'){
+        item['station_name'] = item.station_name_th
+        item['addr'] = item.addr_th
+      }
+
+      if(query.lang == 'en'){
+        item['station_name'] = item.station_name_en
+        item['addr'] = item.addr_en
+      }
+
+      delete item.station_name_en
+      delete item.station_name_th
+      delete item.addr_en
+      delete item.addr_th
+
+      return item
+    })
 
     station = station.filter((item) => {
       return pointInPolygon([item.lat, item.lng], polygon,)
@@ -184,7 +221,7 @@ export class StationService {
         }
       }, orderBy: { created_date: "desc" }
     })
-
+    
     stations = stations.map((item) => {
 
       item['provider'] = item.ProviderMaster
