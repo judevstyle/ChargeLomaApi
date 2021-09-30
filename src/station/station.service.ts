@@ -16,10 +16,12 @@ export class StationService {
 
   async stationNearly(query: StationNearby) {
     let station = await this.prismaService.station.findMany({
+      where:{deleted:false},
       select: {
         station_name_th: true,
         station_name_en: true,
         station_img: true,
+        st_id:true,
         addr_en: true,
         addr_th: true,
         type_service: true,
@@ -95,9 +97,11 @@ export class StationService {
 
   async stationfromLocation(query: StationfromLocation) {
     let station = await this.prismaService.station.findMany({
+      where:{deleted:false},
       select: {
         station_name_th: true,
         station_name_en: true,
+        st_id:true,
         station_img: true,
         addr_en: true,
         addr_th: true,
@@ -298,7 +302,8 @@ export class StationService {
     return `This action updates a #${id} station`;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} station`;
+  async remove(id: string) {
+    const station = await this.prismaService.station.delete({ where: { st_id: id } })
+    return station
   }
 }
