@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProviderMasterDto } from './dto/create-provider-master.dto';
 import { UpdateProviderMasterDto } from './dto/update-provider-master.dto';
+import * as fileType from 'file-type'
+import * as fs from 'fs'
+import { join } from 'path';
 
 @Injectable()
 export class ProviderMasterService {
@@ -9,6 +12,7 @@ export class ProviderMasterService {
   constructor(private prismaService: PrismaService) { }
 
   create(createProviderMasterDto: CreateProviderMasterDto) {
+
     return 'This action adds a new providerMaster';
   }
 
