@@ -369,6 +369,12 @@ export class StationService {
       stations['addr'] = stations.addr_en
     }
 
+    delete stations.station_name_en
+      delete stations.station_name_th
+      delete stations.addr_en
+      delete stations.addr_th
+
+
     stations['provider'] = stations.ProviderMaster
 
     const numIsChargeTrue = stations.Checkin.reduce((acc, cur) => {
