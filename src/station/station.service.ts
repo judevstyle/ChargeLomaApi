@@ -88,7 +88,8 @@ export class StationService {
         return acc
       }, 0)
 
-      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10
+      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10 || 0
+      
 
       delete item.Checkin
 
@@ -223,7 +224,7 @@ export class StationService {
         return acc
       }, 0)
 
-      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10
+      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10 || 0
 
       delete item.Checkin
 
