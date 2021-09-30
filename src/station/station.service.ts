@@ -46,6 +46,7 @@ export class StationService {
             PlugTypeMaster: true
           }
         },
+        Checkin: true
       }
     })
 
@@ -73,6 +74,24 @@ export class StationService {
       delete item.addr_en
       delete item.addr_th
 
+      const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == true) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      const numIsChargeFalse = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == false) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10
+
+      delete item.Checkin
+
       return item
     })
 
@@ -86,6 +105,9 @@ export class StationService {
       }).radians
       return item
     })
+
+    
+    
 
     station = station.sort(function (a, b) {
       if (a['distance'] < b['distance']) {
@@ -134,6 +156,7 @@ export class StationService {
             PlugTypeMaster: true
           }
         },
+        Checkin: true
       }
     })
 
@@ -185,6 +208,24 @@ export class StationService {
       delete item.station_name_th
       delete item.addr_en
       delete item.addr_th
+
+      const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == true) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      const numIsChargeFalse = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == false) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10
+
+      delete item.Checkin
 
       return item
     })
