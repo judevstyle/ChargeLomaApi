@@ -11,5 +11,230 @@ generator client {
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  uid             Int               @id @default(autoincrement())
+  display_name    String
+  type_user       String            @default("admin")
+  email           String
+  tel             String
+  avatar          String?
+  created_date    DateTime          @default(now())
+  updated_date    DateTime          @default(now())
+  update_by       String?
+  create_by       String?
+  FavoriteStation FavoriteStation[]
+  ImageTicket     ImageTicket[]
+  deleted         Boolean           @default(false)
+
+  @@map("user")
+}
+
+model ImageTicket {
+  uid             Int
+  User            User              @relation(fields: [uid], references: [uid])
+  ticket_id       Int               @id @default(autoincrement())
+  ticket_no       String
+  status_approve  String            @default("W")
+  status_msg      String
+  created_date    DateTime          @default(now())
+  updated_date    DateTime          @default(now())
+  update_by       String?
+  create_by       String?
+  deleted         Boolean           @default(false)
+  ImageTicketBody ImageTicketBody[]
+
+  @@map("image_ticket")
+}
+
+model Checkin {
+  ck_id             Int           @id @default(autoincrement())
+  st_id             String
+  Station           Station       @relation(fields: [st_id], references: [st_id])
+  comment           String?
+  isCharge          Boolean?
+  car_serve         String?
+  power             Float
+  created_date      DateTime      @default(now())
+  updated_date      DateTime      @default(now())
+  update_by         String?
+  create_by         String?
+  ReviewImg         ReviewImg[]
+  deleted           Boolean       @default(false)
+  StationDummy      StationDummy? @relation(fields: [stationDummySt_id], references: [st_id])
+  stationDummySt_id String?
+
+  @@map("checkin")
+}
+
+model ReviewImg {
+  id_img       Int      @id @default(autoincrement())
+  CheckIn      Checkin? @relation(fields: [ck_id], references: [ck_id])
+  ck_id        Int
+  created_date DateTime @default(now())
+  updated_date DateTime @default(now())
+  update_by    String?
+  create_by    String?
+  deleted      Boolean  @default(false)
+
+  @@map("review_img")
+}
+
+model ImageTicketBody {
+  ticket_bd_id Int         @id @default(autoincrement())
+  ImageTicket  ImageTicket @relation(fields: [ticket_id], references: [ticket_id])
+  ticket_id    Int
+  img_path     String
+  deleted      Boolean     @default(false)
+
+  @@map("image_ticket_body")
+}
+
+model FavoriteStation {
+  fav_id            String        @id @default(uuid())
+  user              User          @relation(fields: [uid], references: [uid])
+  uid               Int
+  created_date      DateTime      @default(now())
+  updated_date      DateTime      @default(now())
+  update_by         String?
+  create_by         String?
+  Station           Station       @relation(fields: [st_id], references: [st_id])
+  st_id             String
+  deleted           Boolean       @default(false)
+  StationDummy      StationDummy? @relation(fields: [stationDummySt_id], references: [st_id])
+  stationDummySt_id String?
+
+  @@map("favorite_station")
+}
+
+model Station {
+  st_id             String            @id @default(uuid())
+  station_name_th   String
+  station_name_en   String?
+  station_desc      String?
+  addr_th           String?
+  addr_en           String?
+  lat               Float?
+  lng               Float?
+  type_service      String            @default("public")
+  is24hr            Boolean
+  servicetime_open  String?
+  servicetime_close String?
+  is_service_charge Boolean
+  service_rate      Float?
+  status_approve    String            @default("W")
+  status_msg        String?
+  station_status    Int               @default(1)
+  note              String?
+  power             Float?
+  created_date      DateTime          @default(now())
+  updated_date      DateTime          @default(now())
+  update_by         String?
+  create_by         String?
+  FavoriteStation   FavoriteStation[]
+  deleted           Boolean           @default(false)
+  Checkin           Checkin[]
+  PlugMapping       PlugMapping[]
+  pv_id             Int
+  ProviderMaster    ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
+
+  @@map("station")
+}
+
+model StationDummy {
+  st_id             String            @id @default(uuid())
+  station_name_th   String
+  station_name_en   String?
+  station_desc      String?
+  addr_th           String?
+  addr_en           String?
+  lat               Float?
+  lng               Float?
+  type_service      String            @default("public")
+  is24hr            Boolean
+  servicetime_open  String?
+  servicetime_close String?
+  is_service_charge Boolean
+  service_rate      Float?
+  status_approve    String            @default("W")
+  status_msg        String?
+  station_status    Int               @default(1)
+  note              String?
+  power             Float?
+  created_date      DateTime          @default(now())
+  updated_date      DateTime          @default(now())
+  update_by         String?
+  create_by         String?
+  FavoriteStation   FavoriteStation[]
+
+  edit_status      String             @default("wait")
+  deleted          Boolean            @default(false)
+  Checkin          Checkin[]
+  PlugMappingDummy PlugMappingDummy[]
+  pv_id            Int
+  ProviderMaster   ProviderMaster     @relation(fields: [pv_id], references: [pv_id])
+  @@map("station_dummy")
+}
+
+model ProviderMaster {
+  pv_id        Int            @id @default(autoincrement())
+  name         String
+  desv         String
+  icon         String
+  Station      Station[]
+  StationDummy StationDummy[]
+  deleted      Boolean        @default(false)
+  created_date DateTime       @default(now())
+  updated_date DateTime       @default(now())
+  update_by    String?
+  create_by    String?
+
+   @@map("provider_master")
+}
+
+model PlugMapping {
+  p_mapping_id   Int            @id @default(autoincrement())
+  st_id          String
+  Station        Station        @relation(fields: [st_id], references: [st_id])
+  qty            Int
+  power          String?
+  p_type_id      Int
+  PlugTypeMaster PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
+  created_date   DateTime       @default(now())
+  updated_date   DateTime       @default(now())
+  update_by      String?
+  create_by      String?
+  deleted        Boolean        @default(false)
+
+  @@map("plug_mapping")
+}
+
+model PlugMappingDummy {
+  p_mapping_id   Int            @id @default(autoincrement())
+  st_id          String
+  StationDummy   StationDummy   @relation(fields: [st_id], references: [st_id])
+  qty            Int
+  power          String?
+  p_type_id      Int
+  PlugTypeMaster PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
+  created_date   DateTime       @default(now())
+  updated_date   DateTime       @default(now())
+  update_by      String?
+  create_by      String?
+  deleted        Boolean        @default(false)
+
+  @@map("plug_mapping_dummy")
+}
+
+model PlugTypeMaster {
+  p_type_id        Int                @id @default(autoincrement())
+  p_title          String
+  p_icon           String
+  created_date     DateTime           @default(now())
+  updated_date     DateTime           @default(now())
+  update_by        String?
+  create_by        String?
+  PlugMapping      PlugMapping[]
+  deleted          Boolean            @default(false)
+  PlugMappingDummy PlugMappingDummy[]
+
+  @@map("plug_type_master")
 }
