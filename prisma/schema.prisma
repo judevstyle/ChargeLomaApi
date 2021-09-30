@@ -68,6 +68,8 @@ model Checkin {
 model ReviewImg {
   id_img       Int      @id @default(autoincrement())
   CheckIn      Checkin? @relation(fields: [ck_id], references: [ck_id])
+  st_id        String?
+  Station      Station?  @relation(fields: [st_id], references: [st_id])
   ck_id        Int
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
@@ -138,6 +140,7 @@ model Station {
   ProviderMaster    ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
 
   @@map("station")
+  ReviewImg ReviewImg[]
 }
 
 model StationDummy {
