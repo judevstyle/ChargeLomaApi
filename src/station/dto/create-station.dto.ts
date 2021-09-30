@@ -75,3 +75,7 @@ export class PlugMapping {
     power: string
     p_type_id: number
 }
+
+export class FindOne {
+    lang: string
+}

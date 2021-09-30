@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query } from '@nestjs/common';
 import { StationService } from './station.service';
-import { CreateStationDto, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindOne, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
@@ -30,8 +30,8 @@ export class StationController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.stationService.findOne(id);
+  findOne(@Param('id') id: string,@Query() query:FindOne) {
+    return this.stationService.findOne(id,query);
   }
 
   @Put(':id')

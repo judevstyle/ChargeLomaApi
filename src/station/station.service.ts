@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStationDto, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindOne, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import * as Distance from 'geo-distance'
 import * as lodash from 'lodash'
@@ -327,7 +327,7 @@ export class StationService {
     return stations;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, query: FindOne) {
     let stations = await this.prismaService.station.findFirst({
       where: {
         st_id: id,
@@ -342,6 +342,7 @@ export class StationService {
             icon: true
           }
         },
+        Checkin:true,
         PlugMapping: {
           select: {
             p_mapping_id: true,
@@ -358,7 +359,40 @@ export class StationService {
       }, orderBy: { created_date: "desc" }
     })
 
+    if (query.lang == 'th') {
+      stations['station_name'] = stations.station_name_th
+      stations['addr'] = stations.addr_th
+    }
+
+    if (query.lang == 'en') {
+      stations['station_name'] = stations.station_name_en
+      stations['addr'] = stations.addr_en
+    }
+
     stations['provider'] = stations.ProviderMaster
+
+    const numIsChargeTrue = stations.Checkin.reduce((acc, cur) => {
+      if (cur.isCharge == true) {
+        acc += 1
+      }
+      return acc
+    }, 0)
+
+    const numIsChargeFalse = stations.Checkin.reduce((acc, cur) => {
+      if (cur.isCharge == false) {
+        acc += 1
+      }
+      return acc
+    }, 0)
+
+    if (numIsChargeTrue + numIsChargeFalse < 5 || !stations.Checkin) {
+      stations['rating'] = 0
+    } else {
+      stations['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
+    }
+
+
+    delete stations.Checkin
 
     delete stations.ProviderMaster
 
