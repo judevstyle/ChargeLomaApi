@@ -88,8 +88,13 @@ export class StationService {
         return acc
       }, 0)
 
-      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10 || 0
-      
+      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+        item['rating'] = 0
+      } else {
+        item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
+      }
+
+
 
       delete item.Checkin
 
@@ -107,8 +112,8 @@ export class StationService {
       return item
     })
 
-    
-    
+
+
 
     station = station.sort(function (a, b) {
       if (a['distance'] < b['distance']) {
@@ -224,7 +229,12 @@ export class StationService {
         return acc
       }, 0)
 
-      item['rating'] = (numIsChargeTrue/(numIsChargeTrue+numIsChargeFalse))*10 || 0
+      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+        item['rating'] = 0
+      } else {
+        item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
+      }
+
 
       delete item.Checkin
 
