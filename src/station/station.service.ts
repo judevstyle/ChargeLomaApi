@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStationDto, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import * as Distance from 'geo-distance'
+import * as lodash from 'lodash'
 
 var pointInPolygon = require('point-in-polygon');
 var pointInPolygonFlat = require('point-in-polygon/flat');
@@ -64,7 +65,7 @@ export class StationService {
         item['addr'] = item.addr_en
       }
 
-      item['plug_desc'] = item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title)).join(",")
+      item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
       delete item.station_name_en
@@ -177,7 +178,7 @@ export class StationService {
         item['addr'] = item.addr_en
       }
 
-      item['plug_desc'] = item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title)).join(",")
+      item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
       delete item.station_name_en
