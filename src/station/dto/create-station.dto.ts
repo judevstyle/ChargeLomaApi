@@ -1,4 +1,4 @@
-import { IsDefined, IsNotEmpty } from "class-validator"
+import { IsDefined, IsNotEmpty, IsString } from "class-validator"
 
 export class CreateStationDto {
     @IsDefined()
@@ -27,6 +27,7 @@ export class CreateStationDto {
     power: number
     PlugMapping: PlugMapping[]
     pv_id: number
+    station_img: string
 }
 
 export class StationNearby {
@@ -37,8 +38,31 @@ export class StationNearby {
     @IsNotEmpty()
     lng: number
     queryStamp: string
-    page: number
+    page?: number = 1
+    limit?: number = 100
     lang: string
+}
+
+export class FindQuery {
+    queryStamp?: string
+    page?: number = 1
+    limit?: number = 100
+    lang: string
+}
+
+
+export class FindFilterQuery {
+    queryStamp?: string
+    page?: number = 1
+    limit?: number = 100
+    lang: string
+    @IsDefined()
+    @IsNotEmpty()
+    provider?:number
+    @IsDefined()
+    @IsNotEmpty()
+    @IsString()
+    type?:string
 }
 
 export class StationfromLocation {
@@ -74,6 +98,8 @@ export class PlugMapping {
     qty: number
     power: string
     p_type_id: number
+    del: boolean
+    p_mapping_id: number
 }
 
 export class FindOne {

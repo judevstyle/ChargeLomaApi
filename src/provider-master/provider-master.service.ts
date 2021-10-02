@@ -19,18 +19,22 @@ export class ProviderMasterService {
       desv: createProviderMasterDto.desv
     }
 
-    if (createProviderMasterDto.icon.indexOf("base64") !== -1) {
+    if (createProviderMasterDto.icon) {
+      try {
+        let strImage = createProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
 
-      let strImage = createProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
-      let buff = Buffer.from(strImage, 'base64');
+        let pathFolder = join(__dirname, '..', '..', 'public', "provider_icon_img")
 
-      let pathFolder = join(__dirname, '..', '..', '..', 'public', "provider_icon_img")
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-      let getfileType = await fileType.fromBuffer(buff)
-      let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
-      fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+        objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
+      } catch (error) {
 
-      objectCreateProviderMaster.icon = nameFiles
+      }
+
     }
 
     const providerMaster = await this.prismaService.providerMaster.create({
@@ -56,18 +60,24 @@ export class ProviderMasterService {
       desv: updateProviderMasterDto.desv
     }
 
-    if (updateProviderMasterDto.icon.indexOf("base64") !== -1) {
+    if (updateProviderMasterDto.icon) {
 
-      let strImage = updateProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
-      let buff = Buffer.from(strImage, 'base64');
+      try {
+        let strImage = updateProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
 
-      let pathFolder = join(__dirname, '..', '..', '..', 'public', "provider_icon_img")
+        let pathFolder = join(__dirname, '..', '..', 'public', "provider_icon_img")
 
-      let getfileType = await fileType.fromBuffer(buff)
-      let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
-      fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-      objectCreateProviderMaster.icon = nameFiles
+        objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
+      } catch (error) {
+        console.log(error);
+      }
+
+
     }
 
     const providerMaster = await this.prismaService.providerMaster.update({

@@ -11,7 +11,7 @@ generator client {
 }
 
 model User {
-  uid             Int               @id @default(autoincrement())
+  uid             String            @id
   display_name    String
   type_user       String            @default("admin")
   email           String
@@ -26,10 +26,11 @@ model User {
   deleted         Boolean           @default(false)
 
   @@map("user")
+  Checkin Checkin[]
 }
 
 model ImageTicket {
-  uid             Int
+  uid             String
   User            User              @relation(fields: [uid], references: [uid])
   ticket_id       Int               @id @default(autoincrement())
   ticket_no       String
@@ -56,11 +57,12 @@ model Checkin {
   created_date      DateTime      @default(now())
   updated_date      DateTime      @default(now())
   update_by         String?
-  create_by         String?
+  create_by         String
   ReviewImg         ReviewImg[]
   deleted           Boolean       @default(false)
   StationDummy      StationDummy? @relation(fields: [stationDummySt_id], references: [st_id])
   stationDummySt_id String?
+  User              User          @relation(fields: [create_by], references: [uid])
 
   @@map("checkin")
 }
@@ -69,10 +71,11 @@ model ReviewImg {
   id_img       Int      @id @default(autoincrement())
   CheckIn      Checkin? @relation(fields: [ck_id], references: [ck_id])
   st_id        String?
-  Station      Station?  @relation(fields: [st_id], references: [st_id])
+  Station      Station? @relation(fields: [st_id], references: [st_id])
   ck_id        Int
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
+  img_path     String
   update_by    String?
   create_by    String?
   deleted      Boolean  @default(false)
@@ -93,7 +96,7 @@ model ImageTicketBody {
 model FavoriteStation {
   fav_id            String        @id @default(uuid())
   user              User          @relation(fields: [uid], references: [uid])
-  uid               Int
+  uid               String
   created_date      DateTime      @default(now())
   updated_date      DateTime      @default(now())
   update_by         String?
@@ -139,8 +142,8 @@ model Station {
   station_img       String?
   ProviderMaster    ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
 
-  @@map("station")
   ReviewImg ReviewImg[]
+  @@map("station")
 }
 
 model StationDummy {

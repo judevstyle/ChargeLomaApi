@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query } from '@nestjs/common';
 import { StationService } from './station.service';
-import { CreateStationDto, FindOne, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindFilterQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
@@ -15,13 +15,33 @@ export class StationController {
   }
 
   @Get()
-  findAll() {
-    return this.stationService.findAll();
+  findAll(@Query() query:FindQuery) {
+    return this.stationService.findAll(query);
   }
 
   @Get('stationNearly')
   stationNearly(@Query() query: StationNearby) {
     return this.stationService.stationNearly(query);
+  }
+
+  @Get("stationReject")
+  stationReject(@Query() query:FindQuery) {
+    return this.stationService.stationReject(query);
+  }
+
+  @Get("stationApprove")
+  stationApprove(@Query() query:FindQuery) {
+    return this.stationService.stationApprove(query);
+  }
+
+  @Get("stationWaitApprove")
+  stationWaitApprove(@Query() query:FindQuery) {
+    return this.stationService.stationWaitApprove(query);
+  }
+
+  @Get('stationFilter')
+  stationFilter(@Query() query: FindFilterQuery) {
+    return this.stationService.stationFilter(query);
   }
 
   @Get('stationfromLocation')
@@ -35,7 +55,7 @@ export class StationController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateStationDto: UpdateStationDto) {
+  update(@Param('id') id: string, @Body() updateStationDto: CreateStationDto) {
     return this.stationService.update(id, updateStationDto);
   }
 

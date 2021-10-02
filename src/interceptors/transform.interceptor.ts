@@ -14,16 +14,28 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
         // let success = data.success
         return next.handle().pipe(map(data => {
 
+            let itemResponse = data
+            let meta = undefined
+
             let success = data?.success || true
-            if(success !== undefined){
+            if (success !== undefined) {
                 delete data.success
+            }
+
+            if (typeof data == 'object' && data.hasOwnProperty("data")) {
+                itemResponse = data.data
+            }
+
+            if (typeof data == 'object' && data.hasOwnProperty("meta")) {
+                meta = data.meta
             }
 
             return {
                 statusCode: 200,
                 success: success !== undefined ? success : true,
-                data: data || null,
-                message: data.message || undefined
+                data: itemResponse || null,
+                message: data.message || undefined,
+                meta
             }
 
         }));

@@ -18,18 +18,24 @@ export class PlugTypeMasterService {
       p_title: createPlugTypeMasterDto.p_title
     }
 
-    if (createPlugTypeMasterDto.p_icon.indexOf("base64") !== -1) {
+    if (createPlugTypeMasterDto.p_icon) {
 
-      let strImage = createPlugTypeMasterDto.p_icon.replace(/^data:image\/[a-z]+;base64,/, "");
-      let buff = Buffer.from(strImage, 'base64');
+      try {
+        let strImage = createPlugTypeMasterDto.p_icon.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
 
-      let pathFolder = join(__dirname, '..', '..', '..', 'public', "plug_type_icon_img")
+        let pathFolder = join(__dirname, '..', '..', 'public', "plug_type_icon_img")
 
-      let getfileType = await fileType.fromBuffer(buff)
-      let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
-      fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-      objectCreatePlugTypeMaster.p_icon = nameFiles
+        objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/plug_type_icon_img/" + nameFiles
+      } catch (error) {
+        console.log(error);
+
+      }
+
     }
 
 
@@ -56,18 +62,25 @@ export class PlugTypeMasterService {
       updated_date: new Date()
     }
 
-    if (updatePlugTypeMasterDto?.p_icon.indexOf("base64") !== -1) {
+    if (updatePlugTypeMasterDto?.p_icon) {
 
-      let strImage = updatePlugTypeMasterDto.p_icon.replace(/^data:image\/[a-z]+;base64,/, "");
-      let buff = Buffer.from(strImage, 'base64');
+      try {
+        let strImage = updatePlugTypeMasterDto.p_icon.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
 
-      let pathFolder = join(__dirname, '..', '..', '..', 'public', "plug_type_icon_img")
+        let pathFolder = join(__dirname, '..', '..', 'public', "plug_type_icon_img")
 
-      let getfileType = await fileType.fromBuffer(buff)
-      let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
-      fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-      objectCreatePlugTypeMaster.p_icon = nameFiles
+        objectCreatePlugTypeMaster.p_icon =process.env.API_URL +  "/plug_type_icon_img/" + nameFiles
+      } catch (error) {
+        console.log(error);
+
+      }
+
+
     }
 
 
