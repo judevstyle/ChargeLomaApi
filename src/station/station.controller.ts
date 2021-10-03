@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query } from '@nestjs/common';
 import { StationService } from './station.service';
-import { CreateStationDto, FindFilterQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
@@ -33,6 +33,12 @@ export class StationController {
   stationApprove(@Query() query:FindQuery) {
     return this.stationService.stationApprove(query);
   }
+
+  @Get("imageStation")
+  imageStation(@Query() query:FindImageStationQuery) {
+    return this.stationService.getImageStation(query);
+  }
+
 
   @Get("stationWaitApprove")
   stationWaitApprove(@Query() query:FindQuery) {

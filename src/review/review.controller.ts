@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { FindAll, ParamFindOne, PostReview } from './review.dto';
+import { FindAll, FindReviewByUser, ParamFindOne, PostReview } from './review.dto';
 import { ReviewService } from './review.service';
 @Controller('review')
 @UseInterceptors(TransformInterceptor)
@@ -31,4 +31,19 @@ export class ReviewController {
 
     return this.reviewService.getReview(query)
   }
+
+  // @UseGuards(AuthGuard(['user']))
+  @Get('reviewByUser')
+  async getReviewByUser(@Request() req,@Query() query:FindReviewByUser){
+    const USER = req.user
+
+    return this.reviewService.getReviewByUser(query)
+  }
+
+  @Get('top-reviewer')
+  async getTopReviewer(){
+    return this.reviewService.getTopReviewer()
+  }
 }
+
+

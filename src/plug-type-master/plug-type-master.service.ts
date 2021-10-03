@@ -12,10 +12,11 @@ export class PlugTypeMasterService {
 
   constructor(private prismaService: PrismaService) { }
 
-  async create(createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
+  async create(uid:string,createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
 
     let objectCreatePlugTypeMaster: Prisma.PlugTypeMasterCreateInput = {
-      p_title: createPlugTypeMasterDto.p_title
+      p_title: createPlugTypeMasterDto.p_title,
+      create_by:uid
     }
 
     if (createPlugTypeMasterDto.p_icon) {

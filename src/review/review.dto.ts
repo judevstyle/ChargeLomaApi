@@ -34,3 +34,11 @@ export class FindAll{
     page:number = 1
     limit:number = 100
 }
+
+export class FindReviewByUser{
+    @IsDefined()
+    @IsNotEmpty()
+    uid:string
+    page:number = 1
+    limit:number = 100
+}

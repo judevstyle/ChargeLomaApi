@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStationDto, FindFilterQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import * as Distance from 'geo-distance'
 import * as lodash from 'lodash'
@@ -806,6 +806,37 @@ export class StationService {
     return pagination(paramPagination)
   }
 
+  async getImageStation(query: FindImageStationQuery) {
+    let imageStationCount = await this.prismaService.reviewImg.count({ where: { st_id: query.st_id } })
+
+    let images = await this.prismaService.reviewImg.findMany({
+      where: {
+        st_id: query.st_id
+      },
+      skip: (+query.page - 1) * +query.limit,
+      take: query.limit,
+      select: {
+        id_img: true,
+        img_path: true
+      },
+      orderBy: {
+        created_date: "desc"
+      }
+
+    })
+
+
+    let paramPagination: ParameterPagination = {
+      data: images,
+      page: +query.page,
+      limit: query.limit,
+      responseFrom: "DB",
+      totalItems: imageStationCount
+    }
+
+    return pagination(paramPagination)
+  }
+
 
   async findOne(id: string, query: FindOne) {
     let stations = await this.prismaService.station.findFirst({
@@ -900,7 +931,7 @@ export class StationService {
     }))
 
     let insertPlugMap: Prisma.PlugMappingCreateManyStationInputEnvelope = {
-      data:filterInsertPlugMapping
+      data: filterInsertPlugMapping
     }
 
     let objectUpdateStation: Prisma.StationUpdateArgs = {
@@ -945,7 +976,7 @@ export class StationService {
     objectUpdateStation.data = removeEmptyObjects(objectUpdateStation.data)
 
 
-    if(filterInsertPlugMapping.length>0){
+    if (filterInsertPlugMapping.length > 0) {
       objectUpdateStation.data.PlugMapping.createMany = insertPlugMap
     }
 

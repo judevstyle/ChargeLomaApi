@@ -104,8 +104,6 @@ model FavoriteStation {
   Station           Station       @relation(fields: [st_id], references: [st_id])
   st_id             String
   deleted           Boolean       @default(false)
-  StationDummy      StationDummy? @relation(fields: [stationDummySt_id], references: [st_id])
-  stationDummySt_id String?
 
   @@map("favorite_station")
 }
@@ -170,7 +168,6 @@ model StationDummy {
   updated_date      DateTime          @default(now())
   update_by         String?
   create_by         String?
-  FavoriteStation   FavoriteStation[]
 
   edit_status      String             @default("wait")
   deleted          Boolean            @default(false)

@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, UseInterceptors, UseGuards, Request } from '@nestjs/common';
 import { PlugTypeMasterService } from './plug-type-master.service';
 import { CreatePlugTypeMasterDto } from './dto/create-plug-type-master.dto';
 import { UpdatePlugTypeMasterDto } from './dto/update-plug-type-master.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('plug-type-master')
 @UseInterceptors(TransformInterceptor)
@@ -10,8 +11,9 @@ export class PlugTypeMasterController {
   constructor(private readonly plugTypeMasterService: PlugTypeMasterService) {}
 
   @Post()
-  create(@Body() createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
-    return this.plugTypeMasterService.create(createPlugTypeMasterDto);
+  @UseGuards(AuthGuard(['admin']))
+  create(@Request() req,@Body() createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
+    return this.plugTypeMasterService.create(req.user.uid,createPlugTypeMasterDto);
   }
 
   @Get()

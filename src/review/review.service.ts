@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { FindAll, PostReview } from './review.dto';
+import { FindAll, FindReviewByUser, PostReview } from './review.dto';
 import * as fileType from 'file-type'
 import * as fs from 'fs'
 import { join } from 'path';
@@ -169,9 +169,11 @@ export class ReviewService {
 
     async getReview(query: FindAll) {
 
-        let countReview = await this.prismaService.checkin.count({   where: {
-            st_id: query.st_id
-        },})
+        let countReview = await this.prismaService.checkin.count({
+            where: {
+                st_id: query.st_id
+            },
+        })
         let review = await this.prismaService.checkin.findMany({
             where: {
                 st_id: query.st_id
@@ -194,31 +196,31 @@ export class ReviewService {
                         }
                     }
                 },
-                User:{
-                    select:{
-                        uid:true,
-                        display_name:true,
-                        avatar:true,
-                        email:true
+                User: {
+                    select: {
+                        uid: true,
+                        display_name: true,
+                        avatar: true,
+                        email: true
                     }
                 }
             },
             skip: (+query.page - 1) * +query.limit,
             take: query.limit,
-            orderBy:{
-                created_date:"desc"
+            orderBy: {
+                created_date: "desc"
             }
 
         })
 
-        review = review.map((item)=>{
-            item['plug_type'] = item.Station.PlugMapping.reduce((acc,cur)=>{
+        review = review.map((item) => {
+            item['plug_type'] = item.Station.PlugMapping.reduce((acc, cur) => {
 
-                acc = [...acc,cur.PlugTypeMaster]
+                acc = [...acc, cur.PlugTypeMaster]
                 acc = lodash.uniq(acc)
 
                 return acc
-            },[])
+            }, [])
             item['station_status'] = item.Station.station_status
 
             delete item.Station
@@ -234,5 +236,117 @@ export class ReviewService {
         }
 
         return pagination(paramPagination)
+    }
+
+    async getReviewByUser(query: FindReviewByUser) {
+
+        let countReview = await this.prismaService.checkin.count({
+            where: {
+                create_by: query.uid
+            },
+        })
+        let review = await this.prismaService.checkin.findMany({
+            where: {
+                create_by: query.uid
+            },
+            select: {
+                comment: true,
+                power: true,
+                Station: {
+                    select: {
+                        station_status: true,
+                        PlugMapping: {
+                            select: {
+                                PlugTypeMaster: {
+                                    select: {
+                                        p_title: true,
+                                        p_icon: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                User: {
+                    select: {
+                        uid: true,
+                        display_name: true,
+                        avatar: true,
+                        email: true
+                    }
+                }
+            },
+            skip: (+query.page - 1) * +query.limit,
+            take: query.limit,
+            orderBy: {
+                created_date: "desc"
+            }
+
+        })
+
+        review = review.map((item) => {
+            item['plug_type'] = item.Station.PlugMapping.reduce((acc, cur) => {
+
+                acc = [...acc, cur.PlugTypeMaster]
+                acc = lodash.uniq(acc)
+
+                return acc
+            }, [])
+            item['station_status'] = item.Station.station_status
+
+            delete item.Station
+            return item
+        })
+
+        let paramPagination: ParameterPagination = {
+            data: review,
+            page: +query.page,
+            limit: query.limit,
+            responseFrom: "DB",
+            totalItems: countReview
+        }
+
+        return pagination(paramPagination)
+    }
+
+    async getTopReviewer() {
+        const topReview = await this.prismaService.checkin.groupBy({
+            by: ['create_by'],
+            _count: {
+                create_by: true
+            },
+            orderBy: {
+                _count: {
+                    create_by: 'desc'
+                }
+            },
+            take: 20
+        })
+
+        const users = await this.prismaService.user.findMany({
+            where: {
+                uid: { in: topReview.map((item) => (item.create_by)) }
+            },
+            select: {
+                uid: true,
+                display_name: true,
+                avatar: true,
+                email: true
+            }
+        })
+
+
+        let result = users.map((item)=>{
+            const findCountReview = topReview.find((countReview)=>(countReview.create_by == item.uid))
+
+            return {
+                countReview:findCountReview._count.create_by,
+                User:{
+                    ...item
+                }
+            }
+        })
+
+        return result
     }
 }

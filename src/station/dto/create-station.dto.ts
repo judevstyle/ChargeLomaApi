@@ -51,6 +51,17 @@ export class FindQuery {
 }
 
 
+export class FindImageStationQuery {
+    @IsDefined()
+    @IsNotEmpty()
+    st_id:string
+    queryStamp?: string
+    page?: number = 1
+    limit?: number = 100
+    lang: string
+}
+
+
 export class FindFilterQuery {
     queryStamp?: string
     page?: number = 1
