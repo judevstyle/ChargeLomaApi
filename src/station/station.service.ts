@@ -43,6 +43,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
+            logo_label:true,
+            shortname:true,
             icon: true
           }
         },
@@ -167,6 +169,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
+            logo_label:true,
+            shortname:true,
             icon: true
           }
         },
@@ -333,6 +337,8 @@ export class StationService {
           select: {
             pv_id: true,
             name: true,
+            logo_label:true,
+            shortname:true,
             desv: true,
             icon: true
           }
@@ -423,6 +429,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
+            logo_label:true,
+            shortname:true,
             icon: true
           }
         },
@@ -523,6 +531,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
+            logo_label:true,
+            shortname:true,
             icon: true
           }
         },
@@ -622,6 +632,8 @@ export class StationService {
           select: {
             pv_id: true,
             name: true,
+            logo_label:true,
+            shortname:true,
             desv: true,
             icon: true
           }
@@ -724,6 +736,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
+            logo_label:true,
+            shortname:true,
             icon: true
           }
         },
@@ -849,6 +863,8 @@ export class StationService {
         ProviderMaster: {
           select: {
             pv_id: true,
+            logo_label:true,
+            shortname:true,
             name: true,
             desv: true,
             icon: true
