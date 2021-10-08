@@ -45,7 +45,8 @@ export class AuthService {
                     uid: body.uid,
                     email: body.email,
                     display_name: body.display_name,
-                    tel: body.tel
+                    tel: body.tel,
+                    type_user: 'user'
                 },
                 select: {
                     uid: true,
@@ -97,7 +98,7 @@ export class AuthService {
         let objectUserUpdate: Prisma.UserUpdateArgs = {
             where: { uid },
             data: {
-                uid: body.uid,
+                // uid: body.uid,
                 email: body.email,
                 display_name: body.display_name,
                 tel: body.tel
@@ -145,7 +146,7 @@ export class AuthService {
 
     }
 
-    async profile(uid: string){
+    async profile(uid: string) {
         const user = await this.prismaService.user.findFirst({
             where: { uid: uid },
             select: {

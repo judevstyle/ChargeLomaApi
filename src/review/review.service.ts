@@ -181,6 +181,9 @@ export class ReviewService {
             select: {
                 comment: true,
                 power: true,
+                isCharge:true,
+                car_serve:true,
+                created_date:true,
                 Station: {
                     select: {
                         station_status: true,
@@ -252,6 +255,9 @@ export class ReviewService {
             select: {
                 comment: true,
                 power: true,
+                isCharge:true,
+                car_serve:true,
+                created_date:true,
                 Station: {
                     select: {
                         station_status: true,

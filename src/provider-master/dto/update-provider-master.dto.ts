@@ -7,4 +7,6 @@ export class UpdateProviderMasterDto {
     name: string
     desv: string
     icon: string
+    shortname:string
+    logo_label:string
 }

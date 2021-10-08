@@ -21,9 +21,6 @@ export class LoginDTO {
 }
 
 export class UpdateProfileDTO{
-    @IsNotEmpty()
-    @IsDefined()
-    uid: string
     display_name: string
     email: string;
     tel: string;

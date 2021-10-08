@@ -6,18 +6,24 @@ import * as fileType from 'file-type'
 import * as fs from 'fs'
 import { join } from 'path';
 import { Prisma } from '.prisma/client';
+import { removeEmptyObjects } from 'src/helper/object';
 
 @Injectable()
 export class ProviderMasterService {
 
   constructor(private prismaService: PrismaService) { }
 
-  async create(createProviderMasterDto: CreateProviderMasterDto) {
+  async create(uid:string,createProviderMasterDto: CreateProviderMasterDto) {
 
     let objectCreateProviderMaster: Prisma.ProviderMasterCreateInput = {
       name: createProviderMasterDto.name,
-      desv: createProviderMasterDto.desv
+      desv: createProviderMasterDto.desv,
+      shortname:createProviderMasterDto.shortname,
+      create_by:uid
     }
+
+    objectCreateProviderMaster = removeEmptyObjects(objectCreateProviderMaster)
+
 
     if (createProviderMasterDto.icon) {
       try {
@@ -31,6 +37,24 @@ export class ProviderMasterService {
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
         objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
+      } catch (error) {
+
+      }
+
+    }
+
+    if (createProviderMasterDto.logo_label) {
+      try {
+        let strImage = createProviderMasterDto.logo_label.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
+
+        let pathFolder = join(__dirname, '..', '..', 'public', "logo_label_img")
+
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+
+        objectCreateProviderMaster.logo_label = process.env.API_URL + "/logo_label_img/" + nameFiles
       } catch (error) {
 
       }
@@ -54,11 +78,16 @@ export class ProviderMasterService {
     return providerMaster
   }
 
-  async update(id: number, updateProviderMasterDto: UpdateProviderMasterDto) {
+  async update(id: number, updateProviderMasterDto: UpdateProviderMasterDto,uid:string) {
     let objectCreateProviderMaster: Prisma.ProviderMasterUpdateInput = {
       name: updateProviderMasterDto.name,
-      desv: updateProviderMasterDto.desv
+      desv: updateProviderMasterDto.desv,
+      shortname:updateProviderMasterDto.shortname,
+      update_by:uid,
+      updated_date:new Date()
     }
+
+    objectCreateProviderMaster = removeEmptyObjects(objectCreateProviderMaster)
 
     if (updateProviderMasterDto.icon) {
 
@@ -77,6 +106,24 @@ export class ProviderMasterService {
         console.log(error);
       }
 
+
+    }
+
+    if (updateProviderMasterDto.logo_label) {
+      try {
+        let strImage = updateProviderMasterDto.logo_label.replace(/^data:image\/[a-z]+;base64,/, "");
+        let buff = Buffer.from(strImage, 'base64');
+
+        let pathFolder = join(__dirname, '..', '..', 'public', "logo_label_img")
+
+        let getfileType = await fileType.fromBuffer(buff)
+        let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
+        fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+
+        objectCreateProviderMaster.icon = process.env.API_URL + "/logo_label_img/" + nameFiles
+      } catch (error) {
+
+      }
 
     }
 

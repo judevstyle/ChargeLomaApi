@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query, UseGuards, Request } from '@nestjs/common';
 import { StationService } from './station.service';
 import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('station')
 @UseInterceptors(TransformInterceptor)
@@ -10,8 +11,10 @@ export class StationController {
   constructor(private readonly stationService: StationService) { }
 
   @Post()
-  create(@Body() createStationDto: CreateStationDto) {
-    return this.stationService.create(createStationDto);
+  @UseGuards(AuthGuard(['admin']))
+  create(@Body() createStationDto: CreateStationDto,@Request() req) {
+    const USER = req.user
+    return this.stationService.create(USER.uid,createStationDto);
   }
 
   @Get()
@@ -61,11 +64,14 @@ export class StationController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateStationDto: CreateStationDto) {
-    return this.stationService.update(id, updateStationDto);
+  @UseGuards(AuthGuard(['admin']))
+  update(@Param('id') id: string, @Body() updateStationDto: CreateStationDto,@Request() req) {
+    const USER = req.user
+    return this.stationService.update(USER.uid,id, updateStationDto);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard(['admin']))
   remove(@Param('id') id: string) {
     return this.stationService.remove(id);
   }

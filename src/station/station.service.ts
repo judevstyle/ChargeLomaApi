@@ -262,7 +262,7 @@ export class StationService {
 
   }
 
-  async create(createStationDto: CreateStationDto) {
+  async create(uid: string, createStationDto: CreateStationDto) {
 
     let providerMaster = await this.prismaService.providerMaster.findFirst({ where: { pv_id: createStationDto.pv_id } })
 
@@ -287,6 +287,7 @@ export class StationService {
       station_status: createStationDto.station_status,
       note: createStationDto.note,
       power: createStationDto.power,
+      create_by: uid,
       pv_id: createStationDto.pv_id,
       PlugMapping: {
         createMany: {
@@ -916,7 +917,7 @@ export class StationService {
     return stations
   }
 
-  async update(id: string, updateStationDto: CreateStationDto) {
+  async update(uid: string, id: string, updateStationDto: CreateStationDto) {
 
     let stationCheck = await this.prismaService.station.findFirst({ where: { st_id: id } })
 
@@ -952,6 +953,8 @@ export class StationService {
         status_approve: updateStationDto.status_approve,
         status_msg: updateStationDto.status_msg,
         station_status: updateStationDto.station_status,
+        update_by: uid,
+        updated_date: new Date(),
         note: updateStationDto.note,
         power: updateStationDto.power,
         pv_id: updateStationDto.pv_id,

@@ -13,6 +13,7 @@ const defaultDIRPublic = [
   'review_img',
   'image_ticket_img',
   'user_img',
+  'logo_label_img'
 ]
 
 

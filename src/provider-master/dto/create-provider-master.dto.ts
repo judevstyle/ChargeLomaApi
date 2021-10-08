@@ -6,4 +6,6 @@ export class CreateProviderMasterDto {
     name: string
     desv: string
     icon: string
+    shortname:string
+    logo_label:string
 }

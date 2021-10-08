@@ -25,8 +25,8 @@ model User {
   ImageTicket     ImageTicket[]
   deleted         Boolean           @default(false)
 
-  @@map("user")
   Checkin Checkin[]
+  @@map("user")
 }
 
 model ImageTicket {
@@ -94,16 +94,16 @@ model ImageTicketBody {
 }
 
 model FavoriteStation {
-  fav_id            String        @id @default(uuid())
-  user              User          @relation(fields: [uid], references: [uid])
-  uid               String
-  created_date      DateTime      @default(now())
-  updated_date      DateTime      @default(now())
-  update_by         String?
-  create_by         String?
-  Station           Station       @relation(fields: [st_id], references: [st_id])
-  st_id             String
-  deleted           Boolean       @default(false)
+  fav_id       String   @id @default(uuid())
+  user         User     @relation(fields: [uid], references: [uid])
+  uid          String
+  created_date DateTime @default(now())
+  updated_date DateTime @default(now())
+  update_by    String?
+  create_by    String?
+  Station      Station  @relation(fields: [st_id], references: [st_id])
+  st_id        String
+  deleted      Boolean  @default(false)
 
   @@map("favorite_station")
 }
@@ -145,7 +145,7 @@ model Station {
 }
 
 model StationDummy {
-  st_id             String            @id @default(uuid())
+  st_id             String   @id @default(uuid())
   station_name_th   String
   station_name_en   String?
   station_desc      String?
@@ -153,19 +153,19 @@ model StationDummy {
   addr_en           String?
   lat               Float?
   lng               Float?
-  type_service      String            @default("public")
+  type_service      String   @default("public")
   is24hr            Boolean
   servicetime_open  String?
   servicetime_close String?
   is_service_charge Boolean
   service_rate      Float?
-  status_approve    String            @default("W")
+  status_approve    String   @default("W")
   status_msg        String?
-  station_status    Int               @default(1)
+  station_status    Int      @default(1)
   note              String?
   power             Float?
-  created_date      DateTime          @default(now())
-  updated_date      DateTime          @default(now())
+  created_date      DateTime @default(now())
+  updated_date      DateTime @default(now())
   update_by         String?
   create_by         String?
 
@@ -185,6 +185,8 @@ model ProviderMaster {
   icon         String?
   Station      Station[]
   StationDummy StationDummy[]
+  shortname    String?
+  logo_label   String?
   deleted      Boolean        @default(false)
   created_date DateTime       @default(now())
   updated_date DateTime       @default(now())

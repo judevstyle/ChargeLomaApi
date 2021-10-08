@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, UseGuards, Request } from '@nestjs/common';
 import { ProviderMasterService } from './provider-master.service';
 import { CreateProviderMasterDto } from './dto/create-provider-master.dto';
 import { UpdateProviderMasterDto } from './dto/update-provider-master.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('provider-master')
 @UseInterceptors(TransformInterceptor)
@@ -10,8 +11,10 @@ export class ProviderMasterController {
   constructor(private readonly providerMasterService: ProviderMasterService) {}
 
   @Post()
-  create(@Body() createProviderMasterDto: CreateProviderMasterDto) {
-    return this.providerMasterService.create(createProviderMasterDto);
+  @UseGuards(AuthGuard(['admin']))
+  create(@Body() createProviderMasterDto: CreateProviderMasterDto,@Request() req) {
+    const USER = req.user
+    return this.providerMasterService.create(USER.uid,createProviderMasterDto);
   }
 
   @Get()
@@ -25,11 +28,14 @@ export class ProviderMasterController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateProviderMasterDto: UpdateProviderMasterDto) {
-    return this.providerMasterService.update(+id, updateProviderMasterDto);
+  @UseGuards(AuthGuard(['admin']))
+  update(@Param('id') id: string, @Body() updateProviderMasterDto: UpdateProviderMasterDto,@Request() req) {
+    const USER = req.user
+    return this.providerMasterService.update(+id, updateProviderMasterDto,USER.uid);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard(['admin']))
   remove(@Param('id') id: string) {
     return this.providerMasterService.remove(+id);
   }

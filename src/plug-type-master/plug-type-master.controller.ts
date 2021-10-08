@@ -26,12 +26,14 @@ export class PlugTypeMasterController {
     return this.plugTypeMasterService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard(['admin']))
   @Put(':id')
-  update(@Param('id') id: string, @Body() updatePlugTypeMasterDto: UpdatePlugTypeMasterDto) {
-    return this.plugTypeMasterService.update(+id, updatePlugTypeMasterDto);
+  update(@Param('id') id: string, @Body() updatePlugTypeMasterDto: UpdatePlugTypeMasterDto,@Request() req) {
+    return this.plugTypeMasterService.update(req.user.uid,+id, updatePlugTypeMasterDto);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard(['admin']))
   remove(@Param('id') id: string) {
     return this.plugTypeMasterService.remove(+id);
   }

@@ -57,10 +57,11 @@ export class PlugTypeMasterService {
     return plugTypeMaster;
   }
 
-  async update(id: number, updatePlugTypeMasterDto: UpdatePlugTypeMasterDto) {
+  async update(uid:string,id: number, updatePlugTypeMasterDto: UpdatePlugTypeMasterDto) {
     let objectCreatePlugTypeMaster: Prisma.PlugTypeMasterUpdateInput = {
       p_title: updatePlugTypeMasterDto.p_title,
-      updated_date: new Date()
+      updated_date: new Date(),
+      update_by:uid,
     }
 
     if (updatePlugTypeMasterDto?.p_icon) {
