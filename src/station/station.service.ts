@@ -147,11 +147,6 @@ export class StationService {
 
 
   async stationfromLocation(query: StationfromLocation) {
-
-    console.log("Query Polygon");
-    
-    console.log(query);
-    
     let station = await this.prismaService.station.findMany({
       where: { deleted: false },
       select: {
@@ -200,12 +195,12 @@ export class StationService {
         Number.parseFloat(query.lat01.toString())
       ],
       [
-        Number.parseFloat(query.lng10.toString()),
-        Number.parseFloat(query.lat10.toString())
-      ],
-      [
         Number.parseFloat(query.lng11.toString()),
         Number.parseFloat(query.lat11.toString())
+      ],
+      [
+        Number.parseFloat(query.lng10.toString()),
+        Number.parseFloat(query.lat10.toString())
       ],
       [
         Number.parseFloat(query.lng00.toString()),
@@ -213,7 +208,7 @@ export class StationService {
       ]
     ]
 
-    // console.log(polygon);
+    console.log(polygon);
 
     station = station.map((item) => {
 
