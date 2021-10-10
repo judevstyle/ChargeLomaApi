@@ -147,6 +147,11 @@ export class StationService {
 
 
   async stationfromLocation(query: StationfromLocation) {
+
+    console.log("Query Polygon");
+    
+    console.log(query);
+    
     let station = await this.prismaService.station.findMany({
       where: { deleted: false },
       select: {
