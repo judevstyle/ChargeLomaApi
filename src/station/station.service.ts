@@ -183,26 +183,28 @@ export class StationService {
       }
     })
 
+    console.log(station);
+    
     const polygon = [
       [
-        Number.parseFloat(query.lat00.toString()),
-        Number.parseFloat(query.lng00.toString())
+        Number.parseFloat(query.lng00.toString()),
+        Number.parseFloat(query.lat00.toString())
       ],
       [
-        Number.parseFloat(query.lat01.toString()),
-        Number.parseFloat(query.lng01.toString())
+        Number.parseFloat(query.lng01.toString()),
+        Number.parseFloat(query.lat01.toString())
       ],
       [
-        Number.parseFloat(query.lat10.toString()),
-        Number.parseFloat(query.lng10.toString())
+        Number.parseFloat(query.lng10.toString()),
+        Number.parseFloat(query.lat10.toString())
       ],
       [
-        Number.parseFloat(query.lat11.toString()),
-        Number.parseFloat(query.lng11.toString())
+        Number.parseFloat(query.lng11.toString()),
+        Number.parseFloat(query.lat11.toString())
       ],
       [
-        Number.parseFloat(query.lat00.toString()),
-        Number.parseFloat(query.lng00.toString())
+        Number.parseFloat(query.lng00.toString()),
+        Number.parseFloat(query.lat00.toString())
       ]
     ]
 
