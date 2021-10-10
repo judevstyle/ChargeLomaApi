@@ -261,7 +261,7 @@ export class StationService {
     })
 
     station = station.filter((item) => {
-      return pointInPolygon([item.lng, item.lat], polygon,)
+      return pointInPolygon([item.lat, item.lng], polygon,)
     })
 
     return station
