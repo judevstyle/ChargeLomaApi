@@ -73,6 +73,7 @@ export class AuthService {
 
                     objectUserCreate.data.avatar = process.env.API_URL + "/user_img/" + nameFiles
                 } catch (error) {
+                    objectUserCreate.data.avatar = body.avatar
                     console.log(error);
 
                 }
@@ -87,8 +88,8 @@ export class AuthService {
             const token = await this.jwtService.signAsync({ uid: user.uid });
 
             return {
-                // tokenType: 'Bearer',
-                // token: token,
+                tokenType: 'Bearer',
+                token: token,
                 user: { ...user }
             }
         }

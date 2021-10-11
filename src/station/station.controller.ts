@@ -11,7 +11,7 @@ export class StationController {
   constructor(private readonly stationService: StationService) { }
 
   @Post()
-  @UseGuards(AuthGuard(['admin']))
+  @UseGuards(AuthGuard(['user']))
   create(@Body() createStationDto: CreateStationDto,@Request() req) {
     const USER = req.user
     return this.stationService.create(USER.uid,createStationDto);
@@ -64,14 +64,14 @@ export class StationController {
   }
 
   @Put(':id')
-  @UseGuards(AuthGuard(['admin']))
+  @UseGuards(AuthGuard(['user']))
   update(@Param('id') id: string, @Body() updateStationDto: CreateStationDto,@Request() req) {
     const USER = req.user
     return this.stationService.update(USER.uid,id, updateStationDto);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard(['admin']))
+  @UseGuards(AuthGuard(['user']))
   remove(@Param('id') id: string) {
     return this.stationService.remove(id);
   }
