@@ -43,28 +43,29 @@ export class FavoriteService {
                 uid: uid
             },
             select: {
+                fav_id: true,
                 Station: {
-                    select:{
-                        st_id:true,
-                        station_name_en:true,
-                        station_name_th:true,
-                        station_desc:true,
-                        station_img:true,
-                        addr_en:true,
-                        addr_th:true,
-                        type_service:true,
-                        is24hr:true,
-                        servicetime_open:true,
-                        servicetime_close:true,
-                        station_status:true,
-                        power:true,
-                        ProviderMaster:true,
-                        PlugMapping:{
-                            include:{
-                                PlugTypeMaster:true
+                    select: {
+                        st_id: true,
+                        station_name_en: true,
+                        station_name_th: true,
+                        station_desc: true,
+                        station_img: true,
+                        addr_en: true,
+                        addr_th: true,
+                        type_service: true,
+                        is24hr: true,
+                        servicetime_open: true,
+                        servicetime_close: true,
+                        station_status: true,
+                        power: true,
+                        ProviderMaster: true,
+                        PlugMapping: {
+                            include: {
+                                PlugTypeMaster: true
                             }
                         },
-                        Checkin:true,
+                        Checkin: true,
                     }
                 }
             },
@@ -77,52 +78,52 @@ export class FavoriteService {
             let station = item.Station
 
             station['provider'] = station.ProviderMaster
-      
+
             delete station.ProviderMaster
-      
+
             if (query.lang == 'th') {
                 station['station_name'] = station.station_name_th
                 station['addr'] = station.addr_th
             }
-      
+
             if (query.lang == 'en') {
                 station['station_name'] = station.station_name_en
                 station['addr'] = station.addr_en
             }
-      
+
             station['plug_desc'] = lodash.uniq(station.PlugMapping.map((plugMapping) => (plugMapping.PlugTypeMaster.p_title))).join(",")
             delete station.PlugMapping
-      
+
             delete station.station_name_en
             delete station.station_name_th
             delete station.addr_en
             delete station.addr_th
-      
+
             const numIsChargeTrue = station.Checkin.reduce((acc, cur) => {
-              if (cur.isCharge == true) {
-                acc += 1
-              }
-              return acc
+                if (cur.isCharge == true) {
+                    acc += 1
+                }
+                return acc
             }, 0)
-      
+
             const numIsChargeFalse = station.Checkin.reduce((acc, cur) => {
-              if (cur.isCharge == false) {
-                acc += 1
-              }
-              return acc
+                if (cur.isCharge == false) {
+                    acc += 1
+                }
+                return acc
             }, 0)
-      
+
             if (numIsChargeTrue + numIsChargeFalse < 5 || !station.Checkin) {
-              station['rating'] = 0
+                station['rating'] = 0
             } else {
-              station['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
+                station['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
             }
-      
-      
+
+
             delete station.Checkin
-      
-            return station
-          })
+
+            return { fav_id: item.fav_id, station }
+        })
 
         let paramPagination: ParameterPagination = {
             data: result,
@@ -130,7 +131,7 @@ export class FavoriteService {
             limit: query.limit,
             responseFrom: "DB",
             totalItems: countFavorite
-          }
+        }
 
         return pagination(paramPagination)
 
