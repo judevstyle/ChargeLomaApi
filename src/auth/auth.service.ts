@@ -132,13 +132,9 @@ export class AuthService {
                 objectUserUpdate.data.avatar = process.env.API_URL + "/user_img/" + nameFiles
             } catch (error) {
                 console.log(error);
-
+                objectUserUpdate.data.avatar = body.avatar
             }
-
-
         }
-
-
         const user = await this.prismaService.user.update(objectUserUpdate)
 
         // const token = await this.jwtService.signAsync({ uid: user.uid });
