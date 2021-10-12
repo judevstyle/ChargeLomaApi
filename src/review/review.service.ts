@@ -199,6 +199,12 @@ export class ReviewService {
                         }
                     }
                 },
+                ReviewImg:{
+                    select:{
+                        id_img:true,
+                        img_path:true
+                    }
+                },
                 User: {
                     select: {
                         uid: true,
