@@ -38,7 +38,7 @@ export const pagination = (param: ParameterPagination):ResponsePagination => {
             meta:{
                 totalItems: totalItems,
                 itemCount: data.length,
-                itemsPerPage: limit,
+                itemsPerPage: +limit,
                 totalPages: totalPage,
                 currentPage: page
             }
@@ -52,7 +52,7 @@ export const pagination = (param: ParameterPagination):ResponsePagination => {
             meta:{
                 totalItems: totalItems,
                 itemCount: data.length,
-                itemsPerPage: limit,
+                itemsPerPage: +limit,
                 totalPages: totalPage,
                 currentPage: page
             }
