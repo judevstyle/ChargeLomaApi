@@ -215,7 +215,7 @@ export class ReviewService {
                 }
             },
             skip: (+query.page - 1) * +query.limit,
-            take: query.limit,
+            take: +query.limit,
             orderBy: {
                 created_date: "desc"
             }
@@ -289,7 +289,7 @@ export class ReviewService {
                 }
             },
             skip: (+query.page - 1) * +query.limit,
-            take: query.limit,
+            take: +query.limit,
             orderBy: {
                 created_date: "desc"
             }

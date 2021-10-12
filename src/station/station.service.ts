@@ -424,7 +424,7 @@ export class StationService {
     let stations = await this.prismaService.station.findMany({
       where: { deleted: false, pv_id: +query.provider, type_service: query.type },
       skip: (+query.page - 1) * +query.limit,
-      take: query.limit,
+      take: +query.limit,
       include: {
         ProviderMaster: {
           select: {
@@ -526,7 +526,7 @@ export class StationService {
     let stations = await this.prismaService.station.findMany({
       where: { deleted: false, status_approve: "S" },
       skip: (+query.page - 1) * +query.limit,
-      take: query.limit,
+      take: +query.limit,
       include: {
         ProviderMaster: {
           select: {
@@ -628,7 +628,7 @@ export class StationService {
     let stations = await this.prismaService.station.findMany({
       where: { deleted: false, status_approve: "W" },
       skip: (+query.page - 1) * +query.limit,
-      take: query.limit,
+      take: +query.limit,
       include: {
         ProviderMaster: {
           select: {
@@ -731,7 +731,7 @@ export class StationService {
     let stations = await this.prismaService.station.findMany({
       where: { deleted: false, status_approve: "F" },
       skip: (+query.page - 1) * +query.limit,
-      take: query.limit,
+      take: +query.limit,
       include: {
         ProviderMaster: {
           select: {
@@ -831,7 +831,7 @@ export class StationService {
         st_id: query.st_id
       },
       skip: (+query.page - 1) * +query.limit,
-      take: query.limit,
+      take: +query.limit,
       select: {
         id_img: true,
         img_path: true
