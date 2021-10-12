@@ -40,14 +40,14 @@ export class StationNearby {
     queryStamp: string
     page?: number = 1
     limit?: number = 100
-    lang: string
+    lang: string = 'th'
 }
 
 export class FindQuery {
     queryStamp?: string
     page?: number = 1
     limit?: number = 100
-    lang: string
+    lang: string = 'th'
 }
 
 
@@ -58,7 +58,7 @@ export class FindImageStationQuery {
     queryStamp?: string
     page?: number = 1
     limit?: number = 100
-    lang: string
+    lang: string = 'th'
 }
 
 
@@ -66,7 +66,7 @@ export class FindFilterQuery {
     queryStamp?: string
     page?: number = 1
     limit?: number = 100
-    lang: string
+    lang: string = 'th'
     @IsDefined()
     @IsNotEmpty()
     provider?:number
@@ -102,7 +102,7 @@ export class StationfromLocation {
     @IsNotEmpty()
     lng11: number;
     queryStamp: string;
-    lang: string
+    lang: string = 'th'
 }
 
 export class PlugMapping {
@@ -114,5 +114,5 @@ export class PlugMapping {
 }
 
 export class FindOne {
-    lang: string
+    lang: string = 'th'
 }

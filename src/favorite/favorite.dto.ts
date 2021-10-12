@@ -16,5 +16,5 @@ export class GetStationFavorite{
     queryStamp?: string
     page?: number = 1
     limit?: number = 100
-    lang: string
+    lang: string = 'th'
 }
