@@ -24,7 +24,7 @@ export class ReviewController {
     return this.reviewService.updateReview(USER.uid,body,param.ck_id)
   }
 
-  @UseGuards(AuthGuard(['user']))
+  // @UseGuards(AuthGuard(['user']))
   @Get()
   async getReview(@Request() req,@Query() query:FindAll){
     const USER = req.user
