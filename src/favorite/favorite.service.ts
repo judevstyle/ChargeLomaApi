@@ -42,6 +42,8 @@ export class FavoriteService {
                 deleted: false,
                 uid: uid
             },
+            skip: (+query.page - 1) * +query.limit,
+            take: query.limit,
             select: {
                 fav_id: true,
                 Station: {
