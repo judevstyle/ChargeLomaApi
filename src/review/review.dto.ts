@@ -5,9 +5,9 @@ export class PostReview {
     @IsNotEmpty()
     st_id: string;
     comment: string;
-    @IsDefined()
-    @IsNotEmpty()
-    isCharge: boolean;
+    // @IsDefined()
+    // @IsNotEmpty()
+    isCharge?: boolean;
     car_serve: string;
     power: number;
     review_img: ReviewIMG[]
