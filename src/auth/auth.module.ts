@@ -14,7 +14,7 @@ import { AdminJwtStrategy } from './admin-jwt.strategy';
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: '1d' }
+      signOptions: { expiresIn: '365d' }
     }),
     PrismaModule
   ]
