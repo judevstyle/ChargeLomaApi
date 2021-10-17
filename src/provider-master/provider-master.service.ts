@@ -120,7 +120,7 @@ export class ProviderMasterService {
         let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateProviderMaster.icon = process.env.API_URL + "/logo_label_img/" + nameFiles
+        objectCreateProviderMaster.logo_label = process.env.API_URL + "/logo_label_img/" + nameFiles
       } catch (error) {
 
       }
