@@ -6,6 +6,12 @@ export class PostFavorite {
     st_id: string
 }
 
+export class GetFavStation {
+    @IsDefined()
+    @IsNotEmpty()
+    st_id: string
+}
+
 export class FindOneFavorite{
     @IsDefined()
     @IsNotEmpty()

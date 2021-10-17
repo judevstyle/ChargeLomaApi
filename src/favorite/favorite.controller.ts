@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Query, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { FindOneFavorite, GetStationFavorite, PostFavorite } from './favorite.dto';
+import { FindOneFavorite, GetFavStation, GetStationFavorite, PostFavorite } from './favorite.dto';
 import { FavoriteService } from './favorite.service';
 
 @Controller('favorite')
@@ -24,6 +24,15 @@ export class FavoriteController {
 
     return this.favoriteService.getStationFavorite(USER.uid,query)
   }
+
+  @Get('favStation')
+  @UseGuards(AuthGuard(['user']))
+  async favStation(@Request() req,@Query() query:GetFavStation) {
+    const USER = req.user
+
+    return this.favoriteService.favStation(query.st_id,USER.uid)
+  }
+
 
   
   @Delete(':fav_id')

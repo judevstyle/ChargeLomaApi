@@ -139,6 +139,20 @@ export class FavoriteService {
 
     }
 
+    async favStation(st_id: string, uid: string) {
+        const checkFav = await this.prismaService.favoriteStation.findFirst({ where: { create_by: uid, st_id: st_id } })
+
+        if (checkFav) {
+            return {
+                isFavorite: true
+            }
+        }
+
+        return {
+            isFavorite: false
+        }
+    }
+
     async deleteFavorite(param: FindOneFavorite) {
         const favorite = await this.prismaService.favoriteStation.delete({
             where: {
