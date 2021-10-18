@@ -144,7 +144,8 @@ export class FavoriteService {
 
         if (checkFav) {
             return {
-                isFavorite: true
+                isFavorite: true,
+                fav_id: checkFav.fav_id
             }
         }
 
