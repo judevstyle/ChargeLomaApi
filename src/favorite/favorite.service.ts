@@ -140,7 +140,7 @@ export class FavoriteService {
     }
 
     async favStation(st_id: string, uid: string) {
-        const checkFav = await this.prismaService.favoriteStation.findFirst({ where: { create_by: uid, st_id: st_id } })
+        const checkFav = await this.prismaService.favoriteStation.findFirst({ where: { create_by: uid, st_id: st_id, deleted: false } })
 
         if (checkFav) {
             return {
