@@ -103,6 +103,7 @@ export class ProviderMasterService {
 
         objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
       } catch (error) {
+        objectCreateProviderMaster.icon = updateProviderMasterDto.icon
         console.log(error);
       }
 
@@ -122,7 +123,7 @@ export class ProviderMasterService {
 
         objectCreateProviderMaster.logo_label = process.env.API_URL + "/logo_label_img/" + nameFiles
       } catch (error) {
-
+        objectCreateProviderMaster.logo_label = updateProviderMasterDto.logo_label
       }
 
     }
