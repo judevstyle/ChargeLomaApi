@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Put, Query, UseGuards, Request } from '@nestjs/common';
 import { StationService } from './station.service';
-import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindPostStationFilter, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { AuthGuard } from '@nestjs/passport';
@@ -52,6 +52,12 @@ export class StationController {
   stationFilter(@Query() query: FindFilterQuery) {
     return this.stationService.stationFilter(query);
   }
+
+  @Post('stationFilter')
+  PostStationFilter(@Body() body: FindPostStationFilter) {
+    return this.stationService.PostStationFilter(body);
+  }
+
 
   @Get('stationfromLocation')
   stationfromLocation(@Query() query: StationfromLocation) {

@@ -54,7 +54,7 @@ export class FindQuery {
 export class FindImageStationQuery {
     @IsDefined()
     @IsNotEmpty()
-    st_id:string
+    st_id: string
     queryStamp?: string
     page?: number = 1
     limit?: number = 100
@@ -69,13 +69,20 @@ export class FindFilterQuery {
     lang: string = 'th'
     @IsDefined()
     @IsNotEmpty()
-    provider?:number
+    provider?: number
     @IsDefined()
     @IsNotEmpty()
     @IsString()
-    type?:string
+    type?: string
 }
 
+
+export class FindPostStationFilter {
+    lang: string = 'th'
+    plug: number[]
+    provider: number[]
+    status: number[]
+}
 export class StationfromLocation {
     @IsDefined()
     @IsNotEmpty()

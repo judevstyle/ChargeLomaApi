@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
+import { CreateStationDto, FindFilterQuery, FindImageStationQuery, FindOne, FindPostStationFilter, FindQuery, StationfromLocation, StationNearby } from './dto/create-station.dto';
 import { UpdateStationDto } from './dto/update-station.dto';
 import * as Distance from 'geo-distance'
 import * as lodash from 'lodash'
@@ -43,8 +43,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             icon: true
           }
         },
@@ -169,8 +169,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             icon: true
           }
         },
@@ -184,7 +184,7 @@ export class StationService {
     })
 
     console.log(station);
-    
+
     const polygon = [
       [
         Number.parseFloat(query.lng00.toString()),
@@ -339,8 +339,8 @@ export class StationService {
           select: {
             pv_id: true,
             name: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             desv: true,
             icon: true
           }
@@ -431,8 +431,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             icon: true
           }
         },
@@ -516,6 +516,115 @@ export class StationService {
     return pagination(paramPagination)
   }
 
+  async PostStationFilter(body: FindPostStationFilter) {
+
+    let stations = await this.prismaService.station.findMany({
+      where: {
+        deleted: false,
+        OR: [
+          {
+            PlugMapping: {
+              some: {
+                p_mapping_id: {
+                  in: body.plug
+                }
+              }
+            }
+          },
+          {
+            ProviderMaster: {
+              pv_id: { in: body.provider }
+            }
+          },
+          {
+            station_status: { in: body.status }
+          }
+        ]
+
+      },
+      include: {
+        ProviderMaster: {
+          select: {
+            pv_id: true,
+            name: true,
+            desv: true,
+            logo_label: true,
+            shortname: true,
+            icon: true
+          }
+        },
+        PlugMapping: {
+          select: {
+            p_mapping_id: true,
+            qty: true,
+            power: true,
+            PlugTypeMaster: {
+              select: {
+                p_title: true,
+                p_icon: true
+              }
+            }
+          }
+        },
+        Checkin: true
+      }, orderBy: { created_date: "desc" }
+    })
+
+
+    stations = stations.map((item) => {
+
+      item['provider'] = item.ProviderMaster
+
+      delete item.ProviderMaster
+
+      if (body.lang == 'th') {
+        item['station_name'] = item.station_name_th
+        item['addr'] = item.addr_th
+      }
+
+      if (body.lang == 'en') {
+        item['station_name'] = item.station_name_en
+        item['addr'] = item.addr_en
+      }
+
+      item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
+      delete item.PlugMapping
+
+      delete item.station_name_en
+      delete item.station_name_th
+      delete item.addr_en
+      delete item.addr_th
+
+      const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == true) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      const numIsChargeFalse = item.Checkin.reduce((acc, cur) => {
+        if (cur.isCharge == false) {
+          acc += 1
+        }
+        return acc
+      }, 0)
+
+      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+        item['rating'] = 0
+      } else {
+        item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
+      }
+
+
+      delete item.Checkin
+
+      return item
+    })
+
+
+    return stations
+  }
+
   async stationApprove(query: FindQuery) {
 
     let stationsCount = await this.prismaService.station.count({
@@ -533,8 +642,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             icon: true
           }
         },
@@ -634,8 +743,8 @@ export class StationService {
           select: {
             pv_id: true,
             name: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             desv: true,
             icon: true
           }
@@ -738,8 +847,8 @@ export class StationService {
             pv_id: true,
             name: true,
             desv: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             icon: true
           }
         },
@@ -865,8 +974,8 @@ export class StationService {
         ProviderMaster: {
           select: {
             pv_id: true,
-            logo_label:true,
-            shortname:true,
+            logo_label: true,
+            shortname: true,
             name: true,
             desv: true,
             icon: true
