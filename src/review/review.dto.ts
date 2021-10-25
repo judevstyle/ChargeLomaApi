@@ -43,3 +43,9 @@ export class FindReviewByUser{
     limit:number = 100
     lang: string = 'th'
 }
+
+export class FindReviewRecently{
+    page:number = 1
+    limit:number = 100
+    lang: string = 'th'
+}

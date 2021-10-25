@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { FindAll, FindReviewByUser, PostReview } from './review.dto';
+import { FindAll, FindReviewByUser, FindReviewRecently, PostReview } from './review.dto';
 import * as fileType from 'file-type'
 import * as fs from 'fs'
 import { join } from 'path';
@@ -181,9 +181,9 @@ export class ReviewService {
             select: {
                 comment: true,
                 power: true,
-                isCharge:true,
-                car_serve:true,
-                created_date:true,
+                isCharge: true,
+                car_serve: true,
+                created_date: true,
                 Station: {
                     select: {
                         station_status: true,
@@ -199,10 +199,10 @@ export class ReviewService {
                         }
                     }
                 },
-                ReviewImg:{
-                    select:{
-                        id_img:true,
-                        img_path:true
+                ReviewImg: {
+                    select: {
+                        id_img: true,
+                        img_path: true
                     }
                 },
                 User: {
@@ -261,14 +261,14 @@ export class ReviewService {
             select: {
                 comment: true,
                 power: true,
-                isCharge:true,
-                car_serve:true,
-                created_date:true,
+                isCharge: true,
+                car_serve: true,
+                created_date: true,
                 Station: {
                     select: {
-                        st_id:true,
-                        station_name_th:true,
-                        station_name_en:true,
+                        st_id: true,
+                        station_name_th: true,
+                        station_name_en: true,
                         station_status: true,
                         PlugMapping: {
                             select: {
@@ -309,9 +309,83 @@ export class ReviewService {
             }, [])
 
             item['station'] = {
-                id:item.Station.st_id,
-                name: query.lang == 'th'? item.Station.station_name_th : item.Station.station_name_en
+                id: item.Station.st_id,
+                name: query.lang == 'th' ? item.Station.station_name_th : item.Station.station_name_en
             }
+            item['station_status'] = item.Station.station_status
+
+            delete item.Station
+            return item
+        })
+
+        let paramPagination: ParameterPagination = {
+            data: review,
+            page: +query.page,
+            limit: query.limit,
+            responseFrom: "DB",
+            totalItems: countReview
+        }
+
+        return pagination(paramPagination)
+    }
+
+    async getReviewRecently(query: FindReviewRecently) {
+
+        let countReview = await this.prismaService.checkin.count({})
+
+        let review = await this.prismaService.checkin.findMany({
+            select: {
+                comment: true,
+                power: true,
+                isCharge: true,
+                car_serve: true,
+                created_date: true,
+                Station: {
+                    select: {
+                        station_status: true,
+                        PlugMapping: {
+                            select: {
+                                PlugTypeMaster: {
+                                    select: {
+                                        p_title: true,
+                                        p_icon: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                ReviewImg: {
+                    select: {
+                        id_img: true,
+                        img_path: true
+                    }
+                },
+                User: {
+                    select: {
+                        uid: true,
+                        display_name: true,
+                        avatar: true,
+                        email: true
+                    }
+                }
+            },
+            skip: (+query.page - 1) * +query.limit,
+            take: +query.limit,
+            orderBy: {
+                created_date: "desc"
+            }
+
+        })
+
+        review = review.map((item) => {
+            item['plug_type'] = item.Station.PlugMapping.reduce((acc, cur) => {
+
+                acc = [...acc, cur.PlugTypeMaster]
+                acc = lodash.uniq(acc)
+
+                return acc
+            }, [])
             item['station_status'] = item.Station.station_status
 
             delete item.Station
@@ -356,12 +430,12 @@ export class ReviewService {
         })
 
 
-        let result = users.map((item)=>{
-            const findCountReview = topReview.find((countReview)=>(countReview.create_by == item.uid))
+        let result = users.map((item) => {
+            const findCountReview = topReview.find((countReview) => (countReview.create_by == item.uid))
 
             return {
-                countReview:findCountReview._count.create_by,
-                User:{
+                countReview: findCountReview._count.create_by,
+                User: {
                     ...item
                 }
             }
