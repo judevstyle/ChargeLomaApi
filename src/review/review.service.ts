@@ -266,6 +266,9 @@ export class ReviewService {
                 created_date:true,
                 Station: {
                     select: {
+                        st_id:true,
+                        station_name_th:true,
+                        station_name_en:true,
                         station_status: true,
                         PlugMapping: {
                             select: {
@@ -304,6 +307,11 @@ export class ReviewService {
 
                 return acc
             }, [])
+
+            item['station'] = {
+                id:item.Station.st_id,
+                name: query.lang == 'th'? item.Station.station_name_th : item.Station.station_name_en
+            }
             item['station_status'] = item.Station.station_status
 
             delete item.Station

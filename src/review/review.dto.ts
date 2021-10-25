@@ -41,4 +41,5 @@ export class FindReviewByUser{
     uid:string
     page:number = 1
     limit:number = 100
+    lang: string = 'th'
 }
