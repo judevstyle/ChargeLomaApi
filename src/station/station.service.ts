@@ -517,8 +517,35 @@ export class StationService {
   }
 
   async PostStationFilter(body: FindPostStationFilter) {
+    let count = await this.prismaService.station.count({
+      where: {
+        deleted: false,
+        OR: [
+          {
+            PlugMapping: {
+              some: {
+                p_mapping_id: {
+                  in: body.plug
+                }
+              }
+            }
+          },
+          {
+            ProviderMaster: {
+              pv_id: { in: body.provider }
+            }
+          },
+          {
+            station_status: { in: body.status }
+          }
+        ]
+
+      },
+    })
 
     let stations = await this.prismaService.station.findMany({
+      skip: (+body.page - 1) * +body.limit,
+      take: +body.limit,
       where: {
         deleted: false,
         OR: [
@@ -621,8 +648,18 @@ export class StationService {
       return item
     })
 
+    let paramPagination: ParameterPagination = {
+      data: stations,
+      page: +body.page,
+      limit: body.limit,
+      responseFrom: "DB",
+      totalItems: count
+    }
 
-    return stations
+    return pagination(paramPagination)
+
+
+    // return stations
   }
 
   async stationApprove(query: FindQuery) {

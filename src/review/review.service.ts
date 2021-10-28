@@ -391,8 +391,8 @@ export class ReviewService {
             }, [])
 
             item['station'] = {
-                id: item.Station.st_id,
-                name: query.lang == 'th' ? item.Station.station_name_th : item.Station.station_name_en
+                st_id: item.Station.st_id,
+                station_name: query.lang == 'th' ? item.Station.station_name_th : item.Station.station_name_en
             }
             item['station_status'] = item.Station.station_status
 

@@ -79,6 +79,8 @@ export class FindFilterQuery {
 
 export class FindPostStationFilter {
     lang: string = 'th'
+    page?: number = 1
+    limit?: number = 100
     plug: number[]
     provider: number[]
     status: number[]
