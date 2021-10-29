@@ -264,6 +264,12 @@ export class ReviewService {
                 isCharge: true,
                 car_serve: true,
                 created_date: true,
+                ReviewImg: {
+                    select: {
+                        id_img: true,
+                        img_path: true
+                    }
+                },
                 Station: {
                     select: {
                         st_id: true,
@@ -309,12 +315,13 @@ export class ReviewService {
             }, [])
 
             item['station'] = {
-                id: item.Station.st_id,
-                name: query.lang == 'th' ? item.Station.station_name_th : item.Station.station_name_en
+                st_id: item.Station.st_id,
+                station_name: query.lang == 'th' ? item.Station.station_name_th : item.Station.station_name_en
             }
             item['station_status'] = item.Station.station_status
 
             delete item.Station
+            
             return item
         })
 
