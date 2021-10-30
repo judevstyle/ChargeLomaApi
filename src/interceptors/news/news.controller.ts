@@ -1,7 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
+import { TransformInterceptor } from '../transform.interceptor';
 import { FindNews } from './news.dto';
 import { NewsService } from './news.service';
 
+@UseInterceptors(TransformInterceptor)
 @Controller('information')
 export class NewsController {
   constructor(private readonly newsService: NewsService) { }
