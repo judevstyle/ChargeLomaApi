@@ -12,6 +12,7 @@ import { FavoriteModule } from './favorite/favorite.module';
 import { ImageTicketModule } from './image-ticket/image-ticket.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { NewsModule } from './interceptors/news/news.module';
 @Module({
   imports: [
     PrismaModule, 
@@ -26,6 +27,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
