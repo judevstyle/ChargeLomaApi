@@ -456,6 +456,8 @@ export class ReviewService {
             }
         })
 
+        result = lodash.orderBy(result,"countReview",'desc')
+
         return result
     }
 }
