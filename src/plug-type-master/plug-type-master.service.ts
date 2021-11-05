@@ -54,6 +54,25 @@ export class PlugTypeMasterService {
     return plugTypeMaster;
   }
 
+  async plugTypeCategory() {
+
+    let plugTypeMaster = await this.prismaService.plugTypeMaster.findMany({ orderBy: { created_date: 'desc' }, where: { deleted: false } })
+
+    const result = plugTypeMaster.reduce((acc, cur) => {
+      if(cur.p_type == 'AC'){
+        acc.AC.push(cur)
+      }
+
+      if(cur.p_type == 'DC'){
+        acc.DC.push(cur)
+      }
+
+      return acc
+    }, { AC: [], DC: [] })
+
+    return result
+  }
+
   async findOne(id: number) {
     let plugTypeMaster = await this.prismaService.plugTypeMaster.findFirst({ where: { p_type_id: id, deleted: false } })
     return plugTypeMaster;

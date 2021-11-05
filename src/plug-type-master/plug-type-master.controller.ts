@@ -20,6 +20,10 @@ export class PlugTypeMasterController {
   findAll() {
     return this.plugTypeMasterService.findAll();
   }
+  @Get("plugTypeCategory")
+  plugTypeCategory() {
+    return this.plugTypeMasterService.plugTypeCategory();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
