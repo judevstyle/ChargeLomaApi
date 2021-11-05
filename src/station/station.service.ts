@@ -26,6 +26,7 @@ export class StationService {
       select: {
         station_name_th: true,
         station_name_en: true,
+        tel:true,
         station_img: true,
         st_id: true,
         addr_en: true,
@@ -157,6 +158,7 @@ export class StationService {
         addr_en: true,
         addr_th: true,
         type_service: true,
+        tel:true,
         lat: true,
         lng: true,
         is24hr: true,
