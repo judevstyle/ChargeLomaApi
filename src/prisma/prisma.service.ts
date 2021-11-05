@@ -1,6 +1,7 @@
 import { PrismaClient } from '.prisma/client';
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-
+import * as _ from 'lodash'
+import { removeDeleteRow } from 'src/helper/object';
 
 const prisma = new PrismaClient({})
 
@@ -85,9 +86,17 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
                 }
             }
 
-            return next(params)
+            let queryResult = await next(params);
+
+            console.log(queryResult);
+
+            queryResult = removeDeleteRow(queryResult)
+         
+            return queryResult
+            // return next(params)
         })
     }
+
 
     async onModuleDestroy() {
         await this.$disconnect();
