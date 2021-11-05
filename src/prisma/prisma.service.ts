@@ -4,6 +4,21 @@ import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
 const prisma = new PrismaClient({})
 
+const hasDeleteModel = [
+    "User",
+    "ImageTicket",
+    "Checkin",
+    "ReviewImg",
+    "ImageTicketBody",
+    "FavoriteStation",
+    "Station",
+    "StationDummy",
+    "ProviderMaster",
+    "PlugMapping",
+    "PlugMappingDummy",
+    "PlugTypeMaster"
+]
+
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
 
@@ -44,9 +59,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
             //     }
             //   }
 
-              if(!params.args.where?.deleted){
+            const checkHasDelete = hasDeleteModel.find((item) => (item == params.model))
+
+            if (!params.args.where?.deleted && checkHasDelete) {
                 params.args.where['deleted'] = false
-              }
+            }
 
             return next(params)
         })
