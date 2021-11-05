@@ -315,7 +315,7 @@ export class StationService {
     
     console.log("Create Before remove",objectCreateStation);
 
-    objectCreateStation = removeEmptyObjects(objectCreateStation)
+    // objectCreateStation = removeEmptyObjects(objectCreateStation)
 
     console.log("Create",objectCreateStation);
     
