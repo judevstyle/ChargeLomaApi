@@ -1128,7 +1128,7 @@ export class StationService {
         PlugMapping: {
           deleteMany: {
             p_mapping_id: {
-              in: idDelete
+              in: [...idDelete]
             }
           },
         }
