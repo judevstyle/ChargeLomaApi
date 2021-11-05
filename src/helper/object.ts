@@ -10,6 +10,9 @@ export const removeEmptyObjects = (obj:object) => {
 }
 
 export const removeDeleteRow = (obj:any) => {
+
+    console.log("Obj",obj);
+    
     
     if(typeof obj == 'object' && !Array.isArray(obj)){
         for(const [key,value] of Object.entries(obj)){
@@ -29,16 +32,16 @@ export const removeDeleteRow = (obj:any) => {
                 // }
             }else{
                 if(obj[key])
-                removeDeleteRow(obj[key])
+                obj[key] = removeDeleteRow(obj[key])
             }
         }
     }
     
-    // else{
-    //     if(obj && obj.hasOwnProperty("deleted") && obj['deleted'] == true){
-    //         return null
-    //     }
-    // }
+    else{
+        if(obj && obj.hasOwnProperty("deleted") && obj['deleted'] == true){
+            return null
+        }
+    }
 
     return obj
 

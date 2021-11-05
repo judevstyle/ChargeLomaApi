@@ -31,14 +31,15 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         await this.$connect();
 
         this.$use(async (params, next) => {
+            const checkDeleteModel = hasDeleteModel.find((item)=>item==params.model)
 
-            if (params.action == 'delete') {
+            if (params.action == 'delete' && checkDeleteModel) {
                 // Delete queries
                 // Change action to an update
                 params.action = 'update'
                 params.args['data'] = { deleted: true }
             }
-            if (params.action == 'deleteMany') {
+            if (params.action == 'deleteMany' && checkDeleteModel) {
                 // Delete many queries
                 params.action = 'updateMany'
                 if (params.args.data != undefined) {
@@ -66,7 +67,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
             //     params.args.where['deleted'] = false
             // }
 
-            if (params.action == 'findUnique' || params.action == 'findFirst') {
+            if ((params.action == 'findUnique' || params.action == 'findFirst') && checkDeleteModel) {
                 // Change to findFirst - you cannot filter
                 // by anything except ID / unique with findUnique
                 params.action = 'findFirst'
@@ -74,7 +75,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
                 // ID filter maintained
                 params.args.where['deleted'] = false
             }
-            if (params.action == 'findMany') {
+            if (params.action == 'findMany' && checkDeleteModel) {
                 // Find many queries
                 if (params.args.where != undefined) {
                     if (params.args.where.deleted == undefined) {
@@ -88,8 +89,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
             let queryResult = await next(params);
 
-            console.log(queryResult);
-
+            // console.log(queryResult);
+            if(queryResult)
             queryResult = removeDeleteRow(queryResult)
          
             return queryResult
