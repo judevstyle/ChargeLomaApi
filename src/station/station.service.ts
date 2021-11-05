@@ -1005,7 +1005,7 @@ export class StationService {
     let stations = await this.prismaService.station.findFirst({
       where: {
         st_id: id,
-        deleted: false
+        deleted: false,
       },
       include: {
         ProviderMaster: {
