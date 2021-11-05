@@ -61,8 +61,28 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
             const checkHasDelete = hasDeleteModel.find((item) => (item == params.model))
 
-            if (!params.args.where?.deleted && checkHasDelete && (params.action == 'findMany' || params.action == 'findFirst')) {
+            // if (!params.args.where?.deleted && checkHasDelete && (params.action == 'findMany' || params.action == 'findFirst')) {
+            //     params.args.where['deleted'] = false
+            // }
+
+            if (params.action == 'findUnique') {
+                // Change to findFirst - you cannot filter
+                // by anything except ID / unique with findUnique
+                params.action = 'findFirst'
+                // Add 'deleted' filter
+                // ID filter maintained
                 params.args.where['deleted'] = false
+            }
+            if (params.action == 'findMany') {
+                // Find many queries
+                if (params.args.where != undefined) {
+                    if (params.args.where.deleted == undefined) {
+                        // Exclude deleted records if they have not been expicitly requested
+                        params.args.where['deleted'] = false
+                    }
+                } else {
+                    params.args['where'] = { deleted: false }
+                }
             }
 
             return next(params)
