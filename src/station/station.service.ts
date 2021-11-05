@@ -1156,7 +1156,11 @@ export class StationService {
     console.log(objectUpdateStation.data);
 
     if (filterInsertPlugMapping.length > 0) {
-      objectUpdateStation.data.PlugMapping['createMany'] = insertPlugMap
+      objectUpdateStation.data['PlugMapping'] = {
+        createMany: {
+          data: filterInsertPlugMapping
+        }
+      }
     }
 
     if (updateStationDto.station_img) {
