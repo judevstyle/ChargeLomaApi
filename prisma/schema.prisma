@@ -109,36 +109,45 @@ model FavoriteStation {
 }
 
 model Station {
-  st_id             String            @id @default(uuid())
-  station_name_th   String
-  station_name_en   String?
-  station_desc      String?
-  addr_th           String?
-  addr_en           String?
-  lat               Float?
-  lng               Float?
-  type_service      String            @default("public")
-  is24hr            Boolean
-  servicetime_open  String?
-  servicetime_close String?
-  is_service_charge Boolean
-  service_rate      Float?
-  status_approve    String            @default("W")
-  status_msg        String?
-  station_status    Int               @default(1)
-  note              String?
-  power             Float?
-  created_date      DateTime          @default(now())
-  updated_date      DateTime          @default(now())
-  update_by         String?
-  create_by         String?
-  FavoriteStation   FavoriteStation[]
-  deleted           Boolean           @default(false)
-  Checkin           Checkin[]
-  PlugMapping       PlugMapping[]
-  pv_id             Int
-  station_img       String?
-  ProviderMaster    ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
+  st_id               String            @id @default(uuid())
+  station_name_th     String
+  station_name_en     String?
+  station_desc        String?
+  tel                 String?
+  addr_th             String?
+  addr_en             String?
+  lat                 Float?
+  lng                 Float?
+  type_service        String            @default("public")
+  is24hr              Boolean
+  servicetime_open    String?
+  servicetime_close   String?
+  is_service_charge   Boolean
+  is_service_parking  Boolean           @default(false)
+  is_service_food     Boolean           @default(false)
+  is_service_coffee   Boolean           @default(false)
+  is_service_restroom Boolean           @default(false)
+  is_service_shoping  Boolean           @default(false)
+  is_service_restarea Boolean           @default(false)
+  is_service_wifi     Boolean           @default(false)
+  is_service_other    Boolean           @default(false)
+  service_rate        Float?
+  status_approve      String            @default("W")
+  status_msg          String?
+  station_status      Int               @default(1)
+  note                String?
+  power               Float?
+  created_date        DateTime          @default(now())
+  updated_date        DateTime          @default(now())
+  update_by           String?
+  create_by           String?
+  FavoriteStation     FavoriteStation[]
+  deleted             Boolean           @default(false)
+  Checkin             Checkin[]
+  PlugMapping         PlugMapping[]
+  pv_id               Int
+  station_img         String?
+  ProviderMaster      ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
 
   ReviewImg ReviewImg[]
   @@map("station")
@@ -158,29 +167,38 @@ model News {
 }
 
 model StationDummy {
-  st_id             String   @id @default(uuid())
-  station_name_th   String
-  station_name_en   String?
-  station_desc      String?
-  addr_th           String?
-  addr_en           String?
-  lat               Float?
-  lng               Float?
-  type_service      String   @default("public")
-  is24hr            Boolean
-  servicetime_open  String?
-  servicetime_close String?
-  is_service_charge Boolean
-  service_rate      Float?
-  status_approve    String   @default("W")
-  status_msg        String?
-  station_status    Int      @default(1)
-  note              String?
-  power             Float?
-  created_date      DateTime @default(now())
-  updated_date      DateTime @default(now())
-  update_by         String?
-  create_by         String?
+  st_id               String   @id @default(uuid())
+  station_name_th     String
+  station_name_en     String?
+  station_desc        String?
+  addr_th             String?
+  addr_en             String?
+  lat                 Float?
+  lng                 Float?
+  type_service        String   @default("public")
+  is24hr              Boolean
+  servicetime_open    String?
+  servicetime_close   String?
+  is_service_charge   Boolean
+  is_service_parking  Boolean  @default(false)
+  is_service_food     Boolean  @default(false)
+  is_service_coffee   Boolean  @default(false)
+  is_service_restroom Boolean  @default(false)
+  is_service_shoping  Boolean  @default(false)
+  is_service_restarea Boolean  @default(false)
+  is_service_wifi     Boolean  @default(false)
+  is_service_other    Boolean  @default(false)
+  service_rate        Float?
+  status_approve      String   @default("W")
+  status_msg          String?
+  tel                 String?
+  station_status      Int      @default(1)
+  note                String?
+  power               Float?
+  created_date        DateTime @default(now())
+  updated_date        DateTime @default(now())
+  update_by           String?
+  create_by           String?
 
   edit_status      String             @default("wait")
   deleted          Boolean            @default(false)

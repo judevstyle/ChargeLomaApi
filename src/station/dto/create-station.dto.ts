@@ -28,6 +28,16 @@ export class CreateStationDto {
     PlugMapping: PlugMapping[]
     pv_id: number
     station_img: string
+
+    tel: string;
+    is_service_parking: boolean
+    is_service_food: boolean
+    is_service_coffee: boolean
+    is_service_restroom: boolean
+    is_service_shoping: boolean
+    is_service_restarea: boolean
+    is_service_wifi: boolean
+    is_service_other: boolean
 }
 
 export class StationNearby {

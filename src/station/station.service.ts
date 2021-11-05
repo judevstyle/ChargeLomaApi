@@ -291,6 +291,15 @@ export class StationService {
       status_approve: createStationDto.status_approve,
       status_msg: createStationDto.status_msg,
       station_status: createStationDto.station_status,
+      tel:createStationDto.tel,
+      is_service_parking: createStationDto.is_service_parking,
+      is_service_food: createStationDto.is_service_food,
+      is_service_coffee: createStationDto.is_service_coffee,
+      is_service_restroom: createStationDto.is_service_restroom,
+      is_service_shoping: createStationDto.is_service_shoping,
+      is_service_restarea: createStationDto.is_service_restarea,
+      is_service_wifi: createStationDto.is_service_wifi,
+      is_service_other: createStationDto.is_service_other,
       note: createStationDto.note,
       power: createStationDto.power,
       create_by: uid,
@@ -301,6 +310,8 @@ export class StationService {
         }
       },
     }
+
+    objectCreateStation = removeEmptyObjects(objectCreateStation)
 
     if (createStationDto.station_img) {
       try {
@@ -1121,6 +1132,15 @@ export class StationService {
         is_service_charge: updateStationDto.is_service_charge,
         service_rate: updateStationDto.service_rate,
         status_approve: updateStationDto.status_approve,
+        tel:updateStationDto.tel,
+        is_service_parking: updateStationDto.is_service_parking,
+        is_service_food: updateStationDto.is_service_food,
+        is_service_coffee: updateStationDto.is_service_coffee,
+        is_service_restroom: updateStationDto.is_service_restroom,
+        is_service_shoping: updateStationDto.is_service_shoping,
+        is_service_restarea: updateStationDto.is_service_restarea,
+        is_service_wifi: updateStationDto.is_service_wifi,
+        is_service_other: updateStationDto.is_service_other,
         status_msg: updateStationDto.status_msg,
         station_status: updateStationDto.station_status,
         update_by: uid,
