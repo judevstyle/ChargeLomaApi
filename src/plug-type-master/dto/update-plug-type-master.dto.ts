@@ -5,4 +5,5 @@ export class UpdatePlugTypeMasterDto {
     @IsNotEmpty()
     p_title: string;
     p_icon: string
+    p_type: "AC" | "DC"
 }

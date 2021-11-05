@@ -270,6 +270,7 @@ model PlugTypeMaster {
   updated_date     DateTime           @default(now())
   update_by        String?
   create_by        String?
+  p_type           String             @default("AC")
   PlugMapping      PlugMapping[]
   deleted          Boolean            @default(false)
   PlugMappingDummy PlugMappingDummy[]

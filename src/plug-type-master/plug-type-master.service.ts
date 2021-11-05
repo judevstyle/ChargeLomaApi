@@ -6,17 +6,19 @@ import { UpdatePlugTypeMasterDto } from './dto/update-plug-type-master.dto';
 import * as fileType from 'file-type'
 import * as fs from 'fs'
 import { join } from 'path';
+import { removeEmptyObjects } from 'src/helper/object';
 
 @Injectable()
 export class PlugTypeMasterService {
 
   constructor(private prismaService: PrismaService) { }
 
-  async create(uid:string,createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
+  async create(uid: string, createPlugTypeMasterDto: CreatePlugTypeMasterDto) {
 
     let objectCreatePlugTypeMaster: Prisma.PlugTypeMasterCreateInput = {
       p_title: createPlugTypeMasterDto.p_title,
-      create_by:uid
+      create_by: uid,
+      p_type: createPlugTypeMasterDto.p_type
     }
 
     if (createPlugTypeMasterDto.p_icon) {
@@ -57,12 +59,15 @@ export class PlugTypeMasterService {
     return plugTypeMaster;
   }
 
-  async update(uid:string,id: number, updatePlugTypeMasterDto: UpdatePlugTypeMasterDto) {
+  async update(uid: string, id: number, updatePlugTypeMasterDto: UpdatePlugTypeMasterDto) {
     let objectCreatePlugTypeMaster: Prisma.PlugTypeMasterUpdateInput = {
       p_title: updatePlugTypeMasterDto.p_title,
       updated_date: new Date(),
-      update_by:uid,
+      update_by: uid,
+      p_type: updatePlugTypeMasterDto.p_type
     }
+
+    objectCreatePlugTypeMaster = removeEmptyObjects(objectCreatePlugTypeMaster)
 
     if (updatePlugTypeMasterDto?.p_icon) {
 
@@ -76,7 +81,7 @@ export class PlugTypeMasterService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreatePlugTypeMaster.p_icon =process.env.API_URL +  "/plug_type_icon_img/" + nameFiles
+        objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/plug_type_icon_img/" + nameFiles
       } catch (error) {
         console.log(error);
 

@@ -5,4 +5,7 @@ export class CreatePlugTypeMasterDto {
     @IsDefined()
     p_title: string;
     p_icon: string
+    @IsNotEmpty()
+    @IsDefined()
+    p_type: "AC" | "DC"
 }

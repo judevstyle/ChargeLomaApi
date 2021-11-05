@@ -33,6 +33,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         this.$use(async (params, next) => {
             const checkDeleteModel = hasDeleteModel.find((item)=>item==params.model)
 
+            // console.log(params.model);
+            
+
             if (params.action == 'delete' && checkDeleteModel) {
                 // Delete queries
                 // Change action to an update
