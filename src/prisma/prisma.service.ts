@@ -65,13 +65,14 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
             //     params.args.where['deleted'] = false
             // }
 
-            if (params.action == 'findUnique') {
+            if (params.action == 'findUnique' || params.action == 'findFirst') {
                 // Change to findFirst - you cannot filter
                 // by anything except ID / unique with findUnique
                 params.action = 'findFirst'
                 // Add 'deleted' filter
                 // ID filter maintained
                 params.args.where['deleted'] = false
+                params.args.where['includeDeleted'] = false
             }
             if (params.action == 'findMany') {
                 // Find many queries
@@ -79,9 +80,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
                     if (params.args.where.deleted == undefined) {
                         // Exclude deleted records if they have not been expicitly requested
                         params.args.where['deleted'] = false
+                        params.args.where['includeDeleted'] = true
                     }
                 } else {
                     params.args['where'] = { deleted: false }
+                    params.args.where['includeDeleted'] = false
                 }
             }
 
