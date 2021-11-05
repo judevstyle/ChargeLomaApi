@@ -1089,6 +1089,9 @@ export class StationService {
 
     const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
 
+    console.log(idDelete);
+    
+
     const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
       qty: item.qty,
       p_type_id: item.p_type_id,
@@ -1139,6 +1142,8 @@ export class StationService {
       }
 
     }
+
+
 
     objectUpdateStation.data = removeEmptyObjects(objectUpdateStation.data)
 
