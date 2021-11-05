@@ -32,7 +32,7 @@ export const removeDeleteRow = (obj:any) => {
             }
         }
     }else{
-        if(obj.hasOwnProperty("deleted") && obj['deleted'] == true){
+        if(obj && obj.hasOwnProperty("deleted") && obj['deleted'] == true){
             return null
         }
     }
