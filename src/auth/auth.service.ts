@@ -25,6 +25,7 @@ export class AuthService {
                 tel: true,
                 avatar: true,
                 display_name: true,
+                car:true,
                 type_user: true
             }
 
@@ -45,6 +46,7 @@ export class AuthService {
                     uid: body.uid,
                     email: body.email,
                     display_name: body.display_name,
+                    car:body.car,
                     tel: body.tel,
                     type_user: 'user'
                 },
@@ -52,6 +54,7 @@ export class AuthService {
                     uid: true,
                     email: true,
                     tel: true,
+                    car:true,
                     avatar: true,
                     display_name: true,
                     type_user: true
@@ -102,6 +105,7 @@ export class AuthService {
                 // uid: body.uid,
                 email: body.email,
                 display_name: body.display_name,
+                car:body.car,
                 tel: body.tel
             },
             select: {
@@ -148,6 +152,7 @@ export class AuthService {
             where: { uid: uid },
             select: {
                 uid: true,
+                car:true,
                 email: true,
                 tel: true,
                 avatar: true,
@@ -166,6 +171,7 @@ export class AuthService {
             select: {
                 uid: true,
                 email: true,
+                car:true,
                 tel: true,
                 avatar: true,
                 display_name: true,

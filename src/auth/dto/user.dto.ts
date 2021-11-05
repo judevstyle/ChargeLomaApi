@@ -10,6 +10,7 @@ export class RegisterDTO {
     @IsNotEmpty()
     @IsDefined()
     email: string;
+    car:string;
     tel: string;
     avatar: string;
 }
@@ -22,6 +23,7 @@ export class LoginDTO {
 
 export class UpdateProfileDTO{
     display_name: string
+    car:string;
     email: string;
     tel: string;
     avatar: string;
