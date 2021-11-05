@@ -1144,9 +1144,12 @@ export class StationService {
     }
 
 
+    console.log(objectUpdateStation.data);
+    
 
     objectUpdateStation.data = removeEmptyObjects(objectUpdateStation.data)
 
+    console.log(objectUpdateStation.data);
 
     if (filterInsertPlugMapping.length > 0) {
       objectUpdateStation.data.PlugMapping.createMany = insertPlugMap
