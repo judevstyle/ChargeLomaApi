@@ -1090,7 +1090,7 @@ export class StationService {
     const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
 
     console.log(idDelete);
-    
+
 
     const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
       qty: item.qty,
@@ -1125,13 +1125,13 @@ export class StationService {
         note: updateStationDto.note,
         power: updateStationDto.power,
         pv_id: updateStationDto.pv_id,
-        PlugMapping: {
-          deleteMany: {
-            p_mapping_id: {
-              in: [...idDelete]
-            }
-          },
-        }
+        // PlugMapping: {
+        //   deleteMany: {
+        //     p_mapping_id: {
+        //       in: [...idDelete]
+        //     }
+        //   },
+        // }
       },
       where: {
         st_id: id
@@ -1143,9 +1143,13 @@ export class StationService {
 
     }
 
+    if (idDelete.length > 0) {
+      await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+    }
+
 
     console.log(objectUpdateStation.data);
-    
+
 
     objectUpdateStation.data = removeEmptyObjects(objectUpdateStation.data)
 
