@@ -312,8 +312,13 @@ export class StationService {
         }
       },
     }
+    
+    console.log("Create Before remove",objectCreateStation);
 
     objectCreateStation = removeEmptyObjects(objectCreateStation)
+
+    console.log("Create",objectCreateStation);
+    
 
     if (createStationDto.station_img) {
       try {
