@@ -308,7 +308,10 @@ export class StationService {
       pv_id: createStationDto.pv_id,
       PlugMapping: {
         createMany: {
-          data: createStationDto.PlugMapping
+          data: createStationDto.PlugMapping.map((item)=>{
+            delete item.del
+            return item
+          })
         }
       },
     }
