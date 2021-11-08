@@ -26,7 +26,7 @@ export class StationService {
       select: {
         station_name_th: true,
         station_name_en: true,
-        tel:true,
+        tel: true,
         station_img: true,
         st_id: true,
         addr_en: true,
@@ -96,7 +96,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -158,7 +159,7 @@ export class StationService {
         addr_en: true,
         addr_th: true,
         type_service: true,
-        tel:true,
+        tel: true,
         lat: true,
         lng: true,
         is24hr: true,
@@ -250,7 +251,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -293,7 +295,7 @@ export class StationService {
       // status_approve: createStationDto.status_approve,
       // status_msg: createStationDto.status_msg,
       station_status: createStationDto.station_status,
-      tel:createStationDto.tel,
+      tel: createStationDto.tel,
       is_service_parking: createStationDto.is_service_parking,
       is_service_food: createStationDto.is_service_food,
       is_service_coffee: createStationDto.is_service_coffee,
@@ -308,20 +310,20 @@ export class StationService {
       pv_id: createStationDto.pv_id,
       PlugMappingDummy: {
         createMany: {
-          data: createStationDto.PlugMapping.map((item)=>{
+          data: createStationDto.PlugMapping.map((item) => {
             delete item.del
             return item
           })
         }
       },
     }
-    
-    console.log("Create Before remove",objectCreateStation);
+
+    console.log("Create Before remove", objectCreateStation);
 
     // objectCreateStation = removeEmptyObjects(objectCreateStation)
 
-    console.log("Create",objectCreateStation);
-    
+    console.log("Create", objectCreateStation);
+
 
     if (createStationDto.station_img) {
       try {
@@ -422,7 +424,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -513,7 +516,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -657,7 +661,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -761,7 +766,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -863,7 +869,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -966,7 +973,8 @@ export class StationService {
         return acc
       }, 0)
 
-      if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      // if (numIsChargeTrue + numIsChargeFalse < 5 || !item.Checkin) {
+      if (!item.Checkin) {
         item['rating'] = 0
       } else {
         item['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
@@ -1041,8 +1049,8 @@ export class StationService {
         },
         Checkin: true,
         PlugMapping: {
-          where:{
-            deleted:false,
+          where: {
+            deleted: false,
           },
           select: {
             p_mapping_id: true,
@@ -1142,7 +1150,7 @@ export class StationService {
         is_service_charge: updateStationDto.is_service_charge,
         service_rate: updateStationDto.service_rate,
         status_approve: updateStationDto.status_approve,
-        tel:updateStationDto.tel,
+        tel: updateStationDto.tel,
         is_service_parking: updateStationDto.is_service_parking,
         is_service_food: updateStationDto.is_service_food,
         is_service_coffee: updateStationDto.is_service_coffee,

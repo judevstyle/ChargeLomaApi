@@ -4,6 +4,9 @@ export class PostImageTicket {
     @IsDefined()
     img: Image[]
     status_msg: string = ""
+    @IsNotEmpty()
+    @IsDefined()
+    st_id:string
 }
 
 export class Image {

@@ -20,13 +20,14 @@ export class ImageTicketService {
             data: {
                 status_approve: "W",
                 uid: uid,
-                create_by:uid,
+                create_by: uid,
+                st_id: body.st_id,
                 status_msg: body.status_msg,
                 ticket_no: `${getFolderDate()}${pad(runningTicket, 3)}`,
                 ImageTicketBody: { createMany: { data: [] } }
             },
-            include:{
-                ImageTicketBody:true
+            include: {
+                ImageTicketBody: true
             }
         }
 
@@ -44,7 +45,7 @@ export class ImageTicketService {
                 let nameFiles = `${Date.now()}_imageTicket.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
                 images.push({
-                    img_path: process.env.API_URL + "/image_ticket_img/" +nameFiles
+                    img_path: process.env.API_URL + "/image_ticket_img/" + nameFiles
                 })
                 // objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/review_img/" + nameFiles
             } catch (error) {

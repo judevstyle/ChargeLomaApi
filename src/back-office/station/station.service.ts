@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUpdateStationDto, FindAll } from '../dto/station.dto';
 import * as lodash from 'lodash'
@@ -309,6 +309,156 @@ export class StationService {
 
         return stations
     }
+
+    async approveStationDummy(st_id: string) {
+        let stationDummy = await this.prismaService.stationDummy.findFirst({
+            where: {
+                st_id: st_id,
+                status_approve: 'W',
+                deleted: false,
+            },
+            include: {
+                ProviderMaster: {
+                    select: {
+                        pv_id: true,
+                        logo_label: true,
+                        shortname: true,
+                        name: true,
+                        desv: true,
+
+                        icon: true
+                    }
+                },
+                // Checkin: true,
+                PlugMappingDummy: {
+                    where: {
+                        deleted: false,
+                    },
+                    select: {
+                        p_mapping_id: true,
+                        p_type_id: true,
+                        qty: true,
+                        power: true,
+                        // PlugTypeMaster: {
+                        //     select: {
+                        //         p_title: true,
+                        //         p_icon: true,
+                        //         p_type_id: true
+                        //     }
+                        // }
+                    }
+                }
+            }, orderBy: { created_date: "desc" }
+        })
+
+
+        if (stationDummy) {
+            let createStationObject: Prisma.StationCreateArgs = {
+                data: {
+                    station_name_th: stationDummy.station_name_th,
+                    station_name_en: stationDummy.station_name_en,
+                    station_desc: stationDummy.station_desc,
+                    addr_th: stationDummy.addr_th,
+                    addr_en: stationDummy.addr_en,
+                    lat: stationDummy.lat,
+                    lng: stationDummy.lng,
+                    type_service: stationDummy.type_service,
+                    is24hr: stationDummy.is24hr,
+                    servicetime_open: stationDummy.servicetime_open,
+                    servicetime_close: stationDummy.servicetime_close,
+                    is_service_charge: stationDummy.is_service_charge,
+                    service_rate: stationDummy.service_rate,
+                    status_approve: 'S',
+                    status_msg: stationDummy.status_msg,
+                    station_status: stationDummy.station_status,
+                    tel: stationDummy.tel,
+                    is_service_parking: stationDummy.is_service_parking,
+                    is_service_food: stationDummy.is_service_food,
+                    is_service_coffee: stationDummy.is_service_coffee,
+                    is_service_restroom: stationDummy.is_service_restroom,
+                    is_service_shoping: stationDummy.is_service_shoping,
+                    is_service_restarea: stationDummy.is_service_restarea,
+                    is_service_wifi: stationDummy.is_service_wifi,
+                    is_service_other: stationDummy.is_service_other,
+                    note: stationDummy.note,
+                    power: stationDummy.power,
+                    create_by: stationDummy.create_by,
+                    pv_id: stationDummy.pv_id,
+                    PlugMapping: {
+                        createMany: {
+                            data: stationDummy.PlugMappingDummy.map((item) => {
+                                item.power = item.power.toString()
+                                return item
+                            })
+                        }
+                    },
+                }
+            }
+
+            let createStation = await this.prismaService.station.create(createStationObject)
+
+            await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S" } })
+
+            return createStation
+
+        } else {
+            throw new NotFoundException("ไม่พบ Station Request")
+        }
+    }
+
+    async rejectStationDummy(st_id: string) {
+        let stationDummy = await this.prismaService.stationDummy.findFirst({
+            where: {
+                st_id: st_id,
+                status_approve: 'W',
+                deleted: false,
+            },
+            include: {
+                ProviderMaster: {
+                    select: {
+                        pv_id: true,
+                        logo_label: true,
+                        shortname: true,
+                        name: true,
+                        desv: true,
+
+                        icon: true
+                    }
+                },
+                // Checkin: true,
+                PlugMappingDummy: {
+                    where: {
+                        deleted: false,
+                    },
+                    select: {
+                        p_mapping_id: true,
+                        p_type_id: true,
+                        qty: true,
+                        power: true,
+                        PlugTypeMaster: {
+                            select: {
+                                p_title: true,
+                                p_icon: true,
+                                p_type_id: true
+                            }
+                        }
+                    }
+                }
+            }, orderBy: { created_date: "desc" }
+        })
+
+
+        if (stationDummy) {
+
+            let update = await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "F" } })
+
+            return update
+
+        } else {
+            throw new NotFoundException("ไม่พบ Station Request")
+        }
+    }
+
 
     async update(id: string, updateStationDto: CreateUpdateStationDto) {
 

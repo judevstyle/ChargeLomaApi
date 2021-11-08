@@ -10,6 +10,7 @@ import { CreateUpdateProviderMasterDto } from './dto/provider-master.dto';
 import { RegisterBackOfficeDTO } from './dto/register-back-office.dto';
 import { CreateUpdateStationDto, FindAll } from './dto/station.dto';
 import { UpdateBackOfficeDto } from './dto/update-back-office.dto';
+import { ImageTicketService } from './image-ticket/image-ticket.service';
 import { MemberService } from './member/member.service';
 import { NewsService } from './news/news.service';
 import { PlugTypeMasterService } from './plug-type-master/plug-type-master.service';
@@ -26,6 +27,7 @@ export class BackOfficeController {
     private readonly plugTypeMasterService: PlugTypeMasterService,
     private readonly newsService: NewsService,
     private readonly memberService: MemberService,
+    private readonly imageTicketService: ImageTicketService,
   ) { }
 
   // Auth
@@ -96,6 +98,18 @@ export class BackOfficeController {
     return this.stationService.findOneDummy(id);
   }
 
+  @UseGuards(AuthGuard(['superadmin']))
+  @Put('station-dummy/approve/:id')
+  approveStationDummy(@Param('id') id: string) {
+    return this.stationService.approveStationDummy(id);
+  }
+
+  @UseGuards(AuthGuard(['superadmin']))
+  @Put('station-dummy/reject/:id')
+  rejectStationDummy(@Param('id') id: string) {
+    return this.stationService.rejectStationDummy(id);
+  }
+
   @Put('station/:id')
   @UseGuards(AuthGuard(['user']))
   updateStation(@Param('id') id: string, @Body() updateStationDto: CreateUpdateStationDto, @Request() req) {
@@ -113,6 +127,33 @@ export class BackOfficeController {
   // End Staion
 
 
+  // Ticket Image Request
+
+  @UseGuards(AuthGuard(['superadmin']))
+  @Get('ticket-image-request')
+  getTicketImageRequest(@Request() req, @Query() query: FindAll) {
+    const USER = req.user
+    return this.imageTicketService.findAllTicketImageRequest();
+  }
+
+  @UseGuards(AuthGuard(['superadmin']))
+  @Get('ticket-image-request/:id')
+  getOneTicketImageRequest(@Param('id') id: string) {
+    // const USER = req.user
+    return this.imageTicketService.findOne(+id);
+  }
+
+  @UseGuards(AuthGuard(['superadmin']))
+  @Put('ticket-image-request/approve/:id')
+  approveTicketImageRequestDummy(@Param('id') id: string) {
+    return this.imageTicketService.approveTicketImage(+id);
+  }
+
+  @UseGuards(AuthGuard(['superadmin']))
+  @Put('ticket-image-request/reject/:id')
+  rejectTicketImageRequestDummy(@Param('id') id: string) {
+    return this.imageTicketService.rejectTicketImage(+id);
+  }
 
   // Provider Master
 
