@@ -290,8 +290,8 @@ export class StationService {
       servicetime_close: createStationDto.servicetime_close,
       is_service_charge: createStationDto.is_service_charge,
       service_rate: createStationDto.service_rate,
-      status_approve: createStationDto.status_approve,
-      status_msg: createStationDto.status_msg,
+      // status_approve: createStationDto.status_approve,
+      // status_msg: createStationDto.status_msg,
       station_status: createStationDto.station_status,
       tel:createStationDto.tel,
       is_service_parking: createStationDto.is_service_parking,
@@ -306,7 +306,7 @@ export class StationService {
       power: createStationDto.power,
       create_by: uid,
       pv_id: createStationDto.pv_id,
-      PlugMapping: {
+      PlugMappingDummy: {
         createMany: {
           data: createStationDto.PlugMapping.map((item)=>{
             delete item.del
@@ -341,10 +341,10 @@ export class StationService {
 
     }
 
-    let station = await this.prismaService.station.create({
+    let station = await this.prismaService.stationDummy.create({
       data: objectCreateStation,
       include: {
-        PlugMapping: true,
+        PlugMappingDummy: true,
         ProviderMaster: true
       }
     })

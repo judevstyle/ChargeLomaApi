@@ -13,6 +13,7 @@ import { ImageTicketModule } from './image-ticket/image-ticket.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { NewsModule } from './interceptors/news/news.module';
+import { BackOfficeModule } from './back-office/back-office.module';
 @Module({
   imports: [
     PrismaModule, 
@@ -28,6 +29,7 @@ import { NewsModule } from './interceptors/news/news.module';
       rootPath: join(__dirname, '..', 'public'),
     }),
     NewsModule,
+    BackOfficeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

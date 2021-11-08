@@ -61,8 +61,6 @@ model Checkin {
   create_by         String
   ReviewImg         ReviewImg[]
   deleted           Boolean       @default(false)
-  StationDummy      StationDummy? @relation(fields: [stationDummySt_id], references: [st_id])
-  stationDummySt_id String?
   User              User          @relation(fields: [create_by], references: [uid])
 
   @@map("checkin")
@@ -195,6 +193,7 @@ model StationDummy {
   tel                 String?
   station_status      Int      @default(1)
   note                String?
+  station_img         String?
   power               Float?
   created_date        DateTime @default(now())
   updated_date        DateTime @default(now())
@@ -203,7 +202,6 @@ model StationDummy {
 
   edit_status      String             @default("wait")
   deleted          Boolean            @default(false)
-  Checkin          Checkin[]
   PlugMappingDummy PlugMappingDummy[]
   pv_id            Int
   ProviderMaster   ProviderMaster     @relation(fields: [pv_id], references: [pv_id])
@@ -276,4 +274,11 @@ model PlugTypeMaster {
   PlugMappingDummy PlugMappingDummy[]
 
   @@map("plug_type_master")
+}
+
+model SuperAdmin {
+  super_admin_id Int      @id @default(autoincrement())
+  username       String
+  password       String
+  created_date   DateTime @default(now())
 }

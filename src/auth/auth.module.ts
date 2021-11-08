@@ -6,9 +6,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UserJwtStrategy } from './user-jwt.strategy';
 import { AdminJwtStrategy } from './admin-jwt.strategy';
+import { SuperAdminJwtStrategy } from './superadmin-jwt.strategy';
 
 @Module({
-  providers: [AuthService, UserJwtStrategy,AdminJwtStrategy],
+  providers: [AuthService, UserJwtStrategy,AdminJwtStrategy,SuperAdminJwtStrategy],
   controllers: [AuthController],
   imports: [
     PassportModule,
