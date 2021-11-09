@@ -574,17 +574,16 @@ export class StationService {
       take: +body.limit,
       where: {
         deleted: false,
-        OR: [
-          {
-            PlugMapping: {
-              some: {
-                p_mapping_id: {
-                  in: body.plug
-                }
-              }
+
+        PlugMapping: {
+          some: {
+            p_type_id: {
+              in: body.plug
             }
           }
-        ],
+        }
+
+        ,
         AND: [
           {
             pv_id: { in: body.plug }
