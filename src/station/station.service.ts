@@ -556,17 +556,16 @@ export class StationService {
             }
           }
         ],
-        AND:[
+        AND: [
           {
-            ProviderMaster: {
-              pv_id: { in: body.provider }
-            }
+            pv_id: { in: body.plug }
+
           },
           {
             station_status: { in: body.status }
           }
         ]
-        
+
       },
     })
 
