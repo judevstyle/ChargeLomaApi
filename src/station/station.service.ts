@@ -554,7 +554,9 @@ export class StationService {
                 }
               }
             }
-          },
+          }
+        ],
+        AND:[
           {
             ProviderMaster: {
               pv_id: { in: body.provider }
@@ -564,7 +566,7 @@ export class StationService {
             station_status: { in: body.status }
           }
         ]
-
+        
       },
     })
 
