@@ -549,7 +549,7 @@ export class StationService {
           {
             PlugMapping: {
               some: {
-                p_mapping_id: {
+                p_type_id: {
                   in: body.plug
                 }
               }
