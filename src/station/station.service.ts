@@ -545,20 +545,20 @@ export class StationService {
     let count = await this.prismaService.station.count({
       where: {
         deleted: false,
-        // OR: [
-        //   {
-        //     PlugMapping: {
-        //       some: {
-        //         p_type_id: {
-        //           in: body.plug
-        //         }
-        //       }
-        //     }
-        //   }
-        // ],
+       // OR: [
+          // {
+          //   PlugMapping: {
+          //     some: {
+          //       p_mapping_id: {
+          //         in: body.plug
+          //       }
+          //     }
+          //   }
+          // }
+    //    ],
         AND: [
           {
-            pv_id: { in: body.plug }
+            pv_id: { in: body.provider }
 
           },
           {
@@ -587,7 +587,7 @@ export class StationService {
         // ],
         AND: [
           {
-            pv_id: { in: body.plug }
+            pv_id: { in: body.provider }
 
           },
           {
