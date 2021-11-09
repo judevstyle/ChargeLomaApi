@@ -560,16 +560,24 @@ export class StationService {
       }
     ))
 
+    let plugSearch = body.plug.map((item) => {
+      return {
+        p_type_id: {
+          equals: item
+        }
+      }
+    })
+
     let count = await this.prismaService.station.count({
-         where: {
+      where: {
         deleted: false,
         OR: [
           {
             PlugMapping: {
               some: {
-                p_type_id: {
-                  in: body.plug
-                }
+                AND:[
+                  ...plugSearch
+                ]
               }
             }
           },
@@ -587,9 +595,9 @@ export class StationService {
           {
             PlugMapping: {
               some: {
-                p_type_id: {
-                  in: body.plug
-                }
+                AND:[
+                  ...plugSearch
+                ]
               }
             }
           },
