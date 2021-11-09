@@ -542,32 +542,6 @@ export class StationService {
   }
 
   async PostStationFilter(body: FindPostStationFilter) {
-
-
-    let providerSearchID: Prisma.StationWhereInput[] = body.provider.map((item) => (
-      {
-        pv_id: {
-          equals: item
-        }
-      }
-    ))
-
-    let statusSearch: Prisma.StationWhereInput[] = body.status.map((item) => (
-      {
-        station_status: {
-          equals: item
-        }
-      }
-    ))
-
-    let plugSearch = body.plug.map((item) => {
-      return {
-        p_type_id: {
-          equals: item
-        }
-      }
-    })
-
     let count = await this.prismaService.station.count({
       where: {
         deleted: false,
@@ -575,14 +549,23 @@ export class StationService {
           {
             PlugMapping: {
               some: {
-                AND:[
-                  ...plugSearch
-                ]
+                p_mapping_id: {
+                  in: body.plug
+                }
               }
             }
-          },
+          }
         ],
-        AND: [...providerSearchID, ...statusSearch]
+        AND: [
+          {
+            pv_id: { in: body.plug }
+
+          },
+          {
+            station_status: { in: body.status }
+          }
+        ]
+
       },
     })
 
@@ -595,14 +578,23 @@ export class StationService {
           {
             PlugMapping: {
               some: {
-                AND:[
-                  ...plugSearch
-                ]
+                p_type_id: {
+                  in: body.plug
+                }
               }
             }
-          },
+          }
         ],
-        AND: [...providerSearchID, ...statusSearch]
+        AND: [
+          {
+            pv_id: { in: body.plug }
+
+          },
+          {
+            station_status: { in: body.status }
+          }
+        ]
+
       },
       include: {
         ProviderMaster: {
