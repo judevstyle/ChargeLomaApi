@@ -11,8 +11,20 @@ export class NewsService {
     constructor(private readonly prismaService: PrismaService) { }
 
 
-    async findAll() {
-        return this.prismaService.news.findMany({ orderBy: { created_date: 'desc' } })
+    async findAll(search: string) {
+        return this.prismaService.news.findMany({
+            where: {
+                OR: [
+                    {
+                        title: { contains: search }
+                    },
+                    {
+                        desc:{contains:search}
+                    }
+                ]
+            },
+            orderBy: { created_date: 'desc' }
+        })
     }
 
     async findOne(id: number) {

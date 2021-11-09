@@ -14,7 +14,22 @@ export class StationService {
 
     async findAll(query: FindAll) {
         let stations = await this.prismaService.station.findMany({
-            where: { deleted: false },
+            where: {
+                OR: [
+                    {
+                        st_id: { contains: query.search }
+                    },
+                    {
+                        station_name_en: { contains: query.search }
+                    },
+                    {
+                        station_name_th: { contains: query.search }
+                    },
+
+                ],
+                deleted: false,
+
+            },
             include: {
                 ProviderMaster: {
                     select: {
@@ -99,7 +114,20 @@ export class StationService {
 
     async findAllDummy(query: FindAll) {
         let stations = await this.prismaService.stationDummy.findMany({
-            where: { deleted: false },
+            where: { deleted: false ,
+                OR: [
+                    {
+                        st_id: { contains: query.search }
+                    },
+                    {
+                        station_name_en: { contains: query.search }
+                    },
+                    {
+                        station_name_th: { contains: query.search }
+                    },
+
+                ],
+            },
             include: {
                 ProviderMaster: {
                     select: {

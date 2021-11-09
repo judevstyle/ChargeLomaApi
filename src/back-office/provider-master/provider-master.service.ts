@@ -10,15 +10,15 @@ import { CreateUpdateProviderMasterDto } from '../dto/provider-master.dto';
 
 @Injectable()
 export class ProviderMasterService {
-    constructor(private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) { }
 
   async create(createProviderMasterDto: CreateUpdateProviderMasterDto) {
 
     let objectCreateProviderMaster: Prisma.ProviderMasterCreateInput = {
       name: createProviderMasterDto.name,
       desv: createProviderMasterDto.desv,
-      shortname:createProviderMasterDto.shortname,
-    //   create_by:uid
+      shortname: createProviderMasterDto.shortname,
+      //   create_by:uid
     }
 
     objectCreateProviderMaster = removeEmptyObjects(objectCreateProviderMaster)
@@ -67,8 +67,18 @@ export class ProviderMasterService {
     return providerMaster
   }
 
-  async findAll() {
-    const providerMaster = await this.prismaService.providerMaster.findMany({ orderBy: { created_date: 'desc' }, where: { deleted: false } })
+  async findAll(search: string) {
+    const providerMaster = await this.prismaService.providerMaster.findMany({
+      where: {
+        OR: [
+          {
+            name: { contains: search },
+            desv: { contains: search }
+          }
+        ]
+      },
+      orderBy: { created_date: 'desc' }
+    })
     return providerMaster
   }
 
@@ -81,9 +91,9 @@ export class ProviderMasterService {
     let objectCreateProviderMaster: Prisma.ProviderMasterUpdateInput = {
       name: updateProviderMasterDto.name,
       desv: updateProviderMasterDto.desv,
-      shortname:updateProviderMasterDto.shortname,
-    //   update_by:uid,
-      updated_date:new Date()
+      shortname: updateProviderMasterDto.shortname,
+      //   update_by:uid,
+      updated_date: new Date()
     }
 
     objectCreateProviderMaster = removeEmptyObjects(objectCreateProviderMaster)
@@ -94,7 +104,7 @@ export class ProviderMasterService {
         let strImage = updateProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
         let buff = Buffer.from(strImage, 'base64');
 
-        let pathFolder = join(__dirname, '..','..', '..', 'public', "provider_icon_img")
+        let pathFolder = join(__dirname, '..', '..', '..', 'public', "provider_icon_img")
 
         let getfileType = await fileType.fromBuffer(buff)
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
@@ -114,7 +124,7 @@ export class ProviderMasterService {
         let strImage = updateProviderMasterDto.logo_label.replace(/^data:image\/[a-z]+;base64,/, "");
         let buff = Buffer.from(strImage, 'base64');
 
-        let pathFolder = join(__dirname, '..','..', '..', 'public', "logo_label_img")
+        let pathFolder = join(__dirname, '..', '..', '..', 'public', "logo_label_img")
 
         let getfileType = await fileType.fromBuffer(buff)
         let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;

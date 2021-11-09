@@ -11,12 +11,12 @@ export const removeEmptyObjects = (obj:object) => {
 
 export const removeDeleteRow = (obj:any) => {
 
-    console.log("Obj",obj);
+    // console.log("Obj",obj);
     
     
     if(typeof obj == 'object' && !Array.isArray(obj)){
         for(const [key,value] of Object.entries(obj)){
-            console.log(key);
+            // console.log(key);
             
             if(Array.isArray(obj[key])){
                 obj[key] = obj[key].filter((item)=>{

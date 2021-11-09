@@ -5,10 +5,26 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class MemberService {
     constructor(private readonly prismaService: PrismaService) { }
 
-    findAllMember() {
+    findAllMember(search: string) {
         return this.prismaService.user.findMany({
-            orderBy:{
-                created_date:'desc',
+            where: {
+                OR: [
+                    {
+                        uid: { contains: search }
+                    },
+                    {
+                        display_name: { contains: search }
+                    },
+                    {
+                        email: { contains: search }
+                    },
+                    {
+                        tel: { contains: search }
+                    }
+                ]
+            },
+            orderBy: {
+                created_date: 'desc',
             },
             select: {
                 uid: true,
@@ -18,7 +34,7 @@ export class MemberService {
                 email: true,
                 car: true,
                 avatar: true,
-                created_date:true,
+                created_date: true,
             }
         })
     }

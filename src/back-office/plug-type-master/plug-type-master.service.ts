@@ -48,8 +48,17 @@ export class PlugTypeMasterService {
         return plugTypeMaster;
     }
 
-    async findAll() {
-        let plugTypeMaster = await this.prismaService.plugTypeMaster.findMany({ orderBy: { created_date: 'desc' }, where: { deleted: false } })
+    async findAll(search: string = "") {
+        let plugTypeMaster = await this.prismaService.plugTypeMaster.findMany({
+            where: {
+                OR: [
+                    {
+                        p_title: { contains: search }
+                    },
+                ]
+            },
+            orderBy: { created_date: 'desc' },
+        })
         return plugTypeMaster;
     }
 

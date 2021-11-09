@@ -5,8 +5,15 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ImageTicketService {
     constructor(private readonly prismaService: PrismaService) { }
 
-    async findAllTicketImageRequest() {
+    async findAllTicketImageRequest(search: string = "") {
         return this.prismaService.imageTicket.findMany({
+            where: {
+                OR: [
+                    {
+                        ticket_no: { contains: search }
+                    }
+                ]
+            },
             orderBy: { created_date: "desc" },
             include: {
                 ImageTicketBody: {

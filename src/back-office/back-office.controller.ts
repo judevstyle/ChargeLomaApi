@@ -133,7 +133,7 @@ export class BackOfficeController {
   @Get('ticket-image-request')
   getTicketImageRequest(@Request() req, @Query() query: FindAll) {
     const USER = req.user
-    return this.imageTicketService.findAllTicketImageRequest();
+    return this.imageTicketService.findAllTicketImageRequest(query.search);
   }
 
   @UseGuards(AuthGuard(['superadmin']))
@@ -159,9 +159,9 @@ export class BackOfficeController {
 
   @UseGuards(AuthGuard(['superadmin']))
   @Get('provider-master')
-  getProviderMasterAll(@Request() req) {
+  getProviderMasterAll(@Request() req, @Query('search') search: string) {
     const USER = req.user
-    return this.providerMasterService.findAll();
+    return this.providerMasterService.findAll(search);
   }
 
 
@@ -201,9 +201,9 @@ export class BackOfficeController {
 
   @UseGuards(AuthGuard(['superadmin']))
   @Get('plug-type-master')
-  getPlugTypeMasterAll(@Request() req) {
+  getPlugTypeMasterAll(@Request() req, @Query('search') search: string) {
     const USER = req.user
-    return this.plugTypeMasterService.findAll();
+    return this.plugTypeMasterService.findAll(search);
   }
 
 
@@ -241,9 +241,9 @@ export class BackOfficeController {
 
   @UseGuards(AuthGuard(['superadmin']))
   @Get('news')
-  getNewsAll(@Request() req) {
+  getNewsAll(@Request() req, @Query('search') search: string) {
     const USER = req.user
-    return this.newsService.findAll();
+    return this.newsService.findAll(search);
   }
 
 
@@ -279,9 +279,9 @@ export class BackOfficeController {
 
   @UseGuards(AuthGuard(['superadmin']))
   @Get('member')
-  getMember(@Request() req) {
+  getMember(@Request() req, @Query('search') search: string) {
     const USER = req.user
-    return this.memberService.findAllMember();
+    return this.memberService.findAllMember(search);
   }
 
 
