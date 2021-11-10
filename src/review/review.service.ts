@@ -210,6 +210,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
+                        car:true,
                         email: true
                     }
                 }
@@ -293,6 +294,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
+                        car:true,
                         email: true
                     }
                 }
@@ -376,6 +378,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
+                        car:true,
                         email: true
                     }
                 }
@@ -440,6 +443,7 @@ export class ReviewService {
                 uid: true,
                 display_name: true,
                 avatar: true,
+                car:true,
                 email: true
             }
         })
