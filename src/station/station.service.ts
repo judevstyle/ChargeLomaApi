@@ -1065,6 +1065,7 @@ export class StationService {
             power: true,
             PlugTypeMaster: {
               select: {
+                p_type_id:true,
                 p_title: true,
                 p_icon: true
               }
