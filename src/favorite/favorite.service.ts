@@ -115,7 +115,8 @@ export class FavoriteService {
                 return acc
             }, 0)
 
-            if (numIsChargeTrue + numIsChargeFalse < 5 || !station.Checkin) {
+            // if (numIsChargeTrue + numIsChargeFalse < 5 || !station.Checkin) {
+            if (!station.Checkin) {
                 station['rating'] = 0
             } else {
                 station['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10

@@ -1106,7 +1106,8 @@ export class StationService {
       return acc
     }, 0)
 
-    if (numIsChargeTrue + numIsChargeFalse < 5 || !stations.Checkin) {
+    // if (numIsChargeTrue + numIsChargeFalse < 5 || !stations.Checkin) {
+    if (!stations.Checkin) {
       stations['rating'] = 0
     } else {
       stations['rating'] = (numIsChargeTrue / (numIsChargeTrue + numIsChargeFalse)) * 10
