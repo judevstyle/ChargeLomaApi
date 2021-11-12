@@ -1124,7 +1124,7 @@ export class StationService {
 
   async update(uid: string, id: string, updateStationDto: CreateStationDto) {
 
-    let stationCheck = await this.prismaService.station.findFirst({ where: { st_id: id } })
+    let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id } })
 
     if (!stationCheck) throw new BadRequestException("station Not found")
 
@@ -1133,17 +1133,17 @@ export class StationService {
     console.log(idDelete);
 
 
-    const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
+    const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyStationDummyInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
       qty: item.qty,
       p_type_id: item.p_type_id,
       power: item.power
     }))
 
-    let insertPlugMap: Prisma.PlugMappingCreateManyStationInputEnvelope = {
+    let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
       data: filterInsertPlugMapping
     }
 
-    let objectUpdateStation: Prisma.StationUpdateArgs = {
+    let objectUpdateStation: Prisma.StationDummyUpdateArgs = {
       data: {
         station_name_th: updateStationDto.station_name_th,
         station_name_en: updateStationDto.station_name_en,
@@ -1187,7 +1187,7 @@ export class StationService {
         st_id: id
       },
       include: {
-        PlugMapping: true,
+        PlugMappingDummy: true,
         ProviderMaster: true
       }
 
@@ -1231,7 +1231,7 @@ export class StationService {
 
     }
 
-    let station = await this.prismaService.station.update(objectUpdateStation)
+    let station = await this.prismaService.stationDummy.update(objectUpdateStation)
 
     return station;
   }

@@ -588,7 +588,7 @@ export class StationService {
                 let pathFolder = join(__dirname, '..', '..', '..', 'public', "station_img")
 
                 let getfileType = await fileType.fromBuffer(buff)
-                let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+                let nameFiles = `${Date.now()}_station.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
                 objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
@@ -696,21 +696,21 @@ export class StationService {
         }
     
         if (updateStationDto.station_img) {
-          try {
-            let strImage = updateStationDto.station_img.replace(/^data:image\/[a-z]+;base64,/, "");
-            let buff = Buffer.from(strImage, 'base64');
-    
-            let pathFolder = join(__dirname, '..', '..', 'public', "station_img")
-    
-            let getfileType = await fileType.fromBuffer(buff)
-            let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
-            fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
-    
-            objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
-          } catch (error) {
-    
-          }
-    
+            try {
+                let strImage = updateStationDto.station_img.replace(/^data:image\/[a-z]+;base64,/, "");
+                let buff = Buffer.from(strImage, 'base64');
+
+                let pathFolder = join(__dirname, '..', '..', '..', 'public', "station_img")
+
+                let getfileType = await fileType.fromBuffer(buff)
+                let nameFiles = `${Date.now()}_station.${getfileType.ext}`;
+                fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+
+                objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+            } catch (error) {
+
+            }
+
         }
     
         let station = await this.prismaService.stationDummy.update(objectUpdateStation)
