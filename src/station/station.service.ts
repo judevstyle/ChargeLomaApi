@@ -498,7 +498,7 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
 
       const checkAC = item.PlugMapping.find(function (item) {
-        item.PlugTypeMaster.p_type == 'DC'
+        return item.PlugTypeMaster.p_type == 'DC'
       })
 
       if (checkAC) {
@@ -695,7 +695,7 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
 
       const checkAC = item.PlugMapping.find(function (item) {
-        item.PlugTypeMaster.p_type == 'DC'
+        return item.PlugTypeMaster.p_type == 'DC'
       })
 
       if (checkAC) {
@@ -1152,7 +1152,7 @@ export class StationService {
     stations['plug_desc'] = lodash.uniq(stations.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
 
     const checkAC = stations.PlugMapping.find(function (item) {
-      item.PlugTypeMaster.p_type == 'DC'
+      return item.PlugTypeMaster.p_type == 'DC'
     })
 
     if (checkAC) {
