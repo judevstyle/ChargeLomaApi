@@ -117,6 +117,13 @@ export class BackOfficeController {
     return this.stationService.update(id, updateStationDto);
   }
 
+  @Put('station-dummy/:id')
+  @UseGuards(AuthGuard(['user']))
+  updateStationDummy(@Param('id') id: string, @Body() updateStationDto: CreateUpdateStationDto, @Request() req) {
+    const USER = req.user
+    return this.stationService.updateDummy(id, updateStationDto);
+  }
+
   @Delete('station/:id')
   @UseGuards(AuthGuard(['user']))
   deleteStation(@Param('id') id: string, @Request() req) {

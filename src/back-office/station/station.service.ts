@@ -383,6 +383,7 @@ export class StationService {
         if (stationDummy) {
             let createStationObject: Prisma.StationCreateArgs = {
                 data: {
+                    st_id:stationDummy.st_id,
                     station_name_th: stationDummy.station_name_th,
                     station_name_en: stationDummy.station_name_en,
                     station_desc: stationDummy.station_desc,
@@ -601,6 +602,121 @@ export class StationService {
 
         return station;
     }
+
+    async updateDummy(id: string, updateStationDto: CreateUpdateStationDto) {
+
+        let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id } })
+    
+        if (!stationCheck) throw new BadRequestException("station Not found")
+    
+        const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
+    
+        console.log(idDelete);
+    
+    
+        const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
+          qty: item.qty,
+          st_id:stationCheck.st_id,
+          p_type_id: item.p_type_id,
+          power: item.power
+        }))
+    
+        let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
+          data: filterInsertPlugMapping
+        }
+    
+        let objectUpdateStation: Prisma.StationDummyUpdateArgs = {
+          data: {
+            station_name_th: updateStationDto.station_name_th,
+            station_name_en: updateStationDto.station_name_en,
+            station_desc: updateStationDto.station_desc,
+            addr_th: updateStationDto.addr_th,
+            addr_en: updateStationDto.addr_en,
+            lat: updateStationDto.lat,
+            lng: updateStationDto.lng,
+            type_service: updateStationDto.type_service,
+            is24hr: updateStationDto.is24hr,
+            servicetime_open: updateStationDto.servicetime_open,
+            servicetime_close: updateStationDto.servicetime_close,
+            is_service_charge: updateStationDto.is_service_charge,
+            service_rate: updateStationDto.service_rate,
+            status_approve: updateStationDto.status_approve,
+            tel: updateStationDto.tel,
+            is_service_parking: updateStationDto.is_service_parking,
+            is_service_food: updateStationDto.is_service_food,
+            is_service_coffee: updateStationDto.is_service_coffee,
+            is_service_restroom: updateStationDto.is_service_restroom,
+            is_service_shoping: updateStationDto.is_service_shoping,
+            is_service_restarea: updateStationDto.is_service_restarea,
+            is_service_wifi: updateStationDto.is_service_wifi,
+            is_service_other: updateStationDto.is_service_other,
+            status_msg: updateStationDto.status_msg,
+            station_status: updateStationDto.station_status,
+            update_by: "superadmin",
+            updated_date: new Date(),
+            note: updateStationDto.note,
+            power: updateStationDto.power,
+            pv_id: updateStationDto.pv_id,
+            // PlugMapping: {
+            //   deleteMany: {
+            //     p_mapping_id: {
+            //       in: [...idDelete]
+            //     }
+            //   },
+            // }
+          },
+          where: {
+            st_id: id
+          },
+          include: {
+            PlugMappingDummy: true,
+            ProviderMaster: true
+          }
+    
+        }
+    
+        if (idDelete.length > 0) {
+          await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+        }
+    
+    
+        console.log(objectUpdateStation.data);
+    
+    
+        objectUpdateStation.data = removeEmptyObjects(objectUpdateStation.data)
+    
+        console.log(objectUpdateStation.data);
+    
+        if (filterInsertPlugMapping.length > 0) {
+          objectUpdateStation.data['PlugMapping'] = {
+            createMany: {
+              data: filterInsertPlugMapping
+            }
+          }
+        }
+    
+        if (updateStationDto.station_img) {
+          try {
+            let strImage = updateStationDto.station_img.replace(/^data:image\/[a-z]+;base64,/, "");
+            let buff = Buffer.from(strImage, 'base64');
+    
+            let pathFolder = join(__dirname, '..', '..', 'public', "station_img")
+    
+            let getfileType = await fileType.fromBuffer(buff)
+            let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
+            fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
+    
+            objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+          } catch (error) {
+    
+          }
+    
+        }
+    
+        let station = await this.prismaService.stationDummy.update(objectUpdateStation)
+    
+        return station;
+      }
 
     async remove(id: string) {
         const station = await this.prismaService.station.delete({ where: { st_id: id } })
