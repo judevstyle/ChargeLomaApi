@@ -468,7 +468,8 @@ export class StationService {
             PlugTypeMaster: {
               select: {
                 p_title: true,
-                p_icon: true
+                p_icon: true,
+                p_type: true
               }
             }
           }
@@ -495,6 +496,17 @@ export class StationService {
       }
 
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
+
+      const checkAC = item.PlugMapping.find(function (item) {
+        item.PlugTypeMaster.p_type == 'DC'
+      })
+
+      if (checkAC) {
+        item['isFastCharge'] = true
+      } else {
+        item['isFastCharge'] = false
+      }
+
       delete item.PlugMapping
 
       delete item.station_name_en
@@ -1099,9 +1111,10 @@ export class StationService {
             power: true,
             PlugTypeMaster: {
               select: {
-                p_type_id:true,
+                p_type_id: true,
                 p_title: true,
-                p_icon: true
+                p_icon: true,
+                p_type:true
               }
             }
           }
@@ -1123,6 +1136,19 @@ export class StationService {
     delete stations.station_name_th
     delete stations.addr_en
     delete stations.addr_th
+
+    stations['plug_desc'] = lodash.uniq(stations.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
+
+    const checkAC = stations.PlugMapping.find(function (item) {
+      item.PlugTypeMaster.p_type == 'DC'
+    })
+
+    if (checkAC) {
+      stations['isFastCharge'] = true
+    } else {
+      stations['isFastCharge'] = false
+    }
+
 
 
     stations['provider'] = stations.ProviderMaster
