@@ -693,6 +693,18 @@ export class StationService {
       }
 
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
+
+      const checkAC = item.PlugMapping.find(function (item) {
+        item.PlugTypeMaster.p_type == 'DC'
+      })
+
+      if (checkAC) {
+        item['isFastCharge'] = true
+      } else {
+        item['isFastCharge'] = false
+      }
+
+
       delete item.PlugMapping
 
       delete item.station_name_en
