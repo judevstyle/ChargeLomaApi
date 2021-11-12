@@ -578,6 +578,39 @@ export class StationService {
     let stations = await this.prismaService.station.findMany({
       skip: (+body.page - 1) * +body.limit,
       take: +body.limit,
+      select: {
+        station_name_th: true,
+        station_name_en: true,
+        tel: true,
+        station_img: true,
+        st_id: true,
+        addr_en: true,
+        addr_th: true,
+        type_service: true,
+        lat: true,
+        lng: true,
+        is24hr: true,
+        servicetime_open: true,
+        servicetime_close: true,
+        station_status: true,
+        power: true,
+        ProviderMaster: {
+          select: {
+            pv_id: true,
+            name: true,
+            desv: true,
+            logo_label: true,
+            shortname: true,
+            icon: true
+          }
+        },
+        PlugMapping: {
+          include: {
+            PlugTypeMaster: true
+          }
+        },
+        Checkin: true
+      },
       where: {
         deleted: false,
 
@@ -601,32 +634,33 @@ export class StationService {
         ]
 
       },
-      include: {
-        ProviderMaster: {
-          select: {
-            pv_id: true,
-            name: true,
-            desv: true,
-            logo_label: true,
-            shortname: true,
-            icon: true
-          }
-        },
-        PlugMapping: {
-          select: {
-            p_mapping_id: true,
-            qty: true,
-            power: true,
-            PlugTypeMaster: {
-              select: {
-                p_title: true,
-                p_icon: true
-              }
-            }
-          }
-        },
-        Checkin: true
-      }, orderBy: { created_date: "desc" }
+      // include: {
+      //   ProviderMaster: {
+      //     select: {
+      //       pv_id: true,
+      //       name: true,
+      //       desv: true,
+      //       logo_label: true,
+      //       shortname: true,
+      //       icon: true
+      //     }
+      //   },
+      //   PlugMapping: {
+      //     select: {
+      //       p_mapping_id: true,
+      //       qty: true,
+      //       power: true,
+      //       PlugTypeMaster: {
+      //         select: {
+      //           p_title: true,
+      //           p_icon: true
+      //         }
+      //       }
+      //     }
+      //   },
+      //   Checkin: true
+      // }, 
+      orderBy: { created_date: "desc" }
     })
 
 
