@@ -323,6 +323,7 @@ export class StationService {
 
       if(checkStationExist){
         objectCreateStation['status'] = "UPDATE"
+        objectCreateStation['st_ref'] = createStationDto.st_id
       }
     }
 
