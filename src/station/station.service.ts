@@ -312,6 +312,7 @@ export class StationService {
         createMany: {
           data: createStationDto.PlugMapping.map((item) => {
             delete item.del
+            delete item.p_mapping_id
             return item
           })
         }
