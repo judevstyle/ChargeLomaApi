@@ -5,6 +5,7 @@ export class CreateStationDto {
     @IsNotEmpty()
     station_name_th: string
     station_name_en: string
+    st_id?: string
     station_desc: string
     addr_th: string
     addr_en: string

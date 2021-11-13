@@ -318,6 +318,14 @@ export class StationService {
       },
     }
 
+    if (createStationDto.st_id) {
+      let checkStationExist = await this.prismaService.station.findFirst({ where: { st_id: createStationDto.st_id } })
+
+      if(checkStationExist){
+        objectCreateStation['status'] = "UPDATE"
+      }
+    }
+
     console.log("Create Before remove", objectCreateStation);
 
     // objectCreateStation = removeEmptyObjects(objectCreateStation)
@@ -1126,7 +1134,7 @@ export class StationService {
                 p_type_id: true,
                 p_title: true,
                 p_icon: true,
-                p_type:true
+                p_type: true
               }
             }
           }

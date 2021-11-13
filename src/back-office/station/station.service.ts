@@ -116,6 +116,7 @@ export class StationService {
         let stations = await this.prismaService.stationDummy.findMany({
             where: {
                 deleted: false,
+                status_approve: { not: { equals: "S" } },
                 OR: [
                     {
                         st_id: { contains: query.search }
@@ -382,61 +383,128 @@ export class StationService {
 
 
         if (stationDummy) {
-            let createStationObject: Prisma.StationCreateArgs = {
-                data: {
-                    st_id: stationDummy.st_id,
-                    station_name_th: stationDummy.station_name_th,
-                    station_name_en: stationDummy.station_name_en,
-                    station_desc: stationDummy.station_desc,
-                    addr_th: stationDummy.addr_th,
-                    addr_en: stationDummy.addr_en,
-                    lat: stationDummy.lat,
-                    lng: stationDummy.lng,
-                    type_service: stationDummy.type_service,
-                    is24hr: stationDummy.is24hr,
-                    servicetime_open: stationDummy.servicetime_open,
-                    servicetime_close: stationDummy.servicetime_close,
-                    is_service_charge: stationDummy.is_service_charge,
-                    service_rate: stationDummy.service_rate,
-                    status_approve: 'S',
-                    status_msg: stationDummy.status_msg,
-                    station_status: stationDummy.station_status,
-                    tel: stationDummy.tel,
-                    is_service_parking: stationDummy.is_service_parking,
-                    is_service_food: stationDummy.is_service_food,
-                    is_service_coffee: stationDummy.is_service_coffee,
-                    is_service_restroom: stationDummy.is_service_restroom,
-                    is_service_shoping: stationDummy.is_service_shoping,
-                    is_service_restarea: stationDummy.is_service_restarea,
-                    is_service_wifi: stationDummy.is_service_wifi,
-                    is_service_other: stationDummy.is_service_other,
-                    note: stationDummy.note,
-                    power: stationDummy.power,
-                    create_by: stationDummy.create_by,
-                    pv_id: stationDummy.pv_id,
-                    PlugMapping: {
-                        createMany: {
-                            data: stationDummy.PlugMappingDummy.map((item) => {
-                                item.power = item.power.toString()
-                                return item
-                            })
-                        }
-                    },
+            if (stationDummy.status == 'CREATE') {
+                let createStationObject: Prisma.StationCreateArgs = {
+                    data: {
+                        // st_id: stationDummy.st_id,
+                        station_name_th: stationDummy.station_name_th,
+                        station_name_en: stationDummy.station_name_en,
+                        station_desc: stationDummy.station_desc,
+                        addr_th: stationDummy.addr_th,
+                        addr_en: stationDummy.addr_en,
+                        lat: stationDummy.lat,
+                        lng: stationDummy.lng,
+                        type_service: stationDummy.type_service,
+                        is24hr: stationDummy.is24hr,
+                        servicetime_open: stationDummy.servicetime_open,
+                        servicetime_close: stationDummy.servicetime_close,
+                        is_service_charge: stationDummy.is_service_charge,
+                        service_rate: stationDummy.service_rate,
+                        status_approve: 'S',
+                        status_msg: stationDummy.status_msg,
+                        station_status: stationDummy.station_status,
+                        tel: stationDummy.tel,
+                        is_service_parking: stationDummy.is_service_parking,
+                        is_service_food: stationDummy.is_service_food,
+                        is_service_coffee: stationDummy.is_service_coffee,
+                        is_service_restroom: stationDummy.is_service_restroom,
+                        is_service_shoping: stationDummy.is_service_shoping,
+                        is_service_restarea: stationDummy.is_service_restarea,
+                        is_service_wifi: stationDummy.is_service_wifi,
+                        is_service_other: stationDummy.is_service_other,
+                        note: stationDummy.note,
+                        power: stationDummy.power,
+                        create_by: stationDummy.create_by,
+                        pv_id: stationDummy.pv_id,
+                        PlugMapping: {
+                            createMany: {
+                                data: stationDummy.PlugMappingDummy.map((item) => {
+                                    item.power = item.power.toString()
+                                    return item
+                                })
+                            }
+                        },
+                    }
                 }
+
+                let createStation = await this.prismaService.station.create(createStationObject)
+
+                let checkDupplicateUUID = await this.prismaService.station.findFirst({ where: { st_id: createStation.st_id } })
+
+                if (checkDupplicateUUID) {
+                    await this.prismaService.station.delete({ where: { st_id: createStation.st_id } })
+                }
+
+
+                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S", st_ref: createStation.st_id } })
+
+                return createStation
             }
 
-            let createStation = await this.prismaService.station.create(createStationObject)
+            if (stationDummy.status == 'UPDATE') {
+                let objectUpdateStation: Prisma.StationUpdateArgs = {
+                    data: {
+                        station_name_th: stationDummy.station_name_th,
+                        station_name_en: stationDummy.station_name_en,
+                        station_desc: stationDummy.station_desc,
+                        addr_th: stationDummy.addr_th,
+                        addr_en: stationDummy.addr_en,
+                        lat: stationDummy.lat,
+                        lng: stationDummy.lng,
+                        type_service: stationDummy.type_service,
+                        is24hr: stationDummy.is24hr,
+                        servicetime_open: stationDummy.servicetime_open,
+                        servicetime_close: stationDummy.servicetime_close,
+                        is_service_charge: stationDummy.is_service_charge,
+                        service_rate: stationDummy.service_rate,
+                        status_approve: stationDummy.status_approve,
+                        tel: stationDummy.tel,
+                        is_service_parking: stationDummy.is_service_parking,
+                        is_service_food: stationDummy.is_service_food,
+                        is_service_coffee: stationDummy.is_service_coffee,
+                        is_service_restroom: stationDummy.is_service_restroom,
+                        is_service_shoping: stationDummy.is_service_shoping,
+                        is_service_restarea: stationDummy.is_service_restarea,
+                        is_service_wifi: stationDummy.is_service_wifi,
+                        is_service_other: stationDummy.is_service_other,
+                        status_msg: stationDummy.status_msg,
+                        station_status: stationDummy.station_status,
+                        // update_by: uid,
+                        updated_date: new Date(),
+                        note: stationDummy.note,
+                        power: stationDummy.power,
+                        pv_id: stationDummy.pv_id,
+                        PlugMapping: {
+                            createMany: {
+                                data: stationDummy.PlugMappingDummy.map((item) => {
+                                    item.power = item.power.toString()
+                                    return item
+                                })
+                            }
+                        },
+                        // PlugMapping: {
+                        //   deleteMany: {
+                        //     p_mapping_id: {
+                        //       in: [...idDelete]
+                        //     }
+                        //   },
+                        // }
+                    },
+                    where: {
+                        st_id: stationDummy.st_ref
+                    },
+                    include: {
+                        PlugMapping: true,
+                        ProviderMaster: true
+                    }
 
-            let checkDupplicateUUID = await this.prismaService.station.findFirst({ where: { st_id: createStation.st_id } })
+                }
 
-            if (checkDupplicateUUID) {
-                await this.prismaService.station.delete({ where: { st_id: createStation.st_id } })
+
+                let station = await this.prismaService.station.update(objectUpdateStation)
+
+                return station
             }
-
-
-            await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S" } })
-
-            return createStation
 
         } else {
             throw new NotFoundException("ไม่พบ Station Request")

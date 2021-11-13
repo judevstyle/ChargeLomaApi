@@ -34,7 +34,7 @@ model ImageTicket {
   uid             String
   User            User              @relation(fields: [uid], references: [uid])
   st_id           String?
-  Station         Station?           @relation(fields: [st_id], references: [st_id])
+  Station         Station?          @relation(fields: [st_id], references: [st_id])
   ticket_id       Int               @id @default(autoincrement())
   ticket_no       String
   status_approve  String            @default("W")
@@ -150,9 +150,10 @@ model Station {
   station_img         String?
   ProviderMaster      ProviderMaster    @relation(fields: [pv_id], references: [pv_id])
 
-  ReviewImg ReviewImg[]
+  ReviewImg    ReviewImg[]
+  ImageTicket  ImageTicket[]
+  StationDummy StationDummy[]
   @@map("station")
-  ImageTicket ImageTicket[]
 }
 
 model News {
@@ -170,6 +171,8 @@ model News {
 
 model StationDummy {
   st_id               String   @id @default(uuid())
+  st_ref              String?
+  Station             Station? @relation(fields: [st_ref], references: [st_id])
   station_name_th     String
   station_name_en     String?
   station_desc        String?
@@ -192,6 +195,7 @@ model StationDummy {
   is_service_other    Boolean  @default(false)
   service_rate        Float?
   status_approve      String   @default("W")
+  status              String   @default("CREATE")
   status_msg          String?
   tel                 String?
   station_status      Int      @default(1)
