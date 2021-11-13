@@ -429,13 +429,6 @@ export class StationService {
 
                 let createStation = await this.prismaService.station.create(createStationObject)
 
-                let checkDupplicateUUID = await this.prismaService.station.findFirst({ where: { st_id: createStation.st_id } })
-
-                if (checkDupplicateUUID) {
-                    await this.prismaService.station.delete({ where: { st_id: createStation.st_id } })
-                }
-
-
                 await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S", st_ref: createStation.st_id } })
 
                 return createStation
