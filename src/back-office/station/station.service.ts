@@ -419,6 +419,7 @@ export class StationService {
                         PlugMapping: {
                             createMany: {
                                 data: stationDummy.PlugMappingDummy.map((item) => {
+                                    delete item.p_mapping_id
                                     item.power = item.power.toString()
                                     return item
                                 })
