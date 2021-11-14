@@ -369,6 +369,8 @@ export class StationService {
                         p_type_id: true,
                         qty: true,
                         power: true,
+                        p_mapping_id_ref: true,
+                        status: true
                         // PlugTypeMaster: {
                         //     select: {
                         //         p_title: true,
@@ -468,14 +470,14 @@ export class StationService {
                         note: stationDummy.note,
                         power: stationDummy.power,
                         pv_id: stationDummy.pv_id,
-                        PlugMapping: {
-                            createMany: {
-                                data: stationDummy.PlugMappingDummy.map((item) => {
-                                    item.power = item.power.toString()
-                                    return item
-                                })
-                            }
-                        },
+                        // PlugMapping: {
+                        //     createMany: {
+                        //         data: stationDummy.PlugMappingDummy.map((item) => {
+                        //             item.power = item.power.toString()
+                        //             return item
+                        //         })
+                        //     }
+                        // },
                         // PlugMapping: {
                         //   deleteMany: {
                         //     p_mapping_id: {
@@ -494,6 +496,40 @@ export class StationService {
 
                 }
 
+                let insertPlugMap = stationDummy.PlugMappingDummy.filter((item) => {
+                    item.status == 'NEW'
+                })
+
+                let deletePlugMap = stationDummy.PlugMappingDummy.filter((item) => {
+                    item.status == 'DELETE'
+                })
+
+                if (insertPlugMap.length > 0) {
+                    insertPlugMap = insertPlugMap.map((item) => {
+                        delete item.status
+                        delete item.p_mapping_id_ref
+                        delete item.p_mapping_id
+                        return item
+                    })
+
+                    objectUpdateStation['data']['PlugMapping'] = {
+                        createMany: {
+                            data: insertPlugMap
+                        }
+                    }
+                }
+
+                if (deletePlugMap.length > 0) {
+                    await this.prismaService.plugMapping.deleteMany({
+                        where: {
+                            p_mapping_id: {
+                                in: deletePlugMap.map((item) => item.p_mapping_id_ref)
+                            }
+                        }
+                    })
+                }
+
+                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S", st_ref: st_id } })
 
                 let station = await this.prismaService.station.update(objectUpdateStation)
 

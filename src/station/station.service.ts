@@ -311,6 +311,15 @@ export class StationService {
       PlugMappingDummy: {
         createMany: {
           data: createStationDto.PlugMapping.map((item) => {
+
+            if (item.p_mapping_id) {
+              item['p_mapping_id_ref'] = item.p_mapping_id
+
+              if (item.del) {
+                item['status'] = "DELETE"
+              }
+            }
+
             delete item.del
             delete item.p_mapping_id
             return item
@@ -322,7 +331,7 @@ export class StationService {
     if (createStationDto.st_id) {
       let checkStationExist = await this.prismaService.station.findFirst({ where: { st_id: createStationDto.st_id } })
 
-      if(checkStationExist){
+      if (checkStationExist) {
         objectCreateStation['status'] = "UPDATE"
         objectCreateStation['st_ref'] = createStationDto.st_id
       }
@@ -1218,7 +1227,8 @@ export class StationService {
     const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyStationDummyInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
       qty: item.qty,
       p_type_id: item.p_type_id,
-      power: item.power
+      power: item.power,
+      // p_mapping_id_ref: item.p_mapping_id || null
     }))
 
     let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {

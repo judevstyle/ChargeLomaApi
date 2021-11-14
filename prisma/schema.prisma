@@ -251,18 +251,20 @@ model PlugMapping {
 }
 
 model PlugMappingDummy {
-  p_mapping_id   Int            @id @default(autoincrement())
-  st_id          String
-  StationDummy   StationDummy   @relation(fields: [st_id], references: [st_id])
-  qty            Int
-  power          String?
-  p_type_id      Int
-  PlugTypeMaster PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
-  created_date   DateTime       @default(now())
-  updated_date   DateTime       @default(now())
-  update_by      String?
-  create_by      String?
-  deleted        Boolean        @default(false)
+  p_mapping_id     Int            @id @default(autoincrement())
+  st_id            String
+  StationDummy     StationDummy   @relation(fields: [st_id], references: [st_id])
+  qty              Int
+  power            String?
+  p_type_id        Int
+  PlugTypeMaster   PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
+  created_date     DateTime       @default(now())
+  updated_date     DateTime       @default(now())
+  update_by        String?
+  create_by        String?
+  p_mapping_id_ref Int?
+  status           String?        @default("NEW")
+  deleted          Boolean        @default(false)
 
   @@map("plug_mapping_dummy")
 }
