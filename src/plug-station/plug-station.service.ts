@@ -19,6 +19,7 @@ export class PlugStationService {
             select: {
                 qty: true,
                 power: true,
+                p_type_id:true,
                 PlugTypeMaster: {
                     select: {
                         p_title: true,
