@@ -18,10 +18,21 @@ export class ReviewService {
         if (!checkStation) {
             throw new BadRequestException("Station Not found")
         } else {
+
+            if (body.p_type_id) {
+                let checkPtypeId = await this.prismaService.plugTypeMaster.findFirst({ where: { p_type_id: body.p_type_id } })
+
+                if (!checkPtypeId) {
+                    throw new BadRequestException("Plug Type Master Not found")
+                }
+
+            }
+
             let objectPostReview: Prisma.CheckinCreateArgs = {
                 data: {
                     power: body.power,
                     st_id: body.st_id,
+                    p_type_id: body.p_type_id,
                     isCharge: body.isCharge,
                     create_by: uid,
                     comment: body.comment,
@@ -184,6 +195,12 @@ export class ReviewService {
                 isCharge: true,
                 car_serve: true,
                 created_date: true,
+                PlugTypeMaster: {
+                    select: {
+                        p_title: true,
+                        p_icon: true
+                    }
+                },
                 Station: {
                     select: {
                         station_status: true,
@@ -210,7 +227,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
-                        car:true,
+                        car: true,
                         email: true
                     }
                 }
@@ -294,7 +311,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
-                        car:true,
+                        car: true,
                         email: true
                     }
                 }
@@ -323,7 +340,7 @@ export class ReviewService {
             item['station_status'] = item.Station.station_status
 
             delete item.Station
-            
+
             return item
         })
 
@@ -349,6 +366,12 @@ export class ReviewService {
                 isCharge: true,
                 car_serve: true,
                 created_date: true,
+                PlugTypeMaster: {
+                    select: {
+                        p_title: true,
+                        p_icon: true
+                    }
+                },
                 Station: {
                     select: {
                         st_id: true,
@@ -378,7 +401,7 @@ export class ReviewService {
                         uid: true,
                         display_name: true,
                         avatar: true,
-                        car:true,
+                        car: true,
                         email: true
                     }
                 }
@@ -443,7 +466,7 @@ export class ReviewService {
                 uid: true,
                 display_name: true,
                 avatar: true,
-                car:true,
+                car: true,
                 email: true
             }
         })
@@ -460,7 +483,7 @@ export class ReviewService {
             }
         })
 
-        result = lodash.orderBy(result,"countReview",'desc')
+        result = lodash.orderBy(result, "countReview", 'desc')
 
         return result
     }

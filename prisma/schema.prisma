@@ -50,20 +50,22 @@ model ImageTicket {
 }
 
 model Checkin {
-  ck_id        Int         @id @default(autoincrement())
-  st_id        String
-  Station      Station     @relation(fields: [st_id], references: [st_id])
-  comment      String?
-  isCharge     Boolean?
-  car_serve    String?
-  power        Float
-  created_date DateTime    @default(now())
-  updated_date DateTime    @default(now())
-  update_by    String?
-  create_by    String
-  ReviewImg    ReviewImg[]
-  deleted      Boolean     @default(false)
-  User         User        @relation(fields: [create_by], references: [uid])
+  ck_id          Int             @id @default(autoincrement())
+  p_type_id      Int?
+  st_id          String
+  Station        Station         @relation(fields: [st_id], references: [st_id])
+  PlugTypeMaster PlugTypeMaster? @relation(fields: [p_type_id], references: [p_type_id])
+  comment        String?
+  isCharge       Boolean?
+  car_serve      String?
+  power          Float
+  created_date   DateTime        @default(now())
+  updated_date   DateTime        @default(now())
+  update_by      String?
+  create_by      String
+  ReviewImg      ReviewImg[]
+  deleted        Boolean         @default(false)
+  User           User            @relation(fields: [create_by], references: [uid])
 
   @@map("checkin")
 }
@@ -283,6 +285,7 @@ model PlugTypeMaster {
   PlugMappingDummy PlugMappingDummy[]
 
   @@map("plug_type_master")
+  Checkin Checkin[]
 }
 
 model SuperAdmin {

@@ -4,6 +4,7 @@ export class PostReview {
     @IsDefined()
     @IsNotEmpty()
     st_id: string;
+    p_type_id: number
     comment: string;
     // @IsDefined()
     // @IsNotEmpty()
@@ -17,35 +18,35 @@ export class ReviewIMG {
     @IsDefined()
     @IsNotEmpty()
     img_base64: string;
-    id_img:number;
+    id_img: number;
     del?: boolean
 }
 
-export class ParamFindOne{
+export class ParamFindOne {
     @IsDefined()
     @IsNotEmpty()
     ck_id: number;
 }
 
-export class FindAll{
+export class FindAll {
     @IsDefined()
     @IsNotEmpty()
-    st_id:string
-    page:number = 1
-    limit:number = 100
+    st_id: string
+    page: number = 1
+    limit: number = 100
 }
 
-export class FindReviewByUser{
+export class FindReviewByUser {
     @IsDefined()
     @IsNotEmpty()
-    uid:string
-    page:number = 1
-    limit:number = 100
+    uid: string
+    page: number = 1
+    limit: number = 100
     lang: string = 'th'
 }
 
-export class FindReviewRecently{
-    page:number = 1
-    limit:number = 100
+export class FindReviewRecently {
+    page: number = 1
+    limit: number = 100
     lang: string = 'th'
 }
