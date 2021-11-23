@@ -35,11 +35,11 @@ export class FavoriteController {
 
 
   
-  @Delete(':fav_id')
+  @Delete(':st_id')
   @UseGuards(AuthGuard(['user']))
   async deleteFavorite(@Request() req, @Param() param: FindOneFavorite) {
     const USER = req.user
 
-    return this.favoriteService.deleteFavorite(param)
+    return this.favoriteService.deleteFavorite(USER.uid,param)
   }
 }

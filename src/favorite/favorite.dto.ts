@@ -15,7 +15,7 @@ export class GetFavStation {
 export class FindOneFavorite{
     @IsDefined()
     @IsNotEmpty()
-    fav_id: string
+    st_id: string
 }
 
 export class GetStationFavorite{

@@ -11,7 +11,7 @@ const hasDeleteModel = [
     "Checkin",
     "ReviewImg",
     "ImageTicketBody",
-    "FavoriteStation",
+    // "FavoriteStation",
     "Station",
     "StationDummy",
     "ProviderMaster",

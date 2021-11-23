@@ -155,10 +155,11 @@ export class FavoriteService {
         }
     }
 
-    async deleteFavorite(param: FindOneFavorite) {
-        const favorite = await this.prismaService.favoriteStation.delete({
+    async deleteFavorite(uid:string,param: FindOneFavorite) {
+        const favorite = await this.prismaService.favoriteStation.deleteMany({
             where: {
-                fav_id: param.fav_id
+                uid,
+                fav_id: param.st_id
             }
         })
 
