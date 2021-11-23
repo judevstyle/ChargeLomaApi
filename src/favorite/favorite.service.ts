@@ -159,7 +159,7 @@ export class FavoriteService {
         const favorite = await this.prismaService.favoriteStation.deleteMany({
             where: {
                 uid,
-                fav_id: param.st_id
+                st_id: param.st_id
             }
         })
 
