@@ -163,7 +163,7 @@ export class FavoriteService {
             }
         })
 
-        return favorite
+        return favorite.count > 0
     }
 
 }
