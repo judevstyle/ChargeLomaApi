@@ -52,6 +52,8 @@ export class FavoriteService {
                         station_name_en: true,
                         station_name_th: true,
                         station_desc: true,
+                        lat:true,
+                        lng:true,
                         station_img: true,
                         addr_en: true,
                         addr_th: true,
