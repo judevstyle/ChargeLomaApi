@@ -125,7 +125,7 @@ model Station {
   is24hr              Boolean
   servicetime_open    String?
   servicetime_close   String?
-  is_service_charge   Boolean
+  is_service_charge   Boolean           @default(false)
   is_service_parking  Boolean           @default(false)
   is_service_food     Boolean           @default(false)
   is_service_coffee   Boolean           @default(false)
@@ -186,7 +186,7 @@ model StationDummy {
   is24hr              Boolean
   servicetime_open    String?
   servicetime_close   String?
-  is_service_charge   Boolean
+  is_service_charge   Boolean  @default(false)
   is_service_parking  Boolean  @default(false)
   is_service_food     Boolean  @default(false)
   is_service_coffee   Boolean  @default(false)
@@ -284,8 +284,8 @@ model PlugTypeMaster {
   deleted          Boolean            @default(false)
   PlugMappingDummy PlugMappingDummy[]
 
-  @@map("plug_type_master")
   Checkin Checkin[]
+  @@map("plug_type_master")
 }
 
 model SuperAdmin {
