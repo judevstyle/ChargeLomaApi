@@ -212,6 +212,7 @@ export class StationService {
                     data: createStationDto.PlugMapping.map((item) => {
                         delete item.del
                         item.power = item.power.toString()
+                        item.qty = +item.qty
                         if(!item.qty){
                             item.qty = 1
                         }
