@@ -50,7 +50,7 @@ export class CreateUpdateStationDto {
 }
 
 export class PlugMapping {
-    qty: number
+    qty: number = 0
     power: string
     p_type_id: number
     del: boolean
