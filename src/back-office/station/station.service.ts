@@ -520,11 +520,11 @@ export class StationService {
                 }
 
                 let insertPlugMap = stationDummy.PlugMappingDummy.filter((item) => {
-                    item.status == 'NEW'
+                   return item.status == 'NEW'
                 })
 
                 let deletePlugMap = stationDummy.PlugMappingDummy.filter((item) => {
-                    item.status == 'DELETE'
+                   return item.status == 'DELETE'
                 })
 
                 console.log("insertPlugMap",insertPlugMap);
