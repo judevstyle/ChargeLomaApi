@@ -399,6 +399,8 @@ export class StationService {
             }, orderBy: { created_date: "desc" }
         })
 
+        console.log("Station Dummy",stationDummy);
+        
 
         if (stationDummy) {
             if (stationDummy.status == 'CREATE') {
@@ -524,6 +526,9 @@ export class StationService {
                 let deletePlugMap = stationDummy.PlugMappingDummy.filter((item) => {
                     item.status == 'DELETE'
                 })
+
+                console.log("insertPlugMap",insertPlugMap);
+                console.log("deletePlugMap",deletePlugMap);
 
                 if (insertPlugMap.length > 0) {
                     insertPlugMap = insertPlugMap.map((item) => {
