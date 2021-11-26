@@ -27,7 +27,9 @@ model User {
   deleted         Boolean           @default(false)
 
   Checkin Checkin[]
+  Station Station[]
   @@map("user")
+  StationDummy StationDummy[]
 }
 
 model ImageTicket {
@@ -144,6 +146,7 @@ model Station {
   updated_date        DateTime          @default(now())
   update_by           String?
   create_by           String?
+  User                User?             @relation(fields: [create_by], references: [uid])
   FavoriteStation     FavoriteStation[]
   deleted             Boolean           @default(false)
   Checkin             Checkin[]
@@ -214,6 +217,7 @@ model StationDummy {
   PlugMappingDummy PlugMappingDummy[]
   pv_id            Int
   ProviderMaster   ProviderMaster     @relation(fields: [pv_id], references: [pv_id])
+  User             User?              @relation(fields: [create_by], references: [uid])
   @@map("station_dummy")
 }
 
