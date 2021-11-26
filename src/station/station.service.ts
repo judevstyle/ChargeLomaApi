@@ -280,6 +280,9 @@ export class StationService {
 
   async create(uid: string, createStationDto: CreateStationDto) {
 
+    console.log("createStationDto",createStationDto);
+    
+
     let providerMaster = await this.prismaService.providerMaster.findFirst({ where: { pv_id: createStationDto.pv_id } })
 
     if (!providerMaster) throw new BadRequestException("pv_id Not found in ProviderMaster")
@@ -317,7 +320,7 @@ export class StationService {
       PlugMappingDummy: {
         createMany: {
           data: createStationDto.PlugMapping.map((item) => {
-
+            
             if (item.p_mapping_id) {
               item['p_mapping_id_ref'] = item.p_mapping_id
 
