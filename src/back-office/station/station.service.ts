@@ -213,7 +213,7 @@ export class StationService {
                         delete item.del
                         item.power = item.power.toString()
                         item.qty = +item.qty
-                        if(!item.qty){
+                        if (!item.qty) {
                             item.qty = 1
                         }
                         return item
@@ -601,8 +601,14 @@ export class StationService {
 
     async update(id: string, updateStationDto: CreateUpdateStationDto) {
 
-        let stationCheck = await this.prismaService.station.findFirst({ where: { st_id: id } })
+        let stationCheck = await this.prismaService.station.findFirst({
+            where: { st_id: id }, include: {
+                PlugMapping: true
+            }
+        })
 
+        console.log(updateStationDto);
+        
         if (!stationCheck) throw new BadRequestException("station Not found")
 
         const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
@@ -672,8 +678,8 @@ export class StationService {
 
         if (idDelete.length > 0) {
             const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
-            console.log(deletePlug);
-            
+            console.log("delte plug", deletePlug);
+
         }
 
 
