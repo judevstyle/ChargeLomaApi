@@ -438,6 +438,7 @@ export class StationService {
                             createMany: {
                                 data: stationDummy.PlugMappingDummy.map((item) => {
                                     delete item.p_mapping_id
+                                    item.qty = +item.qty
                                     item.power = item.power.toString()
                                     return item
                                 })
@@ -751,25 +752,36 @@ export class StationService {
 
     async updateDummy(id: string, updateStationDto: CreateUpdateStationDto) {
 
-        let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id } })
+        let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id },include:{PlugMappingDummy:true} })
 
         if (!stationCheck) throw new BadRequestException("station Not found")
 
-        const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
+        const idDontDelete = updateStationDto.PlugMapping.filter((val) => {
+            const find = stationCheck.PlugMappingDummy.find((item) => (
+                val.p_mapping_id == item.p_mapping_id
+            ))
 
-        console.log(idDelete);
+            if (!find) {
+                return false
+            } else {
+                return true
+            }
+        }).map((item) => (item.p_mapping_id))
 
+        if (updateStationDto.PlugMapping.length == 0) {
+            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { st_id: id } })
+        }
 
-        const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
-            qty: item.qty,
-            st_id: stationCheck.st_id,
+        const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyStationDummyInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
+            qty: +item.qty,
             p_type_id: item.p_type_id,
-            power: item.power
+            power: item.power + ""
         }))
 
         let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
             data: filterInsertPlugMapping
         }
+
 
         let objectUpdateStation: Prisma.StationDummyUpdateArgs = {
             data: {
@@ -821,8 +833,17 @@ export class StationService {
 
         }
 
-        if (idDelete.length > 0) {
-            await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+      
+        if (filterInsertPlugMapping.length > 0) {
+            objectUpdateStation['data']['PlugMapping'] = {
+                createMany: insertPlugMap
+            }
+        }
+
+        if (idDontDelete.length > 0) {
+            const deletePlug = await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete } } })
+            console.log("delte plug", deletePlug);
+
         }
 
 
@@ -833,13 +854,13 @@ export class StationService {
 
         console.log(objectUpdateStation.data);
 
-        if (filterInsertPlugMapping.length > 0) {
-            objectUpdateStation.data['PlugMapping'] = {
-                createMany: {
-                    data: filterInsertPlugMapping
-                }
-            }
-        }
+        // if (filterInsertPlugMapping.length > 0) {
+        //     objectUpdateStation.data['PlugMapping'] = {
+        //         createMany: {
+        //             data: filterInsertPlugMapping
+        //         }
+        //     }
+        // }
 
         if (updateStationDto.station_img) {
             try {
