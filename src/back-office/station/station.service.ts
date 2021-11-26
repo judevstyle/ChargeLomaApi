@@ -671,7 +671,9 @@ export class StationService {
         }
 
         if (idDelete.length > 0) {
-            await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+            console.log(deletePlug);
+            
         }
 
 
