@@ -616,7 +616,7 @@ export class StationService {
                 val.p_mapping_id == item.p_mapping_id
             ))
 
-            if (!find) {
+            if (find) {
                 return false
             } else {
                 return true
