@@ -608,15 +608,25 @@ export class StationService {
         })
 
         console.log(updateStationDto);
-        
+
         if (!stationCheck) throw new BadRequestException("station Not found")
 
-        const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))
+        const idDelete = updateStationDto.PlugMapping.filter((val) =>{
+            const find = stationCheck.PlugMapping.find((item)=>(
+                val.p_mapping_id == item.p_mapping_id
+            ))
+
+            if(!find){
+                return false
+            }else{
+                return true
+            }
+        }).map((item) => (item.p_mapping_id))
 
         // console.log(idDelete);
 
 
-        const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (item.del == false)).map((item) => ({
+        const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
             qty: item.qty,
             p_type_id: item.p_type_id,
             power: item.power
@@ -658,13 +668,9 @@ export class StationService {
                 note: updateStationDto.note,
                 power: updateStationDto.power,
                 pv_id: updateStationDto.pv_id,
-                // PlugMapping: {
-                //   deleteMany: {
-                //     p_mapping_id: {
-                //       in: [...idDelete]
-                //     }
-                //   },
-                // }
+                PlugMapping: {
+                    createMany: insertPlugMap
+                }
             },
             where: {
                 st_id: id
