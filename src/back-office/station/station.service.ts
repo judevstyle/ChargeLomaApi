@@ -530,6 +530,8 @@ export class StationService {
                         delete item.status
                         delete item.p_mapping_id_ref
                         delete item.p_mapping_id
+                        item.qty = +item.qty
+                        item.power = item.power+""
                         return item
                     })
 
