@@ -205,6 +205,9 @@ export class ReviewService {
                     select: {
                         station_status: true,
                         PlugMapping: {
+                            where:{
+                                deleted:false
+                              },
                             select: {
                                 PlugTypeMaster: {
                                     select: {
@@ -295,6 +298,9 @@ export class ReviewService {
                         station_name_en: true,
                         station_status: true,
                         PlugMapping: {
+                            where:{
+                                deleted:false
+                              },
                             select: {
                                 PlugTypeMaster: {
                                     select: {
@@ -379,6 +385,9 @@ export class ReviewService {
                         station_name_en: true,
                         station_status: true,
                         PlugMapping: {
+                            where:{
+                                deleted:false
+                              },
                             select: {
                                 PlugTypeMaster: {
                                     select: {

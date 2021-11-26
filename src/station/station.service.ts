@@ -50,6 +50,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           include: {
             PlugTypeMaster: true
           }
@@ -178,6 +181,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           include: {
             PlugTypeMaster: true
           }
@@ -317,6 +323,8 @@ export class StationService {
 
               if (item.del) {
                 item['status'] = "DELETE"
+              }else{
+                item['status'] = "NONE"
               }
             }
 
@@ -388,6 +396,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           select: {
             p_mapping_id: true,
             qty: true,
@@ -480,6 +491,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           select: {
             p_mapping_id: true,
             qty: true,
@@ -636,6 +650,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           include: {
             PlugTypeMaster: true
           }
@@ -795,6 +812,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           select: {
             p_mapping_id: true,
             qty: true,
@@ -898,6 +918,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           select: {
             p_mapping_id: true,
             qty: true,
@@ -1002,6 +1025,9 @@ export class StationService {
           }
         },
         PlugMapping: {
+          where:{
+            deleted:false
+          },
           select: {
             p_mapping_id: true,
             qty: true,
@@ -1133,6 +1159,7 @@ export class StationService {
         },
         Checkin: true,
         PlugMapping: {
+          
           where: {
             deleted: false,
           },
