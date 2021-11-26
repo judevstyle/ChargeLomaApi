@@ -1247,6 +1247,8 @@ export class StationService {
 
     let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id } })
 
+    console.log("updateStationDto",updateStationDto);
+
     if (!stationCheck) throw new BadRequestException("station Not found")
 
     const idDelete = updateStationDto.PlugMapping.filter((val) => (val.del == true)).map((item) => (item.p_mapping_id))

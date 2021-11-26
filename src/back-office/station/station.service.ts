@@ -335,6 +335,9 @@ export class StationService {
                 PlugMappingDummy: {
                     where: {
                         deleted: false,
+                        status:{
+                            not:"DELETE"
+                        }
                     },
                     select: {
                         p_mapping_id: true,
