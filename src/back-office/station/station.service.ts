@@ -41,6 +41,12 @@ export class StationService {
                         icon: true
                     }
                 },
+                User:{
+                    select:{
+                        display_name:true,
+                        uid:true
+                    }
+                },
                 PlugMapping: {
                     select: {
                         p_mapping_id: true,
@@ -139,6 +145,12 @@ export class StationService {
                         shortname: true,
                         desv: true,
                         icon: true
+                    }
+                },
+                User:{
+                    select:{
+                        display_name:true,
+                        uid:true
                     }
                 },
                 PlugMappingDummy: {
