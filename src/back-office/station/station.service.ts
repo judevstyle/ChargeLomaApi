@@ -440,7 +440,11 @@ export class StationService {
                                     delete item.p_mapping_id
                                     item.qty = +item.qty
                                     item.power = item.power.toString()
-                                    return item
+                                    return {
+                                        qty:item.qty,
+                                        power:item.power,
+                                        p_type_id:item.p_type_id
+                                    }
                                 })
                             }
                         },
