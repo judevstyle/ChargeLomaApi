@@ -550,7 +550,7 @@ export class StationService {
                     })
                 }
 
-                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S", st_ref: st_id } })
+                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S"} })
 
                 let station = await this.prismaService.station.update(objectUpdateStation)
 
