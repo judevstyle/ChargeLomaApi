@@ -627,7 +627,7 @@ export class StationService {
 
 
         const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
-            qty: item.qty,
+            qty: +item.qty,
             p_type_id: item.p_type_id,
             power: item.power
         }))
@@ -668,9 +668,9 @@ export class StationService {
                 note: updateStationDto.note,
                 power: updateStationDto.power,
                 pv_id: updateStationDto.pv_id,
-                PlugMapping: {
-                    createMany: insertPlugMap
-                }
+                // PlugMapping: {
+                //     createMany: insertPlugMap
+                // }
             },
             where: {
                 st_id: id
@@ -680,6 +680,12 @@ export class StationService {
                 ProviderMaster: true
             }
 
+        }
+
+        if(filterInsertPlugMapping.length>0){
+            objectUpdateStation['data']['PlugMapping'] = {
+                    createMany: insertPlugMap
+                }
         }
 
         if (idDelete.length > 0) {
