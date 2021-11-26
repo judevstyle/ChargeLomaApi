@@ -611,12 +611,12 @@ export class StationService {
 
         if (!stationCheck) throw new BadRequestException("station Not found")
 
-        const idDelete = updateStationDto.PlugMapping.filter((val) => {
+        const idDontDelete = updateStationDto.PlugMapping.filter((val) => {
             const find = stationCheck.PlugMapping.find((item) => (
                 val.p_mapping_id == item.p_mapping_id
             ))
 
-            if (find) {
+            if (!find) {
                 return false
             } else {
                 return true
@@ -692,8 +692,8 @@ export class StationService {
             }
         }
 
-        if (idDelete.length > 0) {
-            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { in: idDelete } } })
+        if (idDontDelete.length > 0) {
+            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete } } })
             console.log("delte plug", deletePlug);
 
         }
