@@ -321,7 +321,7 @@ export class StationService {
             if (item.p_mapping_id) {
               item['p_mapping_id_ref'] = item.p_mapping_id
 
-              if (item.del) {
+              if (item.del == true) {
                 item['status'] = "DELETE"
               }else{
                 item['status'] = "NONE"
