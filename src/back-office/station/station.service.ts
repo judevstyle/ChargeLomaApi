@@ -611,17 +611,21 @@ export class StationService {
 
         if (!stationCheck) throw new BadRequestException("station Not found")
 
-        const idDelete = updateStationDto.PlugMapping.filter((val) =>{
-            const find = stationCheck.PlugMapping.find((item)=>(
+        const idDelete = updateStationDto.PlugMapping.filter((val) => {
+            const find = stationCheck.PlugMapping.find((item) => (
                 val.p_mapping_id == item.p_mapping_id
             ))
 
-            if(!find){
+            if (!find) {
                 return false
-            }else{
+            } else {
                 return true
             }
         }).map((item) => (item.p_mapping_id))
+
+        if (updateStationDto.PlugMapping.length == 0) {
+            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { st_id: id } })
+        }
 
         // console.log(idDelete);
 
@@ -629,7 +633,7 @@ export class StationService {
         const filterInsertPlugMapping: Prisma.PlugMappingCreateManyStationInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
             qty: +item.qty,
             p_type_id: item.p_type_id,
-            power: item.power+""
+            power: item.power + ""
         }))
 
         let insertPlugMap: Prisma.PlugMappingCreateManyStationInputEnvelope = {
@@ -682,10 +686,10 @@ export class StationService {
 
         }
 
-        if(filterInsertPlugMapping.length>0){
+        if (filterInsertPlugMapping.length > 0) {
             objectUpdateStation['data']['PlugMapping'] = {
-                    createMany: insertPlugMap
-                }
+                createMany: insertPlugMap
+            }
         }
 
         if (idDelete.length > 0) {
