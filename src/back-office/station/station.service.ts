@@ -650,9 +650,9 @@ export class StationService {
             }
         }).map((item) => (item.p_mapping_id))
 
-        if (updateStationDto.PlugMapping.length == 0) {
-            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { st_id: id } })
-        }
+        // if (updateStationDto.PlugMapping.length == 0) {
+        //     const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { st_id: id } })
+        // }
 
         // console.log(idDelete);
 
