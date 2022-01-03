@@ -41,10 +41,10 @@ export class StationService {
                         icon: true
                     }
                 },
-                User:{
-                    select:{
-                        display_name:true,
-                        uid:true
+                User: {
+                    select: {
+                        display_name: true,
+                        uid: true
                     }
                 },
                 PlugMapping: {
@@ -147,10 +147,10 @@ export class StationService {
                         icon: true
                     }
                 },
-                User:{
-                    select:{
-                        display_name:true,
-                        uid:true
+                User: {
+                    select: {
+                        display_name: true,
+                        uid: true
                     }
                 },
                 PlugMappingDummy: {
@@ -335,8 +335,8 @@ export class StationService {
                 PlugMappingDummy: {
                     where: {
                         deleted: false,
-                        status:{
-                            not:"DELETE"
+                        status: {
+                            not: "DELETE"
                         }
                     },
                     select: {
@@ -402,8 +402,8 @@ export class StationService {
             }, orderBy: { created_date: "desc" }
         })
 
-        console.log("Station Dummy",stationDummy);
-        
+        console.log("Station Dummy", stationDummy);
+
 
         if (stationDummy) {
             if (stationDummy.status == 'CREATE') {
@@ -446,9 +446,9 @@ export class StationService {
                                     item.qty = +item.qty
                                     item.power = item.power.toString()
                                     return {
-                                        qty:item.qty,
-                                        power:item.power,
-                                        p_type_id:item.p_type_id
+                                        qty: item.qty,
+                                        power: item.power,
+                                        p_type_id: item.p_type_id
                                     }
                                 })
                             }
@@ -523,15 +523,15 @@ export class StationService {
                 }
 
                 let insertPlugMap = stationDummy.PlugMappingDummy.filter((item) => {
-                   return item.status == 'NEW'
+                    return item.status == 'NEW'
                 })
 
                 let deletePlugMap = stationDummy.PlugMappingDummy.filter((item) => {
-                   return item.status == 'DELETE'
+                    return item.status == 'DELETE'
                 })
 
-                console.log("insertPlugMap",insertPlugMap);
-                console.log("deletePlugMap",deletePlugMap);
+                console.log("insertPlugMap", insertPlugMap);
+                console.log("deletePlugMap", deletePlugMap);
 
                 if (insertPlugMap.length > 0) {
                     insertPlugMap = insertPlugMap.map((item) => {
@@ -539,7 +539,7 @@ export class StationService {
                         delete item.p_mapping_id_ref
                         delete item.p_mapping_id
                         item.qty = +item.qty
-                        item.power = item.power+""
+                        item.power = item.power + ""
                         return item
                     })
 
@@ -560,7 +560,7 @@ export class StationService {
                     })
                 }
 
-                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S"} })
+                await this.prismaService.stationDummy.update({ where: { st_id }, data: { status_approve: "S" } })
 
                 let station = await this.prismaService.station.update(objectUpdateStation)
 
@@ -720,7 +720,7 @@ export class StationService {
         }
 
         if (idDontDelete.length > 0) {
-            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete } } })
+            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete }, st_id: id } })
             console.log("delte plug", deletePlug);
 
         }
@@ -766,7 +766,7 @@ export class StationService {
 
     async updateDummy(id: string, updateStationDto: CreateUpdateStationDto) {
 
-        let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id },include:{PlugMappingDummy:true} })
+        let stationCheck = await this.prismaService.stationDummy.findFirst({ where: { st_id: id }, include: { PlugMappingDummy: true } })
 
         if (!stationCheck) throw new BadRequestException("station Not found")
 
@@ -847,7 +847,7 @@ export class StationService {
 
         }
 
-      
+
         if (filterInsertPlugMapping.length > 0) {
             objectUpdateStation['data']['PlugMapping'] = {
                 createMany: insertPlugMap
@@ -855,7 +855,7 @@ export class StationService {
         }
 
         if (idDontDelete.length > 0) {
-            const deletePlug = await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete } } })
+            const deletePlug = await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete }, st_id: id } })
             console.log("delte plug", deletePlug);
 
         }
