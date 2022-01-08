@@ -219,7 +219,23 @@ export class StationService {
             power: createStationDto.power,
             //   create_by: uid,
             pv_id: createStationDto.pv_id,
-            PlugMapping: {
+            // PlugMapping: {
+            //     createMany: {
+            //         data: createStationDto.PlugMapping.map((item) => {
+            //             delete item.del
+            //             item.power = item.power.toString()
+            //             item.qty = +item.qty
+            //             if (!item.qty) {
+            //                 item.qty = 1
+            //             }
+            //             return item
+            //         })
+            //     }
+            // },
+        }
+
+        if (createStationDto.PlugMapping) {
+            objectCreateStation['PlugMapping'] = {
                 createMany: {
                     data: createStationDto.PlugMapping.map((item) => {
                         delete item.del
@@ -231,7 +247,7 @@ export class StationService {
                         return item
                     })
                 }
-            },
+            }
         }
 
         console.log("Create Before remove", objectCreateStation);
