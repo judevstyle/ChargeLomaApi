@@ -781,7 +781,8 @@ export class StationService {
     let paramPagination: ParameterPagination = {
       data: stations,
       page: +body.page,
-      limit: body.limit,
+      // limit: body.limit,
+      limit:stations.length,
       responseFrom: "DB",
       totalItems: count
     }
