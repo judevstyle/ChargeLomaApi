@@ -627,7 +627,8 @@ export class StationService {
 
     let stations = await this.prismaService.station.findMany({
       skip: (+body.page - 1) * +body.limit,
-      take: +body.limit,
+      // take: +body.limit,
+      take:count,
       select: {
         station_name_th: true,
         station_name_en: true,
