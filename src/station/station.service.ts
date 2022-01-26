@@ -577,18 +577,18 @@ export class StationService {
       return item
     })
 
-    return stations
+    // return stations
 
 
-    // let paramPagination: ParameterPagination = {
-    //   data: stations,
-    //   page: +query.page,
-    //   limit: query.limit,
-    //   responseFrom: "DB",
-    //   totalItems: stationsCount
-    // }
+    let paramPagination: ParameterPagination = {
+      data: stations,
+      page: +query.page,
+      limit: query.limit,
+      responseFrom: "DB",
+      totalItems: stationsCount
+    }
 
-    // return pagination(paramPagination)
+    return pagination(paramPagination)
   }
 
   async PostStationFilter(body: FindPostStationFilter) {
