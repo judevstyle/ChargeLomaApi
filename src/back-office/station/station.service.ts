@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUpdateStationDto, FindAll } from '../dto/station.dto';
 import * as lodash from 'lodash'
@@ -909,6 +909,8 @@ export class StationService {
             }
 
         }
+
+        Logger.debug(objectUpdateStation)
 
         let station = await this.prismaService.stationDummy.update(objectUpdateStation)
 
