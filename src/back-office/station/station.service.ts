@@ -805,7 +805,7 @@ export class StationService {
         const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyStationDummyInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
             qty: +item.qty,
             p_type_id: item.p_type_id,
-            power: (item?.power || 0) + ""
+            power: item?.power + ""
         }))
 
         let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
