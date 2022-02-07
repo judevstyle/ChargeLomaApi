@@ -33,7 +33,7 @@ export class CreateUpdateStationDto {
     status_msg: string
     station_status: number
     note: string
-    power: number
+    power: number = 0
     PlugMapping: PlugMapping[] = []
     pv_id: number
     station_img: string
@@ -51,7 +51,7 @@ export class CreateUpdateStationDto {
 
 export class PlugMapping {
     qty: number = 0
-    power: string
+    power: string = "0"
     p_type_id: number
     del: boolean
     p_mapping_id: number
