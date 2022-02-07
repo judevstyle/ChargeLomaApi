@@ -865,7 +865,7 @@ export class StationService {
 
 
         if (filterInsertPlugMapping.length > 0) {
-            objectUpdateStation['data']['PlugMapping'] = {
+            objectUpdateStation['data']['PlugMappingDummy'] = {
                 createMany: insertPlugMap
             }
         }
