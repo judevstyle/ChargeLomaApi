@@ -799,7 +799,7 @@ export class StationService {
         }).map((item) => (item.p_mapping_id))
 
         if (updateStationDto.PlugMapping.length == 0) {
-            const deletePlug = await this.prismaService.plugMapping.deleteMany({ where: { st_id: id } })
+            const deletePlug = await this.prismaService.plugMappingDummy.deleteMany({ where: { st_id: id } })
         }
 
         const filterInsertPlugMapping: Prisma.PlugMappingDummyCreateManyStationDummyInput[] = updateStationDto.PlugMapping.filter((item) => (!item.hasOwnProperty("p_mapping_id"))).map((item) => ({
