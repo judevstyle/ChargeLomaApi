@@ -809,7 +809,7 @@ export class StationService {
         }))
 
         let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
-            data: filterInsertPlugMapping
+            data: [...filterInsertPlugMapping]
         }
 
 
@@ -866,7 +866,7 @@ export class StationService {
 
         if (filterInsertPlugMapping.length > 0) {
             objectUpdateStation['data']['PlugMappingDummy'] = {
-                createMany: insertPlugMap
+                createMany: {...insertPlugMap}
             }
         }
 
