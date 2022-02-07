@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUpdateStationDto, FindAll } from '../dto/station.dto';
 import * as lodash from 'lodash'
@@ -809,7 +809,7 @@ export class StationService {
         }))
 
         let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
-            data: [...filterInsertPlugMapping]
+            data: filterInsertPlugMapping
         }
 
 
@@ -864,11 +864,11 @@ export class StationService {
         }
 
 
-        if (filterInsertPlugMapping.length > 0) {
-            objectUpdateStation['data']['PlugMappingDummy'] = {
-                createMany: {...insertPlugMap}
-            }
-        }
+        // if (filterInsertPlugMapping.length > 0) {
+        //     objectUpdateStation['data']['PlugMappingDummy'] = {
+        //         createMany: insertPlugMap
+        //     }
+        // }
 
         if (idDontDelete.length > 0) {
             const deletePlug = await this.prismaService.plugMappingDummy.deleteMany({ where: { p_mapping_id: { notIn: idDontDelete }, st_id: id } })
@@ -910,9 +910,12 @@ export class StationService {
 
         }
 
-        Logger.debug(objectUpdateStation)
-
         let station = await this.prismaService.stationDummy.update(objectUpdateStation)
+
+        if(filterInsertPlugMapping.length>0)
+        await this.prismaService.plugMappingDummy.createMany({
+            data: filterInsertPlugMapping.map((val) => ({ ...val, st_id: station.st_id }))
+        })
 
         return station;
     }
