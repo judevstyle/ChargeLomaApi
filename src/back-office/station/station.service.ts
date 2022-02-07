@@ -786,7 +786,7 @@ export class StationService {
 
         if (!stationCheck) throw new BadRequestException("station Not found")
 
-        const idDontDelete = updateStationDto.PlugMapping.filter((val) => {
+        const idDontDelete = updateStationDto.PlugMapping?.filter((val) => {
             const find = stationCheck.PlugMappingDummy.find((item) => (
                 val.p_mapping_id == item.p_mapping_id
             ))
