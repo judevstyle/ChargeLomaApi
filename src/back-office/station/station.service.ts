@@ -808,6 +808,9 @@ export class StationService {
             power: item?.power + ""
         }))
 
+        console.log(filterInsertPlugMapping);
+        
+
         let insertPlugMap: Prisma.PlugMappingDummyCreateManyStationDummyInputEnvelope = {
             data: filterInsertPlugMapping
         }
