@@ -843,7 +843,7 @@ export class StationService {
                 update_by: "superadmin",
                 updated_date: new Date(),
                 note: updateStationDto.note,
-                power: updateStationDto.power,
+                power: +updateStationDto.power,
                 pv_id: updateStationDto.pv_id,
                 // PlugMapping: {
                 //   deleteMany: {
