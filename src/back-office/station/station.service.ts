@@ -239,7 +239,7 @@ export class StationService {
                 createMany: {
                     data: createStationDto.PlugMapping.map((item) => {
                         delete item.del
-                        item.power = item.power || "0"
+                        item.power = item.power?  item.power.toString() : "0",
                         item.qty = +item.qty
                         if (!item.qty) {
                             item.qty = 1
