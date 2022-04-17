@@ -438,10 +438,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -545,10 +545,10 @@ export class StationService {
 
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -749,10 +749,10 @@ export class StationService {
 
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -858,10 +858,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -964,10 +964,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -1071,10 +1071,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -1197,10 +1197,10 @@ export class StationService {
       stations['addr'] = stations.addr_en
     }
 
-    delete stations.station_name_en
-    delete stations.station_name_th
-    delete stations.addr_en
-    delete stations.addr_th
+    // delete stations.station_name_en
+    // delete stations.station_name_th
+    // delete stations.addr_en
+    // delete stations.addr_th
 
     stations['plug_desc'] = lodash.uniq(stations.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
 
