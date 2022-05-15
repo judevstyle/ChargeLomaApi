@@ -29,7 +29,7 @@ export class ProviderMasterService {
         let strImage = createProviderMasterDto.icon.replace(/^data:image\/[a-z]+;base64,/, "");
         let buff = Buffer.from(strImage, 'base64');
 
-        let pathFolder = join(__dirname, '..', '..', 'public', "provider_icon_img")
+        let pathFolder = join(__dirname,'..' ,'..', '..', 'public', "provider_icon_img")
 
         let getfileType = await fileType.fromBuffer(buff)
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
@@ -47,7 +47,7 @@ export class ProviderMasterService {
         let strImage = createProviderMasterDto.logo_label.replace(/^data:image\/[a-z]+;base64,/, "");
         let buff = Buffer.from(strImage, 'base64');
 
-        let pathFolder = join(__dirname, '..', '..', 'public', "logo_label_img")
+        let pathFolder = join(__dirname, '..','..', '..', 'public', "logo_label_img")
 
         let getfileType = await fileType.fromBuffer(buff)
         let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
