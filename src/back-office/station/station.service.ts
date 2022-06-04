@@ -372,6 +372,14 @@ export class StationService {
             }, orderBy: { created_date: "desc" }
         })
 
+        if(stations.st_ref){
+            let real_st = await this.prismaService.station.findFirst({where:{
+                st_id:stations.st_ref
+            }})
+
+            stations.station_img = real_st.station_img
+        }
+
         return stations
     }
 
