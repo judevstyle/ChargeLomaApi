@@ -599,6 +599,34 @@ export class StationService {
       }
     }))
 
+    let is_have_status_4 = false;
+
+    body.status = body.status.filter((item)=>{
+      if(item==4){
+        is_have_status_4 = true;
+        return false
+      }else{
+       return true
+      }
+    })
+
+    let AND:any[] = [
+      {
+        pv_id: { in: body.provider }
+
+      },
+      {
+        station_status: { in: body.status }
+      },
+
+    ]
+
+    if(is_have_status_4){
+      AND.push({
+        type_service:"private"
+      })
+    }
+
     let count = await this.prismaService.station.count({
       where: {
         deleted: false,
@@ -611,16 +639,7 @@ export class StationService {
           }
         }
         ,
-        AND: [
-          {
-            pv_id: { in: body.provider }
-
-          },
-          {
-            station_status: { in: body.status }
-          },
-
-        ]
+        AND: AND
 
       },
     })
@@ -676,16 +695,7 @@ export class StationService {
           }
         }
         ,
-        AND: [
-          {
-            pv_id: { in: body.provider }
-
-          },
-          {
-            station_status: { in: body.status }
-          },
-
-        ]
+        AND: AND
 
       },
       // include: {
