@@ -610,7 +610,7 @@ export class StationService {
       }
     })
 
-    let AND:any[] = [
+    let OR:any[] = [
       {
         pv_id: { in: body.provider }
 
@@ -622,7 +622,7 @@ export class StationService {
     ]
 
     if(is_have_status_4){
-      AND.push({
+      OR.push({
         type_service:"private"
       })
     }
@@ -639,7 +639,7 @@ export class StationService {
           }
         }
         ,
-        AND: AND
+        OR: OR
 
       },
     })
@@ -695,7 +695,7 @@ export class StationService {
           }
         }
         ,
-        AND: AND
+        OR: OR
 
       },
       // include: {
