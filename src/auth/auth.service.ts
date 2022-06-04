@@ -74,7 +74,7 @@ export class AuthService {
                     let nameFiles = `${Date.now()}_user.${getfileType.ext}`;
                     fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                    objectUserCreate.data.avatar = process.env.API_URL + "/user_img/" + nameFiles
+                    objectUserCreate.data.avatar =  "/user_img/" + nameFiles
                 } catch (error) {
                     objectUserCreate.data.avatar = body.avatar
                     console.log(error);
@@ -133,7 +133,7 @@ export class AuthService {
                 let nameFiles = `${Date.now()}_user.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectUserUpdate.data.avatar = process.env.API_URL + "/user_img/" + nameFiles
+                objectUserUpdate.data.avatar =  "/user_img/" + nameFiles
             } catch (error) {
                 console.log(error);
                 objectUserUpdate.data.avatar = body.avatar

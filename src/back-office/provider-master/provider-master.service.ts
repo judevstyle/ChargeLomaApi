@@ -35,7 +35,7 @@ export class ProviderMasterService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
+        objectCreateProviderMaster.icon =  "/provider_icon_img/" + nameFiles
       } catch (error) {
 
       }
@@ -53,7 +53,7 @@ export class ProviderMasterService {
         let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateProviderMaster.logo_label = process.env.API_URL + "/logo_label_img/" + nameFiles
+        objectCreateProviderMaster.logo_label =  "/logo_label_img/" + nameFiles
       } catch (error) {
 
       }
@@ -110,7 +110,7 @@ export class ProviderMasterService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateProviderMaster.icon = process.env.API_URL + "/provider_icon_img/" + nameFiles
+        objectCreateProviderMaster.icon =  "/provider_icon_img/" + nameFiles
       } catch (error) {
         objectCreateProviderMaster.icon = updateProviderMasterDto.icon
         console.log(error);
@@ -130,7 +130,7 @@ export class ProviderMasterService {
         let nameFiles = `${Date.now()}_logo_label.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateProviderMaster.logo_label = process.env.API_URL + "/logo_label_img/" + nameFiles
+        objectCreateProviderMaster.logo_label =  "/logo_label_img/" + nameFiles
       } catch (error) {
         objectCreateProviderMaster.logo_label = updateProviderMasterDto.logo_label
       }

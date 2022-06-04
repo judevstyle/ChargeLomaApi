@@ -366,7 +366,7 @@ export class StationService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectCreateStation.station_img = process.env.API_URL + "/station_img/" + nameFiles
+        objectCreateStation.station_img =  "/station_img/" + nameFiles
       } catch (error) {
 
       }
@@ -1362,7 +1362,7 @@ export class StationService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+        objectUpdateStation.data.station_img =  "/station_img/" + nameFiles
       } catch (error) {
 
       }

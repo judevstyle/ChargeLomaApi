@@ -45,9 +45,9 @@ export class ImageTicketService {
                 let nameFiles = `${Date.now()}_imageTicket.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
                 images.push({
-                    img_path: process.env.API_URL + "/image_ticket_img/" + nameFiles
+                    img_path:  "/image_ticket_img/" + nameFiles
                 })
-                // objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/review_img/" + nameFiles
+                // objectCreatePlugTypeMaster.p_icon =  "/review_img/" + nameFiles
             } catch (error) {
                 console.log(error);
 

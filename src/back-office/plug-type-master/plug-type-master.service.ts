@@ -32,7 +32,7 @@ export class PlugTypeMasterService {
                 let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/plug_type_icon_img/" + nameFiles
+                objectCreatePlugTypeMaster.p_icon =  "/plug_type_icon_img/" + nameFiles
             } catch (error) {
                 console.log(error);
 
@@ -108,7 +108,7 @@ export class PlugTypeMasterService {
                 let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/plug_type_icon_img/" + nameFiles
+                objectCreatePlugTypeMaster.p_icon =  "/plug_type_icon_img/" + nameFiles
             } catch (error) {
                 console.log(error);
 

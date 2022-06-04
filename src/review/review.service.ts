@@ -65,9 +65,9 @@ export class ReviewService {
                         // update_by:uid,
                         create_by: uid,
                         st_id: body.st_id,
-                        img_path: process.env.API_URL + "/review_img/" + nameFiles
+                        img_path:  "/review_img/" + nameFiles
                     })
-                    // objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/review_img/" + nameFiles
+                    // objectCreatePlugTypeMaster.p_icon =  "/review_img/" + nameFiles
                 } catch (error) {
                     console.log(error);
 
@@ -151,9 +151,9 @@ export class ReviewService {
                         // update_by:uid,
                         create_by: uid,
                         st_id: body.st_id,
-                        img_path: process.env.API_URL + "/review_img/" + nameFiles
+                        img_path:  "/review_img/" + nameFiles
                     })
-                    // objectCreatePlugTypeMaster.p_icon = process.env.API_URL + "/review_img/" + nameFiles
+                    // objectCreatePlugTypeMaster.p_icon =  "/review_img/" + nameFiles
                 } catch (error) {
                     console.log(error);
 
