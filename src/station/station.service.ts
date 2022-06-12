@@ -611,10 +611,7 @@ export class StationService {
     })
 
     let OR:any[] = [
-      {
-        pv_id: { in: body.provider }
-
-      },
+     ,
       {
         station_status: { in: body.status }
       },
@@ -686,7 +683,9 @@ export class StationService {
       },
       where: {
         deleted: false,
-
+        pv_id:{
+          in:body.provider
+        },
         PlugMapping: {
           some: {
             p_type_id: {
@@ -695,6 +694,7 @@ export class StationService {
           }
         }
         ,
+
         OR: OR
 
       },
