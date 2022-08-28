@@ -49,7 +49,7 @@ export class NewsService {
                 let nameFiles = `${Date.now()}_news.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                newsObjectCreate['image'] = process.env.API_URL + "/news_img/" + nameFiles
+                newsObjectCreate['image'] =  "/news_img/" + nameFiles
             } catch (error) {
                 console.log(error);
 
@@ -81,7 +81,7 @@ export class NewsService {
                 let nameFiles = `${Date.now()}_news.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                newsObjectUpdate['image'] = process.env.API_URL + "/news_img/" + nameFiles
+                newsObjectUpdate['image'] =  "/news_img/" + nameFiles
             } catch (error) {
                 console.log(error);
 

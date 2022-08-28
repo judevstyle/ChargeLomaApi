@@ -239,7 +239,7 @@ export class StationService {
                 createMany: {
                     data: createStationDto.PlugMapping.map((item) => {
                         delete item.del
-                        item.power = item.power || "0"
+                        item.power = item.power?  item.power.toString() : "0",
                         item.qty = +item.qty
                         if (!item.qty) {
                             item.qty = 1
@@ -268,7 +268,7 @@ export class StationService {
                 let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectCreateStation.station_img = process.env.API_URL + "/station_img/" + nameFiles
+                objectCreateStation.station_img =  "/station_img/" + nameFiles
             } catch (error) {
 
             }
@@ -371,6 +371,14 @@ export class StationService {
                 }
             }, orderBy: { created_date: "desc" }
         })
+
+        if(stations.st_ref){
+            let real_st = await this.prismaService.station.findFirst({where:{
+                st_id:stations.st_ref
+            }})
+
+            stations.station_img = real_st.station_img
+        }
 
         return stations
     }
@@ -768,7 +776,7 @@ export class StationService {
                 let nameFiles = `${Date.now()}_station.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+                objectUpdateStation.data.station_img =  "/station_img/" + nameFiles
             } catch (error) {
 
             }
@@ -906,7 +914,7 @@ export class StationService {
                 let nameFiles = `${Date.now()}_station.${getfileType.ext}`;
                 fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-                objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+                objectUpdateStation.data.station_img =  "/station_img/" + nameFiles
             } catch (error) {
 
             }

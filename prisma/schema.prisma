@@ -26,10 +26,10 @@ model User {
   ImageTicket     ImageTicket[]
   deleted         Boolean           @default(false)
 
-  Checkin Checkin[]
-  Station Station[]
-  @@map("user")
+  Checkin      Checkin[]
+  Station      Station[]
   StationDummy StationDummy[]
+  @@map("user")
 }
 
 model ImageTicket {
@@ -117,7 +117,7 @@ model Station {
   st_id               String            @id @default(uuid())
   station_name_th     String
   station_name_en     String?
-  station_desc        String?
+  station_desc        String?           @db.Text
   tel                 String?
   addr_th             String?
   addr_en             String?
@@ -164,7 +164,7 @@ model Station {
 model News {
   news_id      Int      @id @default(autoincrement())
   title        String
-  desc         String?
+  desc         String?  @db.Text
   image        String?
   created_date DateTime @default(now())
   updated_date DateTime @default(now())
@@ -180,7 +180,7 @@ model StationDummy {
   Station             Station? @relation(fields: [st_ref], references: [st_id])
   station_name_th     String
   station_name_en     String?
-  station_desc        String?
+  station_desc        String?  @db.Text
   addr_th             String?
   addr_en             String?
   lat                 Float?

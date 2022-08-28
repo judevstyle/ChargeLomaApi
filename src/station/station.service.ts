@@ -368,8 +368,7 @@ export class StationService {
 
         objectCreateStation['station_img'] = process.env.API_URL + "/station_img/" + nameFiles
       } catch (error) {
-        console.log(error);
-        // objectCreateStation['station_img'] = null
+
       }
 
     }
@@ -439,10 +438,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -546,10 +545,10 @@ export class StationService {
 
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -600,6 +599,31 @@ export class StationService {
       }
     }))
 
+    let is_have_status_4 = false;
+
+    body.status = body.status.filter((item)=>{
+      if(item==4){
+        is_have_status_4 = true;
+        return false
+      }else{
+       return true
+      }
+    })
+
+    let OR:any[] = [
+     ,
+      {
+        station_status: { in: body.status }
+      },
+
+    ]
+
+    if(is_have_status_4){
+      OR.push({
+        type_service:"private"
+      })
+    }
+
     let count = await this.prismaService.station.count({
       where: {
         deleted: false,
@@ -612,16 +636,7 @@ export class StationService {
           }
         }
         ,
-        AND: [
-          {
-            pv_id: { in: body.provider }
-
-          },
-          {
-            station_status: { in: body.status }
-          },
-
-        ]
+        OR: OR
 
       },
     })
@@ -668,7 +683,9 @@ export class StationService {
       },
       where: {
         deleted: false,
-
+        pv_id:{
+          in:body.provider
+        },
         PlugMapping: {
           some: {
             p_type_id: {
@@ -750,10 +767,10 @@ export class StationService {
 
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -859,10 +876,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -965,10 +982,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -1072,10 +1089,10 @@ export class StationService {
       item['plug_desc'] = lodash.uniq(item.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
       delete item.PlugMapping
 
-      delete item.station_name_en
-      delete item.station_name_th
-      delete item.addr_en
-      delete item.addr_th
+      // delete item.station_name_en
+      // delete item.station_name_th
+      // delete item.addr_en
+      // delete item.addr_th
 
       const numIsChargeTrue = item.Checkin.reduce((acc, cur) => {
         if (cur.isCharge == true) {
@@ -1198,10 +1215,10 @@ export class StationService {
       stations['addr'] = stations.addr_en
     }
 
-    delete stations.station_name_en
-    delete stations.station_name_th
-    delete stations.addr_en
-    delete stations.addr_th
+    // delete stations.station_name_en
+    // delete stations.station_name_th
+    // delete stations.addr_en
+    // delete stations.addr_th
 
     stations['plug_desc'] = lodash.uniq(stations.PlugMapping.map((item) => (item.PlugTypeMaster.p_title))).join(",")
 
@@ -1353,7 +1370,7 @@ export class StationService {
         let nameFiles = `${Date.now()}_icon.${getfileType.ext}`;
         fs.writeFileSync(pathFolder + "/" + nameFiles, buff);
 
-        objectUpdateStation.data.station_img = process.env.API_URL + "/station_img/" + nameFiles
+        objectUpdateStation.data.station_img =  "/station_img/" + nameFiles
       } catch (error) {
 
       }
