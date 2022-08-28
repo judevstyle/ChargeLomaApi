@@ -77,7 +77,7 @@ export class ProviderMasterService {
           }
         ]
       },
-      orderBy: { created_date: 'desc' }
+      orderBy: { created_date: 'asc' }
     })
     return providerMaster
   }
