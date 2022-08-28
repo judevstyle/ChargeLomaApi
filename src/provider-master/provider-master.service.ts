@@ -69,7 +69,7 @@ export class ProviderMasterService {
   }
 
   async findAll() {
-    const providerMaster = await this.prismaService.providerMaster.findMany({ orderBy: { created_date: 'desc' }, where: { deleted: false } })
+    const providerMaster = await this.prismaService.providerMaster.findMany({ orderBy: { created_date: 'asc' }, where: { deleted: false } })
     return providerMaster
   }
 
