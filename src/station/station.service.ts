@@ -368,10 +368,14 @@ export class StationService {
 
         objectCreateStation['station_img'] = process.env.API_URL + "/station_img/" + nameFiles
       } catch (error) {
-
+        console.log(error);
+        
       }
 
     }
+
+    console.log(objectCreateStation);
+    
 
     let station = await this.prismaService.stationDummy.create({
       data: objectCreateStation,
