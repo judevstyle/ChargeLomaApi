@@ -270,7 +270,7 @@ export class StationService {
 
                 objectCreateStation.station_img =  "/station_img/" + nameFiles
             } catch (error) {
-
+                objectCreateStation.station_img =  createStationDto.station_img
             }
 
         }
@@ -347,6 +347,7 @@ export class StationService {
                         icon: true
                     }
                 },
+                Station:true,
                 // Checkin: true,
                 PlugMappingDummy: {
                     where: {

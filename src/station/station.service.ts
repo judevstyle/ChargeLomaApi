@@ -369,7 +369,7 @@ export class StationService {
         objectCreateStation['station_img'] = process.env.API_URL + "/station_img/" + nameFiles
       } catch (error) {
         console.log(error);
-        
+        objectCreateStation['station_img'] =  createStationDto.station_img
       }
 
     }
