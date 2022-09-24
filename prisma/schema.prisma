@@ -18,7 +18,7 @@ model User {
   tel             String
   avatar          String?
   created_date    DateTime          @default(now())
-  updated_date    DateTime          @default(now())
+  updated_date    DateTime           @updatedAt
   update_by       String?
   create_by       String?
   car             String?           @db.VarChar(255)
@@ -42,7 +42,7 @@ model ImageTicket {
   status_approve  String            @default("W")
   status_msg      String
   created_date    DateTime          @default(now())
-  updated_date    DateTime          @default(now())
+  updated_date    DateTime          @updatedAt
   update_by       String?
   create_by       String?
   deleted         Boolean           @default(false)
@@ -62,7 +62,7 @@ model Checkin {
   car_serve      String?
   power          Float
   created_date   DateTime        @default(now())
-  updated_date   DateTime        @default(now())
+  updated_date   DateTime         @updatedAt
   update_by      String?
   create_by      String
   ReviewImg      ReviewImg[]
@@ -79,7 +79,7 @@ model ReviewImg {
   Station      Station? @relation(fields: [st_id], references: [st_id])
   ck_id        Int
   created_date DateTime @default(now())
-  updated_date DateTime @default(now())
+  updated_date DateTime  @updatedAt
   img_path     String
   update_by    String?
   create_by    String?
@@ -103,7 +103,7 @@ model FavoriteStation {
   user         User     @relation(fields: [uid], references: [uid])
   uid          String
   created_date DateTime @default(now())
-  updated_date DateTime @default(now())
+  updated_date DateTime  @updatedAt
   update_by    String?
   create_by    String?
   Station      Station  @relation(fields: [st_id], references: [st_id])
@@ -143,7 +143,7 @@ model Station {
   note                String?
   power               Float?
   created_date        DateTime          @default(now())
-  updated_date        DateTime          @default(now())
+  updated_date        DateTime           @updatedAt
   update_by           String?
   create_by           String?
   User                User?             @relation(fields: [create_by], references: [uid])
@@ -167,7 +167,7 @@ model News {
   desc         String?  @db.Text
   image        String?
   created_date DateTime @default(now())
-  updated_date DateTime @default(now())
+  updated_date DateTime  @updatedAt
   update_by    String?
   create_by    String?
 
@@ -208,7 +208,7 @@ model StationDummy {
   station_img         String?
   power               Float?
   created_date        DateTime @default(now())
-  updated_date        DateTime @default(now())
+  updated_date        DateTime  @updatedAt
   update_by           String?
   create_by           String?
 
@@ -232,7 +232,7 @@ model ProviderMaster {
   logo_label   String?
   deleted      Boolean        @default(false)
   created_date DateTime       @default(now())
-  updated_date DateTime       @default(now())
+  updated_date DateTime       @updatedAt
   update_by    String?
   create_by    String?
 
@@ -248,7 +248,7 @@ model PlugMapping {
   p_type_id      Int
   PlugTypeMaster PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
   created_date   DateTime       @default(now())
-  updated_date   DateTime       @default(now())
+  updated_date   DateTime        @updatedAt
   update_by      String?
   create_by      String?
   deleted        Boolean        @default(false)
@@ -265,7 +265,7 @@ model PlugMappingDummy {
   p_type_id        Int
   PlugTypeMaster   PlugTypeMaster @relation(fields: [p_type_id], references: [p_type_id])
   created_date     DateTime       @default(now())
-  updated_date     DateTime       @default(now())
+  updated_date     DateTime        @updatedAt
   update_by        String?
   create_by        String?
   p_mapping_id_ref Int?
@@ -280,7 +280,7 @@ model PlugTypeMaster {
   p_title          String
   p_icon           String?
   created_date     DateTime           @default(now())
-  updated_date     DateTime           @default(now())
+  updated_date     DateTime            @updatedAt
   update_by        String?
   create_by        String?
   p_type           String             @default("AC")
